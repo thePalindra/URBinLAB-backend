@@ -38,10 +38,9 @@ public class ResearcherController implements ResearcherAPI {
     @Override
     public ResponseEntity<String> login(MultiValueMap<String, String> map,
                                         String name,
-                                        String password,
-                                        String device) {
+                                        String password) {
         if (this.researcherService.tokenChecker(map, Feature.LOGIN))
-            return this.researcherService.login(name, password, device);
+            return this.researcherService.login(name, password);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }

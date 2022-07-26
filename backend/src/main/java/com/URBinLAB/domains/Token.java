@@ -26,7 +26,6 @@ public class Token {
 
     @Temporal(TemporalType.DATE)
     private Date login;
-    private String device;
 
     public Token() {
     }
@@ -55,7 +54,4 @@ public class Token {
         return this.login;
     }
 
-    public String getDevice() {
-        return this.device;
-    }
 }

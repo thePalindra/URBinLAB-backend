@@ -24,8 +24,7 @@ public interface ResearcherAPI {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     ResponseEntity<String> login(@RequestHeader MultiValueMap<String, String> map,
                                  @PathParam("name") String name,
-                                 @PathParam("password") String password,
-                                 String device);
+                                 @PathParam("password") String password);
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     ResponseEntity<String> logout(@RequestHeader MultiValueMap<String, String> map);

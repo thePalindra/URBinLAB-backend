@@ -36,6 +36,8 @@ public class ResearcherService {
             if (!map.containsKey("token"))
                 return AccessControl.access(feature, "all");
 
+            System.out.println(map.get("token").toString());
+
             String token = map.get("token").toString();
             token = token.substring(1, token.length() - 1);
             Token temp = gson.fromJson(token, Token.class);
@@ -52,7 +54,7 @@ public class ResearcherService {
 
             return AccessControl.access(feature, temp.getRole());
         } catch (Exception e) {
-            System.out.println("Oh Oh");
+            System.out.println("OH OH");
             return false;
         }
     }
@@ -65,6 +67,7 @@ public class ResearcherService {
 
             if (this.researcherRepository.getByName(name) != null || this.researcherRepository.getByEmail(email) != null)
                 return new ResponseEntity<>("User already exists!", HttpStatus.FORBIDDEN);
+
             Researcher user = Researcher.builder()
                     .name(name)
                     .email(email)
@@ -81,17 +84,19 @@ public class ResearcherService {
     }
 
     public ResponseEntity<String> login(String name,
-                                        String password,
-                                        String device) {
+                                        String password) {
 
         try {
 
-            Researcher user = this.researcherRepository.login(name, DigestUtils.sha256Hex(password));
-            if (user == null)
+            if (this.researcherRepository.login(name, DigestUtils.sha256Hex(password)) == null)
                 return new ResponseEntity<>(this.gson.toJson("Utilizador não existe ou password errada!"), HttpStatus.UNAUTHORIZED);
 
+            Researcher user = this.researcherRepository.login(name, DigestUtils.sha256Hex(password));
+
+            if (this.tokenRepository.getTokenByUser(user) != null)
+                this.tokenRepository.delete(this.tokenRepository.getTokenByUser(user));
+
             Token token = Token.builder()
-                    .device(device)
                     .role(user.getRole())
                     .login(new Date())
                     .researcher(user)
@@ -101,7 +106,7 @@ public class ResearcherService {
 
             return new ResponseEntity<>(this.gson.toJson(token), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.BAD_REQUEST);
         }
     }
 
