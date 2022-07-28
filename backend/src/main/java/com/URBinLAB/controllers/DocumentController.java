@@ -38,6 +38,7 @@ public class DocumentController implements DocumentAPI {
                                                  String provider,
                                                  Date timeScope,
                                                  String link) {
+
         if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
             return this.documentService.addDocument(map, collectionId, name, description, type, provider, timeScope, link);
 
@@ -45,9 +46,26 @@ public class DocumentController implements DocumentAPI {
     }
 
     @Override
-    public ResponseEntity<String> addFile(MultiValueMap<String, String> map, MultipartFile file, Long document, String name, String format, Date creation, Long size) {
+    public ResponseEntity<String> addFile(MultiValueMap<String, String> map,
+                                          MultipartFile file,
+                                          Long document,
+                                          String name,
+                                          String format,
+                                          Date creation,
+                                          Long size) {
+
         if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
             return this.documentService.attachFile(file, document, name, format, creation, size);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> addSpace(MultiValueMap<String, String> map,
+                                           Long id,
+                                           Long document) {
+        if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
+            return this.documentService.setSpace(id, document);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }

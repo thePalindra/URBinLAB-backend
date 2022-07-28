@@ -31,4 +31,9 @@ public interface DocumentAPI {
                                    @PathParam("format") String format,
                                    @PathParam("creation") Date creation,
                                    @PathParam("size") Long size);
+
+    @RequestMapping(value = "/addspace", method = RequestMethod.POST)
+    ResponseEntity<String> addSpace(@RequestHeader MultiValueMap<String, String> map,
+                                    @PathParam("space") Long id,
+                                    @PathParam("doc") Long document);
 }

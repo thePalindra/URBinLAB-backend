@@ -48,6 +48,10 @@ public class Document implements Serializable {
 
     public Document() {}
 
+    public void setSpace(Space space) {
+        this.space = space;
+    }
+
     public Long getId() {
         return this.id;
     }

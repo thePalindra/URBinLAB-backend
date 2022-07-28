@@ -1,9 +1,6 @@
 package com.URBinLAB.services;
 
-import com.URBinLAB.domains.Collection;
-import com.URBinLAB.domains.Document;
-import com.URBinLAB.domains.File;
-import com.URBinLAB.domains.Token;
+import com.URBinLAB.domains.*;
 import com.URBinLAB.repositories.*;
 
 import com.URBinLAB.utils.AccessControl;
@@ -14,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class DocumentService {
@@ -28,14 +25,21 @@ public class DocumentService {
     private CollectionRepository collectionRepository;
     private FileRepository fileRepository;
     private TokenRepository tokenRepository;
+    private SpaceRepository spaceRepository;
     private final Gson gson = new Gson();
 
     @Autowired
-    public DocumentService(DocumentRepository documentRepository, CollectionRepository collectionRepository, FileRepository fileRepository,TokenRepository tokenRepository) {
+    public DocumentService(DocumentRepository documentRepository,
+                           CollectionRepository collectionRepository,
+                           FileRepository fileRepository,
+                           TokenRepository tokenRepository,
+                           SpaceRepository spaceRepository) {
+
         this.documentRepository = documentRepository;
         this.collectionRepository = collectionRepository;
         this.fileRepository = fileRepository;
         this.tokenRepository = tokenRepository;
+        this.spaceRepository = spaceRepository;
     }
 
     public boolean tokenChecker (MultiValueMap<String, String> map, Feature feature) {
@@ -72,15 +76,16 @@ public class DocumentService {
                                               Date timeScope,
                                               String link) {
         try {
+
             String token = map.get("token").toString();
             token = token.substring(1, token.length() - 1);
             Token temp = gson.fromJson(token, Token.class);
-            Collection collection = this.collectionRepository.getById(collectionId);
-            if (collection == null)
+            Optional<Collection> collection = this.collectionRepository.findById(collectionId);
+            if (collection.isEmpty())
                 return new ResponseEntity<>(new Gson().toJson("No collection found!"), HttpStatus.BAD_REQUEST);
 
             Document document = Document.builder()
-                    .collection(collection)
+                    .collection(collection.get())
                     .archiver(temp.getResearcher())
                     .type(type)
                     .description(description)
@@ -88,6 +93,7 @@ public class DocumentService {
                     .timeScope(timeScope)
                     .link(link)
                     .name(name)
+                    .creation(new Date())
                     .build();
 
             document = this.documentRepository.save(document);
@@ -106,12 +112,14 @@ public class DocumentService {
                                              Long size) {
         try {
 
-            Document doc = this.documentRepository.getById(document);
+            Optional<Document> doc = this.documentRepository.findById(document);
+            if (doc.isEmpty())
+                return new ResponseEntity<>(new Gson().toJson("No document found!"), HttpStatus.BAD_REQUEST);
 
             File saved = File.builder()
                     .name(name)
                     .file(file.getBytes())
-                    .document(doc)
+                    .document(doc.get())
                     .creationDate(creation)
                     .format(format)
                     .size(size)
@@ -119,8 +127,28 @@ public class DocumentService {
             this.fileRepository.save(saved);
             return new ResponseEntity<>(new Gson().toJson(size), HttpStatus.OK);
         } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> setSpace(Long id,
+                                           Long document) {
+        try {
+
+            Optional<Space> space = this.spaceRepository.findById(id);
+            if (space.isEmpty())
+                return new ResponseEntity<>(new Gson().toJson("No space found!"), HttpStatus.BAD_REQUEST);
+
+            Optional<Document> doc = this.documentRepository.findById(document);
+            if (doc.isEmpty())
+                return new ResponseEntity<>(new Gson().toJson("No document found!"), HttpStatus.BAD_REQUEST);
+
+            doc.get().setSpace(space.get());
+            this.documentRepository.save(doc.get());
+
+            return new ResponseEntity<>(new Gson().toJson(space.get()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
     }
 }
