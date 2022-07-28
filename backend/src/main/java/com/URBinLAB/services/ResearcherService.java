@@ -36,8 +36,6 @@ public class ResearcherService {
             if (!map.containsKey("token"))
                 return AccessControl.access(feature, "all");
 
-            System.out.println(map.get("token").toString());
-
             String token = map.get("token").toString();
             token = token.substring(1, token.length() - 1);
             Token temp = gson.fromJson(token, Token.class);

@@ -21,7 +21,6 @@ public class Token {
     @JoinColumn(name = "researcher_id", referencedColumnName = "researcher_id")
     private Researcher researcher;
     private String token;
-    private String password;
     private String role;
 
     @Temporal(TemporalType.DATE)
@@ -40,10 +39,6 @@ public class Token {
 
     public String getToken() {
         return this.token;
-    }
-
-    public String getPassword() {
-        return this.password;
     }
 
     public String getRole() {
