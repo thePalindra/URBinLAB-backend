@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name="cartography", schema = "public")
+@Table(name="aerial_image", schema = "public")
 @Builder
 @AllArgsConstructor
-public class Cartography {
+public class AerialImage implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +21,10 @@ public class Cartography {
     @JoinColumn(name = "document_id", referencedColumnName = "document_id")
     private Document document;
 
-    private Integer scale;
-    private String format;
+    @Column(name="approximate_scale_id")
+    private Integer approximateScale;
 
-    public Cartography() {}
+    public AerialImage() {}
 
     public Long getId() {
         return this.id;
@@ -34,10 +35,6 @@ public class Cartography {
     }
 
     public Integer getScale() {
-        return this.scale;
-    }
-
-    public String getFormat() {
-        return this.format;
+        return this.approximateScale;
     }
 }

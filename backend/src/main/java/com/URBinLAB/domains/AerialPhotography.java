@@ -18,8 +18,8 @@ public class AerialPhotography implements Serializable {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cartography_id", referencedColumnName = "cartography_id")
-    private Cartography cartography;
+    @JoinColumn(name = "aerial_image_id", referencedColumnName = "aerial_image_id")
+    private AerialImage aerialImage;
     private String resolution;
 
     public AerialPhotography() {}
@@ -28,8 +28,8 @@ public class AerialPhotography implements Serializable {
         return this.id;
     }
 
-    public Cartography getCartography() {
-        return this.cartography;
+    public AerialImage getCartography() {
+        return this.aerialImage;
     }
 
     public String getResolution() {
