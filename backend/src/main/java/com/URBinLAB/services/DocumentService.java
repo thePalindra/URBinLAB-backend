@@ -28,6 +28,7 @@ public class DocumentService {
     private SpaceRepository spaceRepository;
     private AerialImageRepository aerialImageRepository;
     private AerialPhotographyRepository aerialPhotographyRepository;
+    private PhotographyRepository photographyRepository;
     private final Gson gson = new Gson();
 
     @Autowired
@@ -37,7 +38,8 @@ public class DocumentService {
                            TokenRepository tokenRepository,
                            SpaceRepository spaceRepository,
                            AerialImageRepository aerialImageRepository,
-                           AerialPhotographyRepository aerialPhotographyRepository) {
+                           AerialPhotographyRepository aerialPhotographyRepository,
+                           PhotographyRepository photographyRepository) {
 
         this.documentRepository = documentRepository;
         this.collectionRepository = collectionRepository;
@@ -46,6 +48,7 @@ public class DocumentService {
         this.spaceRepository = spaceRepository;
         this.aerialImageRepository = aerialImageRepository;
         this.aerialPhotographyRepository = aerialPhotographyRepository;
+        this.photographyRepository = photographyRepository;
     }
 
     public boolean tokenChecker (MultiValueMap<String, String> map, Feature feature) {
@@ -205,6 +208,52 @@ public class DocumentService {
             aerialPhotography = this.aerialPhotographyRepository.save(aerialPhotography);
 
             return new ResponseEntity<>(new Gson().toJson(aerialPhotography), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> createPhotography(MultiValueMap<String,
+            String> map,
+                                                          Long collectionId,
+                                                          String name,
+                                                          String description,
+                                                          String type,
+                                                          String provider,
+                                                          Date timeScope,
+                                                          String link,
+                                                          String resolution) {
+        try {
+
+            String token = map.get("token").toString();
+            token = token.substring(1, token.length() - 1);
+            Token temp = gson.fromJson(token, Token.class);
+            Optional<Collection> collection = this.collectionRepository.findById(collectionId);
+            if (collection.isEmpty())
+                return new ResponseEntity<>(new Gson().toJson("No collection found!"), HttpStatus.BAD_REQUEST);
+
+            Document document = Document.builder()
+                    .collection(collection.get())
+                    .archiver(temp.getResearcher())
+                    .type(type)
+                    .description(description)
+                    .provider(provider)
+                    .timeScope(timeScope)
+                    .link(link)
+                    .name(name)
+                    .creation(new Date())
+                    .build();
+
+            document = this.documentRepository.save(document);
+
+            Photography photography = Photography.builder()
+                    .document(document)
+                    .resolution(resolution)
+                    .build();
+
+            photography = this.photographyRepository.save(photography);
+
+            return new ResponseEntity<>(new Gson().toJson(photography), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

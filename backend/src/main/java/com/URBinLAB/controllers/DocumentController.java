@@ -80,6 +80,23 @@ public class DocumentController implements DocumentAPI {
     }
 
     @Override
+    public ResponseEntity<String> createPhotography(MultiValueMap<String, String> map,
+                                                    Long collectionId,
+                                                    String name,
+                                                    String description,
+                                                    String type,
+                                                    String provider,
+                                                    Date timeScope,
+                                                    String link,
+                                                    String resolution) {
+
+        if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
+            return this.documentService.createPhotography(map, collectionId, name, description, type, provider, timeScope, link, resolution);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
     public ResponseEntity<String> addFile(MultiValueMap<String, String> map,
                                           MultipartFile file,
                                           Long document,

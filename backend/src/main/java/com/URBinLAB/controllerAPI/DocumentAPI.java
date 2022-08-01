@@ -49,6 +49,18 @@ public interface DocumentAPI {
                                                    @PathParam("resolution") String resolution);
 
 
+    @RequestMapping(value = "/add_photography", method = RequestMethod.POST)
+    ResponseEntity<String> createPhotography(@RequestHeader MultiValueMap<String, String> map,
+                                             @PathParam("collection") Long collectionId,
+                                             @PathParam("name") String name,
+                                             @PathParam("description") String description,
+                                             @PathParam("type") String type,
+                                             @PathParam("provider") String provider,
+                                             @PathParam("timeScope") Date timeScope,
+                                             @PathParam("link") String link,
+                                             @PathParam("resolution") String resolution);
+
+
     @RequestMapping(value = "/add_file", method = RequestMethod.POST)
     ResponseEntity<String> addFile(@RequestHeader MultiValueMap<String, String> map,
                                    @PathParam("file") MultipartFile file,
