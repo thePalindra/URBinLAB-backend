@@ -13,7 +13,7 @@ import java.util.Date;
 
 public interface DocumentAPI {
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/add_document", method = RequestMethod.POST)
     ResponseEntity<String> createDocument(@RequestHeader MultiValueMap<String, String> map,
                                           @PathParam("collection") Long collectionId,
                                           @PathParam("name") String name,
@@ -23,7 +23,21 @@ public interface DocumentAPI {
                                           @PathParam("timeScope") Date timeScope,
                                           @PathParam("link") String link);
 
-    @RequestMapping(value = "/addfile", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/add_aerial_image", method = RequestMethod.POST)
+    ResponseEntity<String> createAerialImage(@RequestHeader MultiValueMap<String, String> map,
+                                             @PathParam("collection") Long collectionId,
+                                             @PathParam("name") String name,
+                                             @PathParam("description") String description,
+                                             @PathParam("type") String type,
+                                             @PathParam("provider") String provider,
+                                             @PathParam("timeScope") Date timeScope,
+                                             @PathParam("link") String link,
+                                             @PathParam("scale") Integer scale);
+
+
+
+    @RequestMapping(value = "/add_file", method = RequestMethod.POST)
     ResponseEntity<String> addFile(@RequestHeader MultiValueMap<String, String> map,
                                    @PathParam("file") MultipartFile file,
                                    @PathParam("document") Long document,
@@ -32,7 +46,7 @@ public interface DocumentAPI {
                                    @PathParam("creation") Date creation,
                                    @PathParam("size") Long size);
 
-    @RequestMapping(value = "/addspace", method = RequestMethod.POST)
+    @RequestMapping(value = "/add_space", method = RequestMethod.POST)
     ResponseEntity<String> addSpace(@RequestHeader MultiValueMap<String, String> map,
                                     @PathParam("space") Long id,
                                     @PathParam("doc") Long document);
