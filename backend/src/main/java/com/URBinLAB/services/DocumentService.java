@@ -30,6 +30,7 @@ public class DocumentService {
     private AerialPhotographyRepository aerialPhotographyRepository;
     private PhotographyRepository photographyRepository;
     private CartographyRepository cartographyRepository;
+    private ThematicMapRepository thematicMapRepository;
     private final Gson gson = new Gson();
 
     @Autowired
@@ -41,7 +42,8 @@ public class DocumentService {
                            AerialImageRepository aerialImageRepository,
                            AerialPhotographyRepository aerialPhotographyRepository,
                            PhotographyRepository photographyRepository,
-                           CartographyRepository cartographyRepository) {
+                           CartographyRepository cartographyRepository,
+                           ThematicMapRepository thematicMapRepository) {
 
         this.documentRepository = documentRepository;
         this.collectionRepository = collectionRepository;
@@ -52,6 +54,7 @@ public class DocumentService {
         this.aerialPhotographyRepository = aerialPhotographyRepository;
         this.photographyRepository = photographyRepository;
         this.cartographyRepository = cartographyRepository;
+        this.thematicMapRepository = thematicMapRepository;
     }
 
     public boolean tokenChecker (MultiValueMap<String, String> map, Feature feature) {
@@ -305,6 +308,62 @@ public class DocumentService {
             cartography = this.cartographyRepository.save(cartography);
 
             return new ResponseEntity<>(new Gson().toJson(cartography), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> createThematicMap(MultiValueMap<String,
+            String> map,
+                                                          Long collectionId,
+                                                          String name,
+                                                          String description,
+                                                          String type,
+                                                          String provider,
+                                                          Date timeScope,
+                                                          String link,
+                                                          Integer scale,
+                                                          String format,
+                                                          String theme) {
+        try {
+
+            String token = map.get("token").toString();
+            token = token.substring(1, token.length() - 1);
+            Token temp = gson.fromJson(token, Token.class);
+            Optional<Collection> collection = this.collectionRepository.findById(collectionId);
+            if (collection.isEmpty())
+                return new ResponseEntity<>(new Gson().toJson("No collection found!"), HttpStatus.BAD_REQUEST);
+
+            Document document = Document.builder()
+                    .collection(collection.get())
+                    .archiver(temp.getResearcher())
+                    .type(type)
+                    .description(description)
+                    .provider(provider)
+                    .timeScope(timeScope)
+                    .link(link)
+                    .name(name)
+                    .creation(new Date())
+                    .build();
+
+            document = this.documentRepository.save(document);
+
+            Cartography cartography = Cartography.builder()
+                    .document(document)
+                    .scale(scale)
+                    .format(format)
+                    .build();
+
+            cartography = this.cartographyRepository.save(cartography);
+
+            ThematicMap thematicMap = ThematicMap.builder()
+                    .cartography(cartography)
+                    .theme(theme)
+                    .build();
+
+            thematicMap = this.thematicMapRepository.save(thematicMap);
+
+            return new ResponseEntity<>(new Gson().toJson(thematicMap), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
