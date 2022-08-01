@@ -36,6 +36,18 @@ public interface DocumentAPI {
                                              @PathParam("scale") Integer scale);
 
 
+    @RequestMapping(value = "/add_aerial_photography", method = RequestMethod.POST)
+    ResponseEntity<String> createAerialPhotography(@RequestHeader MultiValueMap<String, String> map,
+                                                   @PathParam("collection") Long collectionId,
+                                                   @PathParam("name") String name,
+                                                   @PathParam("description") String description,
+                                                   @PathParam("type") String type,
+                                                   @PathParam("provider") String provider,
+                                                   @PathParam("timeScope") Date timeScope,
+                                                   @PathParam("link") String link,
+                                                   @PathParam("scale") Integer scale,
+                                                   @PathParam("resolution") String resolution);
+
 
     @RequestMapping(value = "/add_file", method = RequestMethod.POST)
     ResponseEntity<String> addFile(@RequestHeader MultiValueMap<String, String> map,
