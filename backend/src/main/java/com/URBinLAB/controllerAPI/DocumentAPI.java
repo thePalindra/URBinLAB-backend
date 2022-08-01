@@ -61,6 +61,19 @@ public interface DocumentAPI {
                                              @PathParam("resolution") String resolution);
 
 
+    @RequestMapping(value = "/add_cartography", method = RequestMethod.POST)
+    ResponseEntity<String> createCartography(@RequestHeader MultiValueMap<String, String> map,
+                                             @PathParam("collection") Long collectionId,
+                                             @PathParam("name") String name,
+                                             @PathParam("description") String description,
+                                             @PathParam("type") String type,
+                                             @PathParam("provider") String provider,
+                                             @PathParam("timeScope") Date timeScope,
+                                             @PathParam("link") String link,
+                                             @PathParam("scale") Integer scale,
+                                             @PathParam("format") String format);
+
+
     @RequestMapping(value = "/add_file", method = RequestMethod.POST)
     ResponseEntity<String> addFile(@RequestHeader MultiValueMap<String, String> map,
                                    @PathParam("file") MultipartFile file,
