@@ -1,145 +1,94 @@
 package com.URBinLAB.services;
 
-import com.URBinLAB.domains.Collection;
-import com.URBinLAB.domains.Document;
-import com.URBinLAB.domains.File;
-import com.URBinLAB.domains.Researcher;
-import com.URBinLAB.repositories.CollectionRepository;
-import com.URBinLAB.repositories.DocumentRepository;
-import com.URBinLAB.repositories.FileRepository;
+import com.URBinLAB.domains.*;
+import com.URBinLAB.repositories.*;
 
-import com.URBinLAB.repositories.ResearcherRepository;
+import com.URBinLAB.utils.AccessControl;
+import com.URBinLAB.utils.Feature;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FileService {
 
     private FileRepository fileRepository;
     private DocumentRepository documentRepository;
-    private CollectionRepository collectionRepository;
-    private ResearcherRepository researcherRepository;
-    private final ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+    private TokenRepository tokenRepository;
+    private final Gson gson = new Gson();
 
     @Autowired
-    public FileService(FileRepository fileRepository, DocumentRepository documentRepository, CollectionRepository collectionRepository, ResearcherRepository researcherRepository) {
+    public FileService(FileRepository fileRepository,
+                       DocumentRepository documentRepository,
+                       TokenRepository tokenRepository) {
+
         this.fileRepository = fileRepository;
         this.documentRepository = documentRepository;
-        this.collectionRepository = collectionRepository;
-        this.researcherRepository = researcherRepository;
+        this.tokenRepository = tokenRepository;
     }
 
-    @Transactional
-    public ResponseEntity<String> addFile(File data) {
+    public boolean tokenChecker (MultiValueMap<String, String> map, Feature feature) {
         try {
-            List<File> list = this.fileRepository.checkIfExists(data.getFormat(), data.getDocument());
-            if (!list.isEmpty())
-                return new ResponseEntity<>(this.ow.writeValueAsString(list.get(0).getId()), HttpStatus.OK);
+            if (!map.containsKey("token"))
+                return AccessControl.access(feature, "all");
 
-            Document doc = this.documentRepository.getById(data.getDocument().getId());
-            //doc.addFile();
-            this.documentRepository.save(doc);
-            this.fileRepository.save(data);
-            return new ResponseEntity<>(this.ow.writeValueAsString(data.getId()), HttpStatus.OK);
+            String token = map.get("token").toString();
+            token = token.substring(1, token.length() - 1);
+            Token temp = gson.fromJson(token, Token.class);
+
+            Token toCompare = this.tokenRepository.getById(temp.getId());
+            if (!temp.getToken().equals(toCompare.getToken()))
+                return false;
+
+            if (System.currentTimeMillis() > temp.getLogin().getTime() + AccessControl.TIME) {
+                this.tokenRepository.delete(toCompare);
+                return false;
+            }
+
+            return AccessControl.access(feature, temp.getRole());
         } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.INTERNAL_SERVER_ERROR);
+            return false;
         }
     }
 
-    @Transactional
-    public ResponseEntity<String> attachFile(MultipartFile file, Long id) {
-        try {
-            File saved = this.fileRepository.getById(id);
-            //saved.setFile(file.getBytes());
-            this.fileRepository.save(saved);
-            return new ResponseEntity<>(this.ow.writeValueAsString(saved.getId()), HttpStatus.OK);
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    public ResponseEntity<String> getFiles() {
-        try {
-            return new ResponseEntity<>(this.ow.writeValueAsString(this.fileRepository.findAll()), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    public ResponseEntity<String> getFileById(Long id) {
-        try {
-            return new ResponseEntity<>(ow.writeValueAsString(this.fileRepository.getById(id)), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    /*@Transactional
-    public ResponseEntity<String> addFile(Long collectionId, Long researcherId
-            , String name, String description
-            , String type, String provider
-            , Date start, Date end
-            , String spaceName, String spaceType
-            , boolean flag, String format
-            , Date creationDate, MultipartFile file) throws JsonProcessingException {
-
+    public ResponseEntity<String> attachFile(MultipartFile file,
+                                             Long document,
+                                             String name,
+                                             String format,
+                                             Date creation,
+                                             Long size) {
         try {
 
-            Document newDoc;
-            List<Document> doc = this.documentRepository.getOneByName(name);
-            if (doc.isEmpty()) {
-                Collection collection = this.collectionRepository.getById(collectionId);
-                Researcher researcher = this.researcherRepository.getById(researcherId);
-                Document temp = Document.builder()
-                        .collection(collection)
-                        .whoAdded(researcher)
-                        .name(name)
-                        .description(description)
-                        .type(type)
-                        .provider(provider)
-                        .scopeStart(start)
-                        .scopeEnd(end)
-                        .spaceName(spaceName)
-                        .spaceType(spaceType)
-                        .flag(flag)
-                        .clicks(0)
-                        .files(0)
-                        .build();
+            Optional<Document> doc = this.documentRepository.findById(document);
+            if (doc.isEmpty())
+                return new ResponseEntity<>(new Gson().toJson("No document found!"), HttpStatus.BAD_REQUEST);
 
-                newDoc = this.documentRepository.save(temp);
-            } else
-                newDoc = doc.get(0);
-
-            List<File> list = this.fileRepository.checkIfExists(format, newDoc);
-            if (!list.isEmpty())
-                return new ResponseEntity<>(this.ow.writeValueAsString(list.get(0).getId()), HttpStatus.OK);
-
-            File temp = File.builder()
-                    .document(newDoc)
-                    .format(format)
-                    .creationDate(creationDate)
+            File saved = File.builder()
+                    .name(name)
                     .file(file.getBytes())
+                    .document(doc.get())
+                    .creationDate(creation)
+                    .format(format)
+                    .size(size)
                     .build();
-
-            File res = this.fileRepository.save(temp);
-            System.out.println(temp.getFile());
-            return new ResponseEntity<>("this.ow.writeValueAsString(res)", HttpStatus.OK);
+            this.fileRepository.save(saved);
+            return new ResponseEntity<>(new Gson().toJson(size), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
-    }*/
+    }
 }
