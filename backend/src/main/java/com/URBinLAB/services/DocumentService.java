@@ -22,10 +22,8 @@ import java.util.Optional;
 public class DocumentService {
 
     private DocumentRepository documentRepository;
-    private CollectionRepository collectionRepository;
     private FileRepository fileRepository;
     private TokenRepository tokenRepository;
-    private SpaceRepository spaceRepository;
     private AerialImageRepository aerialImageRepository;
     private AerialPhotographyRepository aerialPhotographyRepository;
     private PhotographyRepository photographyRepository;
@@ -35,10 +33,8 @@ public class DocumentService {
 
     @Autowired
     public DocumentService(DocumentRepository documentRepository,
-                           CollectionRepository collectionRepository,
                            FileRepository fileRepository,
                            TokenRepository tokenRepository,
-                           SpaceRepository spaceRepository,
                            AerialImageRepository aerialImageRepository,
                            AerialPhotographyRepository aerialPhotographyRepository,
                            PhotographyRepository photographyRepository,
@@ -46,10 +42,8 @@ public class DocumentService {
                            ThematicMapRepository thematicMapRepository) {
 
         this.documentRepository = documentRepository;
-        this.collectionRepository = collectionRepository;
         this.fileRepository = fileRepository;
         this.tokenRepository = tokenRepository;
-        this.spaceRepository = spaceRepository;
         this.aerialImageRepository = aerialImageRepository;
         this.aerialPhotographyRepository = aerialPhotographyRepository;
         this.photographyRepository = photographyRepository;
@@ -83,7 +77,6 @@ public class DocumentService {
 
     public ResponseEntity<String> addDocument(MultiValueMap<String,
                                               String> map,
-                                              Long collectionId,
                                               String name,
                                               String description,
                                               String type,
@@ -95,12 +88,8 @@ public class DocumentService {
             String token = map.get("token").toString();
             token = token.substring(1, token.length() - 1);
             Token temp = gson.fromJson(token, Token.class);
-            Optional<Collection> collection = this.collectionRepository.findById(collectionId);
-            if (collection.isEmpty())
-                return new ResponseEntity<>(new Gson().toJson("No collection found!"), HttpStatus.BAD_REQUEST);
 
             Document document = Document.builder()
-                    .collection(collection.get())
                     .archiver(temp.getResearcher())
                     .type(type)
                     .description(description)
@@ -121,7 +110,6 @@ public class DocumentService {
 
     public ResponseEntity<String> createAerialImage(MultiValueMap<String,
                                                     String> map,
-                                                    Long collectionId,
                                                     String name,
                                                     String description,
                                                     String type,
@@ -134,12 +122,8 @@ public class DocumentService {
             String token = map.get("token").toString();
             token = token.substring(1, token.length() - 1);
             Token temp = gson.fromJson(token, Token.class);
-            Optional<Collection> collection = this.collectionRepository.findById(collectionId);
-            if (collection.isEmpty())
-                return new ResponseEntity<>(new Gson().toJson("No collection found!"), HttpStatus.BAD_REQUEST);
 
             Document document = Document.builder()
-                    .collection(collection.get())
                     .archiver(temp.getResearcher())
                     .type(type)
                     .description(description)
@@ -166,27 +150,23 @@ public class DocumentService {
     }
 
     public ResponseEntity<String> createAerialPhotography(MultiValueMap<String,
-            String> map,
-                                                    Long collectionId,
-                                                    String name,
-                                                    String description,
-                                                    String type,
-                                                    String provider,
-                                                    Date timeScope,
-                                                    String link,
-                                                    Integer scale,
-                                                    String resolution) {
+                                                          String> map,
+                                                          String name,
+                                                          String description,
+                                                          String type,
+                                                          String provider,
+                                                          Date timeScope,
+                                                          String link,
+                                                          Integer scale,
+                                                          String resolution) {
+
         try {
 
             String token = map.get("token").toString();
             token = token.substring(1, token.length() - 1);
             Token temp = gson.fromJson(token, Token.class);
-            Optional<Collection> collection = this.collectionRepository.findById(collectionId);
-            if (collection.isEmpty())
-                return new ResponseEntity<>(new Gson().toJson("No collection found!"), HttpStatus.BAD_REQUEST);
 
             Document document = Document.builder()
-                    .collection(collection.get())
                     .archiver(temp.getResearcher())
                     .type(type)
                     .description(description)
@@ -220,26 +200,21 @@ public class DocumentService {
     }
 
     public ResponseEntity<String> createPhotography(MultiValueMap<String,
-            String> map,
-                                                          Long collectionId,
-                                                          String name,
-                                                          String description,
-                                                          String type,
-                                                          String provider,
-                                                          Date timeScope,
-                                                          String link,
-                                                          String resolution) {
+                                                    String> map,
+                                                    String name,
+                                                    String description,
+                                                    String type,
+                                                    String provider,
+                                                    Date timeScope,
+                                                    String link,
+                                                    String resolution) {
         try {
 
             String token = map.get("token").toString();
             token = token.substring(1, token.length() - 1);
             Token temp = gson.fromJson(token, Token.class);
-            Optional<Collection> collection = this.collectionRepository.findById(collectionId);
-            if (collection.isEmpty())
-                return new ResponseEntity<>(new Gson().toJson("No collection found!"), HttpStatus.BAD_REQUEST);
 
             Document document = Document.builder()
-                    .collection(collection.get())
                     .archiver(temp.getResearcher())
                     .type(type)
                     .description(description)
@@ -267,7 +242,6 @@ public class DocumentService {
 
     public ResponseEntity<String> createCartography(MultiValueMap<String,
                                                     String> map,
-                                                    Long collectionId,
                                                     String name,
                                                     String description,
                                                     String type,
@@ -281,12 +255,8 @@ public class DocumentService {
             String token = map.get("token").toString();
             token = token.substring(1, token.length() - 1);
             Token temp = gson.fromJson(token, Token.class);
-            Optional<Collection> collection = this.collectionRepository.findById(collectionId);
-            if (collection.isEmpty())
-                return new ResponseEntity<>(new Gson().toJson("No collection found!"), HttpStatus.BAD_REQUEST);
 
             Document document = Document.builder()
-                    .collection(collection.get())
                     .archiver(temp.getResearcher())
                     .type(type)
                     .description(description)
@@ -314,28 +284,23 @@ public class DocumentService {
     }
 
     public ResponseEntity<String> createThematicMap(MultiValueMap<String,
-            String> map,
-                                                          Long collectionId,
-                                                          String name,
-                                                          String description,
-                                                          String type,
-                                                          String provider,
-                                                          Date timeScope,
-                                                          String link,
-                                                          Integer scale,
-                                                          String format,
-                                                          String theme) {
+                                                    String> map,
+                                                    String name,
+                                                    String description,
+                                                    String type,
+                                                    String provider,
+                                                    Date timeScope,
+                                                    String link,
+                                                    Integer scale,
+                                                    String format,
+                                                    String theme) {
         try {
 
             String token = map.get("token").toString();
             token = token.substring(1, token.length() - 1);
             Token temp = gson.fromJson(token, Token.class);
-            Optional<Collection> collection = this.collectionRepository.findById(collectionId);
-            if (collection.isEmpty())
-                return new ResponseEntity<>(new Gson().toJson("No collection found!"), HttpStatus.BAD_REQUEST);
 
             Document document = Document.builder()
-                    .collection(collection.get())
                     .archiver(temp.getResearcher())
                     .type(type)
                     .description(description)
@@ -364,54 +329,6 @@ public class DocumentService {
             thematicMap = this.thematicMapRepository.save(thematicMap);
 
             return new ResponseEntity<>(new Gson().toJson(thematicMap), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    public ResponseEntity<String> attachFile(MultipartFile file,
-                                             Long document,
-                                             String name,
-                                             String format,
-                                             Date creation,
-                                             Long size) {
-        try {
-
-            Optional<Document> doc = this.documentRepository.findById(document);
-            if (doc.isEmpty())
-                return new ResponseEntity<>(new Gson().toJson("No document found!"), HttpStatus.BAD_REQUEST);
-
-            File saved = File.builder()
-                    .name(name)
-                    .file(file.getBytes())
-                    .document(doc.get())
-                    .creationDate(creation)
-                    .format(format)
-                    .size(size)
-                    .build();
-            this.fileRepository.save(saved);
-            return new ResponseEntity<>(new Gson().toJson(size), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    public ResponseEntity<String> setSpace(Long id,
-                                           Long document) {
-        try {
-
-            Optional<Space> space = this.spaceRepository.findById(id);
-            if (space.isEmpty())
-                return new ResponseEntity<>(new Gson().toJson("No space found!"), HttpStatus.BAD_REQUEST);
-
-            Optional<Document> doc = this.documentRepository.findById(document);
-            if (doc.isEmpty())
-                return new ResponseEntity<>(new Gson().toJson("No document found!"), HttpStatus.BAD_REQUEST);
-
-            doc.get().setSpace(space.get());
-            this.documentRepository.save(doc.get());
-
-            return new ResponseEntity<>(new Gson().toJson(space.get()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

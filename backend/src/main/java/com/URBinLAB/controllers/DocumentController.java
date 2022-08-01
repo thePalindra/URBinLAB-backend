@@ -31,7 +31,6 @@ public class DocumentController implements DocumentAPI {
 
     @Override
     public ResponseEntity<String> createDocument(MultiValueMap<String, String> map,
-                                                 Long collectionId,
                                                  String name,
                                                  String description,
                                                  String type,
@@ -40,14 +39,13 @@ public class DocumentController implements DocumentAPI {
                                                  String link) {
 
         if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.documentService.addDocument(map, collectionId, name, description, type, provider, timeScope, link);
+            return this.documentService.addDocument(map, name, description, type, provider, timeScope, link);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
 
     @Override
     public ResponseEntity<String> createAerialImage(MultiValueMap<String, String> map,
-                                                    Long collectionId,
                                                     String name,
                                                     String description,
                                                     String type,
@@ -57,14 +55,13 @@ public class DocumentController implements DocumentAPI {
                                                     Integer scale) {
 
         if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.documentService.createAerialImage(map, collectionId, name, description, type, provider, timeScope, link, scale);
+            return this.documentService.createAerialImage(map, name, description, type, provider, timeScope, link, scale);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
 
     @Override
     public ResponseEntity<String> createAerialPhotography(MultiValueMap<String, String> map,
-                                                          Long collectionId,
                                                           String name,
                                                           String description,
                                                           String type,
@@ -74,14 +71,13 @@ public class DocumentController implements DocumentAPI {
                                                           Integer scale,
                                                           String resolution) {
         if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.documentService.createAerialPhotography(map, collectionId, name, description, type, provider, timeScope, link, scale, resolution);
+            return this.documentService.createAerialPhotography(map, name, description, type, provider, timeScope, link, scale, resolution);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
 
     @Override
     public ResponseEntity<String> createPhotography(MultiValueMap<String, String> map,
-                                                    Long collectionId,
                                                     String name,
                                                     String description,
                                                     String type,
@@ -91,14 +87,13 @@ public class DocumentController implements DocumentAPI {
                                                     String resolution) {
 
         if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.documentService.createPhotography(map, collectionId, name, description, type, provider, timeScope, link, resolution);
+            return this.documentService.createPhotography(map, name, description, type, provider, timeScope, link, resolution);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
 
     @Override
     public ResponseEntity<String> createCartography(MultiValueMap<String, String> map,
-                                                    Long collectionId,
                                                     String name,
                                                     String description,
                                                     String type,
@@ -109,14 +104,13 @@ public class DocumentController implements DocumentAPI {
                                                     String format) {
 
         if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.documentService.createCartography(map, collectionId, name, description, type, provider, timeScope, link, scale, format);
+            return this.documentService.createCartography(map, name, description, type, provider, timeScope, link, scale, format);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
 
     @Override
     public ResponseEntity<String> createThematicMap(MultiValueMap<String, String> map,
-                                                    Long collectionId,
                                                     String name,
                                                     String description,
                                                     String type,
@@ -128,32 +122,7 @@ public class DocumentController implements DocumentAPI {
                                                     String theme) {
 
         if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.documentService.createThematicMap(map, collectionId, name, description, type, provider, timeScope, link, scale, format, theme);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
-    }
-
-    @Override
-    public ResponseEntity<String> addFile(MultiValueMap<String, String> map,
-                                          MultipartFile file,
-                                          Long document,
-                                          String name,
-                                          String format,
-                                          Date creation,
-                                          Long size) {
-
-        if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.documentService.attachFile(file, document, name, format, creation, size);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
-    }
-
-    @Override
-    public ResponseEntity<String> addSpace(MultiValueMap<String, String> map,
-                                           Long id,
-                                           Long document) {
-        if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.documentService.setSpace(id, document);
+            return this.documentService.createThematicMap(map, name, description, type, provider, timeScope, link, scale, format, theme);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }

@@ -15,7 +15,6 @@ public interface DocumentAPI {
 
     @RequestMapping(value = "/add_document", method = RequestMethod.POST)
     ResponseEntity<String> createDocument(@RequestHeader MultiValueMap<String, String> map,
-                                          @PathParam("collection") Long collectionId,
                                           @PathParam("name") String name,
                                           @PathParam("description") String description,
                                           @PathParam("type") String type,
@@ -26,7 +25,6 @@ public interface DocumentAPI {
 
     @RequestMapping(value = "/add_aerial_image", method = RequestMethod.POST)
     ResponseEntity<String> createAerialImage(@RequestHeader MultiValueMap<String, String> map,
-                                             @PathParam("collection") Long collectionId,
                                              @PathParam("name") String name,
                                              @PathParam("description") String description,
                                              @PathParam("type") String type,
@@ -38,7 +36,6 @@ public interface DocumentAPI {
 
     @RequestMapping(value = "/add_aerial_photography", method = RequestMethod.POST)
     ResponseEntity<String> createAerialPhotography(@RequestHeader MultiValueMap<String, String> map,
-                                                   @PathParam("collection") Long collectionId,
                                                    @PathParam("name") String name,
                                                    @PathParam("description") String description,
                                                    @PathParam("type") String type,
@@ -51,7 +48,6 @@ public interface DocumentAPI {
 
     @RequestMapping(value = "/add_photography", method = RequestMethod.POST)
     ResponseEntity<String> createPhotography(@RequestHeader MultiValueMap<String, String> map,
-                                             @PathParam("collection") Long collectionId,
                                              @PathParam("name") String name,
                                              @PathParam("description") String description,
                                              @PathParam("type") String type,
@@ -63,7 +59,6 @@ public interface DocumentAPI {
 
     @RequestMapping(value = "/add_cartography", method = RequestMethod.POST)
     ResponseEntity<String> createCartography(@RequestHeader MultiValueMap<String, String> map,
-                                             @PathParam("collection") Long collectionId,
                                              @PathParam("name") String name,
                                              @PathParam("description") String description,
                                              @PathParam("type") String type,
@@ -76,7 +71,6 @@ public interface DocumentAPI {
 
     @RequestMapping(value = "/add_thematic_map", method = RequestMethod.POST)
     ResponseEntity<String> createThematicMap(@RequestHeader MultiValueMap<String, String> map,
-                                             @PathParam("collection") Long collectionId,
                                              @PathParam("name") String name,
                                              @PathParam("description") String description,
                                              @PathParam("type") String type,
@@ -86,19 +80,4 @@ public interface DocumentAPI {
                                              @PathParam("scale") Integer scale,
                                              @PathParam("resolution") String resolution,
                                              @PathParam("theme") String theme);
-
-
-    @RequestMapping(value = "/add_file", method = RequestMethod.POST)
-    ResponseEntity<String> addFile(@RequestHeader MultiValueMap<String, String> map,
-                                   @PathParam("file") MultipartFile file,
-                                   @PathParam("document") Long document,
-                                   @PathParam("name") String name,
-                                   @PathParam("format") String format,
-                                   @PathParam("creation") Date creation,
-                                   @PathParam("size") Long size);
-
-    @RequestMapping(value = "/add_space", method = RequestMethod.POST)
-    ResponseEntity<String> addSpace(@RequestHeader MultiValueMap<String, String> map,
-                                    @PathParam("space") Long id,
-                                    @PathParam("doc") Long document);
 }
