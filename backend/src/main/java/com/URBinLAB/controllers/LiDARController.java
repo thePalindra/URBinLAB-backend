@@ -1,7 +1,7 @@
 package com.URBinLAB.controllers;
 
-import com.URBinLAB.controllerAPI.SatelliteImageAPI;
-import com.URBinLAB.services.SatelliteImageService;
+import com.URBinLAB.controllerAPI.LiDARAPI;
+import com.URBinLAB.services.LiDARService;
 import com.URBinLAB.utils.Feature;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +16,14 @@ import java.util.Date;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/satellite_image")
-public class SatelliteImageController implements SatelliteImageAPI {
+@RequestMapping("/LiDAR")
+public class LiDARController implements LiDARAPI {
 
     @Autowired
-    private SatelliteImageService satelliteImageService;
+    private LiDARService liDARService;
 
-    public SatelliteImageController(SatelliteImageService satelliteImageService) {
-        this.satelliteImageService = satelliteImageService;
+    public LiDARController(LiDARService liDARService) {
+        this.liDARService = liDARService;
     }
 
     @Override
@@ -33,11 +33,10 @@ public class SatelliteImageController implements SatelliteImageAPI {
                                                  String provider,
                                                  Date timeScope,
                                                  String link,
-                                                 String satellite,
                                                  String resolution) {
 
-        if (this.satelliteImageService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.satelliteImageService.createDocument(map, name, description, provider, timeScope, link, satellite, resolution);
+        if (this.liDARService.tokenChecker(map, Feature.ADDDOCUMENT))
+            return this.liDARService.createDocument(map, name, description, provider, timeScope, link, resolution);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }

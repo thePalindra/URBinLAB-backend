@@ -1,10 +1,7 @@
 package com.URBinLAB.services;
 
 import com.URBinLAB.domains.*;
-import com.URBinLAB.repositories.AerialImageRepository;
-import com.URBinLAB.repositories.DocumentRepository;
-import com.URBinLAB.repositories.SatelliteImageRepository;
-import com.URBinLAB.repositories.TokenRepository;
+import com.URBinLAB.repositories.*;
 import com.URBinLAB.utils.AccessControl;
 import com.URBinLAB.utils.Feature;
 import com.google.gson.Gson;
@@ -17,23 +14,23 @@ import org.springframework.util.MultiValueMap;
 import java.util.Date;
 
 @Service
-public class SatelliteImageService {
+public class LiDARService {
 
     private DocumentRepository documentRepository;
     private AerialImageRepository aerialImageRepository;
-    private SatelliteImageRepository satelliteImageRepository;
+    private LiDARRepository liDARRepository;
     private TokenRepository tokenRepository;
     private final Gson gson = new Gson();
 
     @Autowired
-    public SatelliteImageService(DocumentRepository documentRepository,
-                                 AerialImageRepository aerialImageRepository,
-                                 SatelliteImageRepository satelliteImageRepository,
-                                 TokenRepository tokenRepository) {
+    public LiDARService(DocumentRepository documentRepository,
+                        AerialImageRepository aerialImageRepository,
+                        LiDARRepository liDARRepository,
+                        TokenRepository tokenRepository) {
 
         this.aerialImageRepository = aerialImageRepository;
         this.documentRepository = documentRepository;
-        this.satelliteImageRepository = satelliteImageRepository;
+        this.liDARRepository = liDARRepository;
         this.tokenRepository = tokenRepository;
     }
 
@@ -67,7 +64,6 @@ public class SatelliteImageService {
                                                  String provider,
                                                  Date timeScope,
                                                  String link,
-                                                 String satellite,
                                                  String resolution) {
         try {
 
@@ -94,15 +90,14 @@ public class SatelliteImageService {
 
             image = this.aerialImageRepository.save(image);
 
-            SatelliteImage satelliteImage = SatelliteImage.builder()
+            LiDAR liDAR = LiDAR.builder()
                     .image(image)
-                    .satellite(satellite)
                     .resolution(resolution)
                     .build();
 
-            satelliteImage = this.satelliteImageRepository.save(satelliteImage);
+            liDAR = this.liDARRepository.save(liDAR);
 
-            return new ResponseEntity<>(new Gson().toJson(satelliteImage), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(liDAR), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
