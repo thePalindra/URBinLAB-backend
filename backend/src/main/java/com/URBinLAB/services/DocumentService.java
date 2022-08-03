@@ -12,11 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 public class DocumentService {
@@ -66,14 +64,14 @@ public class DocumentService {
         }
     }
 
-    public ResponseEntity<String> addDocument(MultiValueMap<String,
+    public ResponseEntity<String> createDocument(MultiValueMap<String,
                                               String> map,
-                                              String name,
-                                              String description,
-                                              String type,
-                                              String provider,
-                                              Date timeScope,
-                                              String link) {
+                                                 String name,
+                                                 String description,
+                                                 String type,
+                                                 String provider,
+                                                 Date timeScope,
+                                                 String link) {
         try {
 
             String token = map.get("token").toString();

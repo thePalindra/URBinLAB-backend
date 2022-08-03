@@ -11,7 +11,7 @@ import java.util.Date;
 
 public interface AerialPhotographyAPI {
 
-    @RequestMapping(value = "/add_aerial_photography", method = RequestMethod.POST)
+    @RequestMapping(value = "/add_document", method = RequestMethod.POST)
     ResponseEntity<String> createAerialPhotography(@RequestHeader MultiValueMap<String, String> map,
                                                    @PathParam("name") String name,
                                                    @PathParam("description") String description,

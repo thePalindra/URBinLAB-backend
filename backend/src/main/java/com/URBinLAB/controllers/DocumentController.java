@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -39,7 +38,7 @@ public class DocumentController implements DocumentAPI {
                                                  String link) {
 
         if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.documentService.addDocument(map, name, description, type, provider, timeScope, link);
+            return this.documentService.createDocument(map, name, description, type, provider, timeScope, link);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
