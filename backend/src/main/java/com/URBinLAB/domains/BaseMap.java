@@ -16,6 +16,8 @@ public class BaseMap {
     @Column(name="base_map_id")
     private Long id;
 
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "cartography_id")
     private Cartography cartography;
 
     public BaseMap() {}
