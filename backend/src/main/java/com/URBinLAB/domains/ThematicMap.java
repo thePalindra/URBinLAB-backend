@@ -20,6 +20,8 @@ public class ThematicMap {
     @JoinColumn(name = "cartography_id", referencedColumnName = "cartography_id")
     private Cartography cartography;
     private String theme;
+    @Column(name = "thematic_map_type")
+    private String type;
 
     public ThematicMap() {}
 
@@ -33,5 +35,9 @@ public class ThematicMap {
 
     public String getTheme() {
         return this.theme;
+    }
+
+    public String getType() {
+        return this.type;
     }
 }
