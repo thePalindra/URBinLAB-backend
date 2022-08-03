@@ -22,10 +22,7 @@ import java.util.Optional;
 public class DocumentService {
 
     private DocumentRepository documentRepository;
-    private FileRepository fileRepository;
     private TokenRepository tokenRepository;
-    private AerialImageRepository aerialImageRepository;
-    private AerialPhotographyRepository aerialPhotographyRepository;
     private PhotographyRepository photographyRepository;
     private CartographyRepository cartographyRepository;
     private ThematicMapRepository thematicMapRepository;
@@ -33,19 +30,13 @@ public class DocumentService {
 
     @Autowired
     public DocumentService(DocumentRepository documentRepository,
-                           FileRepository fileRepository,
                            TokenRepository tokenRepository,
-                           AerialImageRepository aerialImageRepository,
-                           AerialPhotographyRepository aerialPhotographyRepository,
                            PhotographyRepository photographyRepository,
                            CartographyRepository cartographyRepository,
                            ThematicMapRepository thematicMapRepository) {
 
         this.documentRepository = documentRepository;
-        this.fileRepository = fileRepository;
         this.tokenRepository = tokenRepository;
-        this.aerialImageRepository = aerialImageRepository;
-        this.aerialPhotographyRepository = aerialPhotographyRepository;
         this.photographyRepository = photographyRepository;
         this.cartographyRepository = cartographyRepository;
         this.thematicMapRepository = thematicMapRepository;
@@ -103,97 +94,6 @@ public class DocumentService {
             document = this.documentRepository.save(document);
 
             return new ResponseEntity<>(new Gson().toJson(document), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    public ResponseEntity<String> createAerialImage(MultiValueMap<String,
-                                                    String> map,
-                                                    String name,
-                                                    String description,
-                                                    String type,
-                                                    String provider,
-                                                    Date timeScope,
-                                                    String link,
-                                                    Integer scale) {
-        try {
-
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
-            Token temp = gson.fromJson(token, Token.class);
-
-            Document document = Document.builder()
-                    .archiver(temp.getResearcher())
-                    .type(type)
-                    .description(description)
-                    .provider(provider)
-                    .timeScope(timeScope)
-                    .link(link)
-                    .name(name)
-                    .creation(new Date())
-                    .build();
-
-            document = this.documentRepository.save(document);
-
-            AerialImage aerialImage = AerialImage.builder()
-                    .document(document)
-                    .approximateScale(scale)
-                    .build();
-
-            aerialImage = this.aerialImageRepository.save(aerialImage);
-
-            return new ResponseEntity<>(new Gson().toJson(aerialImage), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    public ResponseEntity<String> createAerialPhotography(MultiValueMap<String,
-                                                          String> map,
-                                                          String name,
-                                                          String description,
-                                                          String type,
-                                                          String provider,
-                                                          Date timeScope,
-                                                          String link,
-                                                          Integer scale,
-                                                          String resolution) {
-
-        try {
-
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
-            Token temp = gson.fromJson(token, Token.class);
-
-            Document document = Document.builder()
-                    .archiver(temp.getResearcher())
-                    .type(type)
-                    .description(description)
-                    .provider(provider)
-                    .timeScope(timeScope)
-                    .link(link)
-                    .name(name)
-                    .creation(new Date())
-                    .build();
-
-            document = this.documentRepository.save(document);
-
-            AerialImage aerialImage = AerialImage.builder()
-                    .document(document)
-                    .approximateScale(scale)
-                    .build();
-
-            aerialImage = this.aerialImageRepository.save(aerialImage);
-
-            AerialPhotography aerialPhotography = AerialPhotography.builder()
-                    .aerialImage(aerialImage)
-                    .resolution(resolution)
-                    .build();
-
-            aerialPhotography = this.aerialPhotographyRepository.save(aerialPhotography);
-
-            return new ResponseEntity<>(new Gson().toJson(aerialPhotography), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

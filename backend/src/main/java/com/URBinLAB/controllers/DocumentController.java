@@ -45,38 +45,6 @@ public class DocumentController implements DocumentAPI {
     }
 
     @Override
-    public ResponseEntity<String> createAerialImage(MultiValueMap<String, String> map,
-                                                    String name,
-                                                    String description,
-                                                    String type,
-                                                    String provider,
-                                                    Date timeScope,
-                                                    String link,
-                                                    Integer scale) {
-
-        if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.documentService.createAerialImage(map, name, description, type, provider, timeScope, link, scale);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
-    }
-
-    @Override
-    public ResponseEntity<String> createAerialPhotography(MultiValueMap<String, String> map,
-                                                          String name,
-                                                          String description,
-                                                          String type,
-                                                          String provider,
-                                                          Date timeScope,
-                                                          String link,
-                                                          Integer scale,
-                                                          String resolution) {
-        if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.documentService.createAerialPhotography(map, name, description, type, provider, timeScope, link, scale, resolution);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
-    }
-
-    @Override
     public ResponseEntity<String> createPhotography(MultiValueMap<String, String> map,
                                                     String name,
                                                     String description,

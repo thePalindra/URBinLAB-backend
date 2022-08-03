@@ -21,9 +21,6 @@ public class AerialImage implements Serializable {
     @JoinColumn(name = "document_id", referencedColumnName = "document_id")
     private Document document;
 
-    @Column(name="approximate_scale_id")
-    private Integer approximateScale;
-
     public AerialImage() {}
 
     public Long getId() {
@@ -34,7 +31,4 @@ public class AerialImage implements Serializable {
         return this.document;
     }
 
-    public Integer getScale() {
-        return this.approximateScale;
-    }
 }

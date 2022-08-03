@@ -20,7 +20,10 @@ public class AerialPhotography implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "aerial_image_id", referencedColumnName = "aerial_image_id")
     private AerialImage aerialImage;
+    @Column(name="image_resolution")
     private String resolution;
+    @Column(name="approximate_scale")
+    private Integer scale;
 
     public AerialPhotography() {}
 
@@ -34,5 +37,13 @@ public class AerialPhotography implements Serializable {
 
     public String getResolution() {
         return this.resolution;
+    }
+
+    public AerialImage getAerialImage() {
+        return this.aerialImage;
+    }
+
+    public Integer getScale() {
+        return this.scale;
     }
 }

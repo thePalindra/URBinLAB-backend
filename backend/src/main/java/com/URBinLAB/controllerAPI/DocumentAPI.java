@@ -23,29 +23,6 @@ public interface DocumentAPI {
                                           @PathParam("link") String link);
 
 
-    @RequestMapping(value = "/add_aerial_image", method = RequestMethod.POST)
-    ResponseEntity<String> createAerialImage(@RequestHeader MultiValueMap<String, String> map,
-                                             @PathParam("name") String name,
-                                             @PathParam("description") String description,
-                                             @PathParam("type") String type,
-                                             @PathParam("provider") String provider,
-                                             @PathParam("timeScope") Date timeScope,
-                                             @PathParam("link") String link,
-                                             @PathParam("scale") Integer scale);
-
-
-    @RequestMapping(value = "/add_aerial_photography", method = RequestMethod.POST)
-    ResponseEntity<String> createAerialPhotography(@RequestHeader MultiValueMap<String, String> map,
-                                                   @PathParam("name") String name,
-                                                   @PathParam("description") String description,
-                                                   @PathParam("type") String type,
-                                                   @PathParam("provider") String provider,
-                                                   @PathParam("timeScope") Date timeScope,
-                                                   @PathParam("link") String link,
-                                                   @PathParam("scale") Integer scale,
-                                                   @PathParam("resolution") String resolution);
-
-
     @RequestMapping(value = "/add_photography", method = RequestMethod.POST)
     ResponseEntity<String> createPhotography(@RequestHeader MultiValueMap<String, String> map,
                                              @PathParam("name") String name,
