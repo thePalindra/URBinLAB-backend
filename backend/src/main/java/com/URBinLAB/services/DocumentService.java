@@ -68,7 +68,6 @@ public class DocumentService {
                                               String> map,
                                                  String name,
                                                  String description,
-                                                 String type,
                                                  String provider,
                                                  Date timeScope,
                                                  String link) {
@@ -80,7 +79,7 @@ public class DocumentService {
 
             Document document = Document.builder()
                     .archiver(temp.getResearcher())
-                    .type(type)
+                    .type("GENERIC")
                     .description(description)
                     .provider(provider)
                     .timeScope(timeScope)
@@ -138,49 +137,7 @@ public class DocumentService {
         }
     }
 
-    public ResponseEntity<String> createCartography(MultiValueMap<String,
-                                                    String> map,
-                                                    String name,
-                                                    String description,
-                                                    String type,
-                                                    String provider,
-                                                    Date timeScope,
-                                                    String link,
-                                                    Integer scale,
-                                                    String format) {
-        try {
-
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
-            Token temp = gson.fromJson(token, Token.class);
-
-            Document document = Document.builder()
-                    .archiver(temp.getResearcher())
-                    .type(type)
-                    .description(description)
-                    .provider(provider)
-                    .timeScope(timeScope)
-                    .link(link)
-                    .name(name)
-                    .creation(new Date())
-                    .build();
-
-            document = this.documentRepository.save(document);
-
-            Cartography cartography = Cartography.builder()
-                    .document(document)
-                    .scale(scale)
-                    .format(format)
-                    .build();
-
-            cartography = this.cartographyRepository.save(cartography);
-
-            return new ResponseEntity<>(new Gson().toJson(cartography), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
-        }
-    }
-
+    /*
     public ResponseEntity<String> createThematicMap(MultiValueMap<String,
                                                     String> map,
                                                     String name,
@@ -230,5 +187,5 @@ public class DocumentService {
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
-    }
+    }*/
 }

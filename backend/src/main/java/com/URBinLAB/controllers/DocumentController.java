@@ -32,13 +32,12 @@ public class DocumentController implements DocumentAPI {
     public ResponseEntity<String> createDocument(MultiValueMap<String, String> map,
                                                  String name,
                                                  String description,
-                                                 String type,
                                                  String provider,
                                                  Date timeScope,
                                                  String link) {
 
         if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.documentService.createDocument(map, name, description, type, provider, timeScope, link);
+            return this.documentService.createDocument(map, name, description, provider, timeScope, link);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
@@ -55,41 +54,6 @@ public class DocumentController implements DocumentAPI {
 
         if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
             return this.documentService.createPhotography(map, name, description, type, provider, timeScope, link, resolution);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
-    }
-
-    @Override
-    public ResponseEntity<String> createCartography(MultiValueMap<String, String> map,
-                                                    String name,
-                                                    String description,
-                                                    String type,
-                                                    String provider,
-                                                    Date timeScope,
-                                                    String link,
-                                                    Integer scale,
-                                                    String format) {
-
-        if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.documentService.createCartography(map, name, description, type, provider, timeScope, link, scale, format);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
-    }
-
-    @Override
-    public ResponseEntity<String> createThematicMap(MultiValueMap<String, String> map,
-                                                    String name,
-                                                    String description,
-                                                    String type,
-                                                    String provider,
-                                                    Date timeScope,
-                                                    String link,
-                                                    Integer scale,
-                                                    String format,
-                                                    String theme) {
-
-        if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.documentService.createThematicMap(map, name, description, type, provider, timeScope, link, scale, format, theme);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }

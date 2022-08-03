@@ -21,7 +21,11 @@ public class Cartography {
     private Document document;
 
     private Integer scale;
-    private String format;
+    private Boolean raster;
+    @Column(name="image_resolution")
+    private String resolution;
+    @Column(name="geometry_type")
+    private String type;
 
     public Cartography() {}
 
@@ -37,7 +41,15 @@ public class Cartography {
         return this.scale;
     }
 
-    public String getFormat() {
-        return this.format;
+    public Boolean getRaster() {
+        return this.raster;
+    }
+
+    public String getResolution() {
+        return this.resolution;
+    }
+
+    public String getType() {
+        return this.type;
     }
 }
