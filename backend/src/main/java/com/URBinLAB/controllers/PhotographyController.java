@@ -1,31 +1,23 @@
 package com.URBinLAB.controllers;
 
-import com.URBinLAB.controllerAPI.DocumentAPI;
-
-import com.URBinLAB.services.DocumentService;
-
+import com.URBinLAB.controllerAPI.PhotographyAPI;
+import com.URBinLAB.services.PhotographyService;
 import com.URBinLAB.utils.Feature;
-
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
-
-@CrossOrigin
-@RestController
-@RequestMapping("/document")
-public class DocumentController implements DocumentAPI {
+public class PhotographyController implements PhotographyAPI {
 
     @Autowired
-    private final DocumentService documentService;
+    private PhotographyService photographyService;
 
-    public DocumentController(DocumentService documentService) {
-        this.documentService = documentService;
+    public PhotographyController(PhotographyService photographyService) {
+        this.photographyService = photographyService;
     }
 
     @Override
@@ -34,10 +26,12 @@ public class DocumentController implements DocumentAPI {
                                                  String description,
                                                  String provider,
                                                  Date timeScope,
-                                                 String link) {
+                                                 String link,
+                                                 String resolution,
+                                                 Boolean color) {
 
-        if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.documentService.createDocument(map, name, description, provider, timeScope, link);
+        if (this.photographyService.tokenChecker(map, Feature.ADDDOCUMENT))
+            return this.photographyService.createDocument(map, name, description, provider, timeScope, link, resolution, color);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }

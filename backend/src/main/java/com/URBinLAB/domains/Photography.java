@@ -19,7 +19,9 @@ public class Photography {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "document_id", referencedColumnName = "document_id")
     private Document document;
+    @Column(name="image_resolution")
     private String resolution;
+    private Boolean color;
 
     public Photography() {}
 
@@ -33,5 +35,9 @@ public class Photography {
 
     public String getResolution() {
         return this.resolution;
+    }
+
+    public Boolean isColored() {
+        return this.color;
     }
 }

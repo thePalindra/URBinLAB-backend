@@ -1,11 +1,13 @@
 package com.URBinLAB.services;
 
-import com.URBinLAB.domains.*;
-import com.URBinLAB.repositories.*;
-
+import com.URBinLAB.domains.Document;
+import com.URBinLAB.domains.Photography;
+import com.URBinLAB.domains.Token;
+import com.URBinLAB.repositories.DocumentRepository;
+import com.URBinLAB.repositories.PhotographyRepository;
+import com.URBinLAB.repositories.TokenRepository;
 import com.URBinLAB.utils.AccessControl;
 import com.URBinLAB.utils.Feature;
-
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,11 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
-
 import java.util.Date;
 
 @Service
-public class DocumentService {
+public class PhotographyService {
 
     private DocumentRepository documentRepository;
     private TokenRepository tokenRepository;
@@ -25,9 +26,9 @@ public class DocumentService {
     private final Gson gson = new Gson();
 
     @Autowired
-    public DocumentService(DocumentRepository documentRepository,
-                           TokenRepository tokenRepository,
-                           PhotographyRepository photographyRepository) {
+    public PhotographyService(DocumentRepository documentRepository,
+                              TokenRepository tokenRepository,
+                              PhotographyRepository photographyRepository) {
 
         this.documentRepository = documentRepository;
         this.tokenRepository = tokenRepository;
@@ -58,13 +59,14 @@ public class DocumentService {
         }
     }
 
-    public ResponseEntity<String> createDocument(MultiValueMap<String,
-                                              String> map,
+    public ResponseEntity<String> createDocument(MultiValueMap<String, String> map,
                                                  String name,
                                                  String description,
                                                  String provider,
                                                  Date timeScope,
-                                                 String link) {
+                                                 String link,
+                                                 String resolution,
+                                                 Boolean color) {
         try {
 
             String token = map.get("token").toString();
@@ -73,7 +75,7 @@ public class DocumentService {
 
             Document document = Document.builder()
                     .archiver(temp.getResearcher())
-                    .type("GENERIC")
+                    .type("PHOTOGRAPHY")
                     .description(description)
                     .provider(provider)
                     .timeScope(timeScope)
@@ -84,7 +86,15 @@ public class DocumentService {
 
             document = this.documentRepository.save(document);
 
-            return new ResponseEntity<>(new Gson().toJson(document), HttpStatus.OK);
+            Photography photography = Photography.builder()
+                    .document(document)
+                    .resolution(resolution)
+                    .color(color)
+                    .build();
+
+            photography = this.photographyRepository.save(photography);
+
+            return new ResponseEntity<>(new Gson().toJson(photography), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
