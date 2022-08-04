@@ -1,6 +1,7 @@
 package com.URBinLAB.controllers;
 
-import com.URBinLAB.controllerAPI.ChorographicMapAPI;
+import com.URBinLAB.controllerAPI.BaseMapAPI;
+import com.URBinLAB.domains.BaseMap;
 import com.URBinLAB.services.ChorographicMapService;
 import com.URBinLAB.utils.Feature;
 import com.google.gson.Gson;
@@ -17,7 +18,7 @@ import java.util.Date;
 @CrossOrigin
 @RestController
 @RequestMapping("/chorographic_map")
-public class ChorographicMapController implements ChorographicMapAPI {
+public class ChorographicMapController implements BaseMapAPI {
 
     @Autowired
     private ChorographicMapService chorographicMapService;

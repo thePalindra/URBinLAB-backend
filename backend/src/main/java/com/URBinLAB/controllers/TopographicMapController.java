@@ -1,7 +1,6 @@
 package com.URBinLAB.controllers;
 
-import com.URBinLAB.controllerAPI.TopographicMapAPI;
-import com.URBinLAB.services.ThematicMapService;
+import com.URBinLAB.controllerAPI.BaseMapAPI;
 import com.URBinLAB.services.TopographicMapService;
 import com.URBinLAB.utils.Feature;
 import com.google.gson.Gson;
@@ -18,7 +17,7 @@ import java.util.Date;
 @CrossOrigin
 @RestController
 @RequestMapping("/topographic_map")
-public class TopographicMapController implements TopographicMapAPI {
+public class TopographicMapController implements BaseMapAPI {
 
     @Autowired
     private TopographicMapService topographicMapService;

@@ -1,8 +1,7 @@
 package com.URBinLAB.controllers;
 
-import com.URBinLAB.controllerAPI.GeographicMapAPI;
+import com.URBinLAB.controllerAPI.BaseMapAPI;
 import com.URBinLAB.services.GeographicMapService;
-import com.URBinLAB.services.ThematicMapService;
 import com.URBinLAB.utils.Feature;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import java.util.Date;
 @CrossOrigin
 @RestController
 @RequestMapping("/geographic_map")
-public class GeographicMapController implements GeographicMapAPI {
+public class GeographicMapController implements BaseMapAPI {
 
     @Autowired
     private GeographicMapService geographicMapService;

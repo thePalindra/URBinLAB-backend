@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.websocket.server.PathParam;
 import java.util.Date;
 
-public interface GeographicMapAPI {
+public interface BaseMapAPI {
 
     @RequestMapping(value = "/add_document", method = RequestMethod.POST)
     ResponseEntity<String> createDocument(@RequestHeader MultiValueMap<String, String> map,
