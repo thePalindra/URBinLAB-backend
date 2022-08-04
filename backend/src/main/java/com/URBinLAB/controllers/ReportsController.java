@@ -1,7 +1,8 @@
 package com.URBinLAB.controllers;
 
-import com.URBinLAB.controllerAPI.DrawingsAPI;
-import com.URBinLAB.services.DrawingsService;
+
+import com.URBinLAB.controllerAPI.ReportsAPI;
+import com.URBinLAB.services.ReportsService;
 import com.URBinLAB.utils.Feature;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +17,14 @@ import java.util.Date;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/drawings")
-public class DrawingsController implements DrawingsAPI {
+@RequestMapping("/reports")
+public class ReportsController implements ReportsAPI {
 
     @Autowired
-    private DrawingsService drawingsService;
+    private ReportsService reportsService;
 
-    public DrawingsController(DrawingsService drawingsService) {
-        this.drawingsService = drawingsService;
+    public ReportsController(ReportsService reportsService) {
+        this.reportsService = reportsService;
     }
 
     @Override
@@ -33,10 +34,11 @@ public class DrawingsController implements DrawingsAPI {
                                                  String provider,
                                                  Date timeScope,
                                                  String link,
-                                                 String context) {
+                                                 String context,
+                                                 String theme) {
 
-        if (this.drawingsService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.drawingsService.createDocument(map, name, description, provider, timeScope, link, context);
+        if (this.reportsService.tokenChecker(map, Feature.ADDDOCUMENT))
+            return this.reportsService.createDocument(map, name, description, provider, timeScope, link, context, theme);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }

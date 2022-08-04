@@ -2,11 +2,11 @@ package com.URBinLAB.services;
 
 import com.URBinLAB.domains.Document;
 import com.URBinLAB.domains.Drawings;
-import com.URBinLAB.domains.Photography;
+import com.URBinLAB.domains.Reports;
 import com.URBinLAB.domains.Token;
 import com.URBinLAB.repositories.DocumentRepository;
 import com.URBinLAB.repositories.DrawingsRepository;
-import com.URBinLAB.repositories.PhotographyRepository;
+import com.URBinLAB.repositories.ReportsRepository;
 import com.URBinLAB.repositories.TokenRepository;
 import com.URBinLAB.utils.AccessControl;
 import com.URBinLAB.utils.Feature;
@@ -20,21 +20,21 @@ import org.springframework.util.MultiValueMap;
 import java.util.Date;
 
 @Service
-public class DrawingsService {
+public class ReportsService {
 
     private DocumentRepository documentRepository;
     private TokenRepository tokenRepository;
-    private DrawingsRepository drawingsRepository;
+    private ReportsRepository reportsRepository;
     private final Gson gson = new Gson();
 
     @Autowired
-    public DrawingsService(DocumentRepository documentRepository,
-                           TokenRepository tokenRepository,
-                           DrawingsRepository drawingsRepository) {
+    public ReportsService(DocumentRepository documentRepository,
+                          TokenRepository tokenRepository,
+                          ReportsRepository reportsRepository) {
 
         this.documentRepository = documentRepository;
         this.tokenRepository = tokenRepository;
-        this.drawingsRepository = drawingsRepository;
+        this.reportsRepository = reportsRepository;
     }
 
     public boolean tokenChecker (MultiValueMap<String, String> map, Feature feature) {
@@ -67,7 +67,8 @@ public class DrawingsService {
                                                  String provider,
                                                  Date timeScope,
                                                  String link,
-                                                 String context) {
+                                                 String context,
+                                                 String theme) {
         try {
 
             String token = map.get("token").toString();
@@ -76,7 +77,7 @@ public class DrawingsService {
 
             Document document = Document.builder()
                     .archiver(temp.getResearcher())
-                    .type("DRAWINGS")
+                    .type("REPORT")
                     .description(description)
                     .provider(provider)
                     .timeScope(timeScope)
@@ -87,14 +88,15 @@ public class DrawingsService {
 
             document = this.documentRepository.save(document);
 
-            Drawings drawings = Drawings.builder()
-                    .context(context)
+            Reports reports = Reports.builder()
                     .document(document)
+                    .context(context)
+                    .theme(theme)
                     .build();
 
-            drawings = this.drawingsRepository.save(drawings);
+            reports = this.reportsRepository.save(reports);
 
-            return new ResponseEntity<>(new Gson().toJson(drawings), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(reports), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
