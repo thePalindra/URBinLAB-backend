@@ -105,7 +105,7 @@ public class ThematicMapService {
 
             thematicMap = this.thematicMapRepository.save(thematicMap);
 
-            return new ResponseEntity<>(new Gson().toJson(thematicMap), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(document.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

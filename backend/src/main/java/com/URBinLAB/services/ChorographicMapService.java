@@ -112,7 +112,7 @@ public class ChorographicMapService {
 
             chorographicMap = this.chorographicMapRepository.save(chorographicMap);
 
-            return new ResponseEntity<>(new Gson().toJson(chorographicMap), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(document.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

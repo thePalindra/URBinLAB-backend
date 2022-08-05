@@ -96,7 +96,7 @@ public class CensusService {
 
             census = this.censusRepository.save(census);
 
-            return new ResponseEntity<>(new Gson().toJson(census), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(document.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

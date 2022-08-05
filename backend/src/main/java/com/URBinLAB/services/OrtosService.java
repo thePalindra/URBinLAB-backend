@@ -100,7 +100,7 @@ public class OrtosService {
 
             ortos = this.ortosRepository.save(ortos);
 
-            return new ResponseEntity<>(new Gson().toJson(ortos), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(document.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

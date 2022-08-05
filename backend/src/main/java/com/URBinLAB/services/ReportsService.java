@@ -96,7 +96,7 @@ public class ReportsService {
 
             reports = this.reportsRepository.save(reports);
 
-            return new ResponseEntity<>(new Gson().toJson(reports), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(document.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

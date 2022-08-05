@@ -113,7 +113,7 @@ public class TopographicPlanService {
 
             topographicPlan = this.topographicPlanRepository.save(topographicPlan);
 
-            return new ResponseEntity<>(new Gson().toJson(topographicPlan), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(document.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

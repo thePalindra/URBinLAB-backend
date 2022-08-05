@@ -97,7 +97,7 @@ public class SurveysService {
 
             surveys = this.surveysRepository.save(surveys);
 
-            return new ResponseEntity<>(new Gson().toJson(surveys), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(document.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

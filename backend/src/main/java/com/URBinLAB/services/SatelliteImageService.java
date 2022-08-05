@@ -102,7 +102,7 @@ public class SatelliteImageService {
 
             satelliteImage = this.satelliteImageRepository.save(satelliteImage);
 
-            return new ResponseEntity<>(new Gson().toJson(satelliteImage), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(document.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

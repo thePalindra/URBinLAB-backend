@@ -112,7 +112,7 @@ public class GeographicMapService {
 
             geographicMap = this.geographicMapRepository.save(geographicMap);
 
-            return new ResponseEntity<>(new Gson().toJson(geographicMap), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(document.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

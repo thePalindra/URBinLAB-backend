@@ -94,7 +94,7 @@ public class SensorsService {
 
             sensors = this.sensorsRepository.save(sensors);
 
-            return new ResponseEntity<>(new Gson().toJson(sensors), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(document.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

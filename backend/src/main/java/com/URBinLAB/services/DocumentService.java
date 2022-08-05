@@ -58,8 +58,7 @@ public class DocumentService {
         }
     }
 
-    public ResponseEntity<String> createDocument(MultiValueMap<String,
-                                              String> map,
+    public ResponseEntity<String> createDocument(MultiValueMap<String, String> map,
                                                  String name,
                                                  String description,
                                                  String provider,
@@ -84,7 +83,7 @@ public class DocumentService {
 
             document = this.documentRepository.save(document);
 
-            return new ResponseEntity<>(new Gson().toJson(document), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(document.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

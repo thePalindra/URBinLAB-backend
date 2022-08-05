@@ -94,7 +94,7 @@ public class DrawingsService {
 
             drawings = this.drawingsRepository.save(drawings);
 
-            return new ResponseEntity<>(new Gson().toJson(drawings), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(document.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

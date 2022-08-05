@@ -94,7 +94,7 @@ public class PhotographyService {
 
             photography = this.photographyRepository.save(photography);
 
-            return new ResponseEntity<>(new Gson().toJson(photography), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(document.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

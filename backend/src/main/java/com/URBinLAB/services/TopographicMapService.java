@@ -112,7 +112,7 @@ public class TopographicMapService {
 
             topographicMap = this.topographicMapRepository.save(topographicMap);
 
-            return new ResponseEntity<>(new Gson().toJson(topographicMap), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(document.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

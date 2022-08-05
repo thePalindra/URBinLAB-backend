@@ -97,7 +97,7 @@ public class LiDARService {
 
             liDAR = this.liDARRepository.save(liDAR);
 
-            return new ResponseEntity<>(new Gson().toJson(liDAR), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(document.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
