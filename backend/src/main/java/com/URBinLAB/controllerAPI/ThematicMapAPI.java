@@ -23,5 +23,5 @@ public interface ThematicMapAPI {
                                           @PathParam("resolution") String resolution,
                                           @PathParam("type") String type,
                                           @PathParam("theme") String theme,
-                                          @PathParam("mapTheme") String mapType);
+                                          @PathParam("mapType") String mapType);
 }

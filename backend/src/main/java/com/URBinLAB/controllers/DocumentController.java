@@ -18,7 +18,7 @@ import java.util.Date;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/document")
+@RequestMapping("/generic")
 public class DocumentController implements DocumentAPI {
 
     @Autowired
