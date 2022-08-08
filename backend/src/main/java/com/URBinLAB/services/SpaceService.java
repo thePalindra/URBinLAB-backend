@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -75,6 +76,17 @@ public class SpaceService {
             this.documentRepository.save(doc.get());
 
             return new ResponseEntity<>(new Gson().toJson(space.get()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> getAllFromLevel(Integer level) {
+        try {
+
+            List<Space> spaces = this.spaceRepository.getAllFromLevel(level);
+
+            return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

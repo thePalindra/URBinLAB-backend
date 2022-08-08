@@ -14,4 +14,8 @@ public interface SpaceAPI {
     ResponseEntity<String> attachSpace(@RequestHeader MultiValueMap<String, String> map,
                                     @PathParam("space") Long id,
                                     @PathParam("doc") Long document);
+
+    @RequestMapping(value = "/get_all_from_level", method = RequestMethod.POST)
+    ResponseEntity<String> getAllFromLevel(@RequestHeader MultiValueMap<String, String> map,
+                                           @PathParam("level") Integer level);
 }
