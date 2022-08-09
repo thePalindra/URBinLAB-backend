@@ -83,8 +83,7 @@ public class SpaceService {
 
     public ResponseEntity<String> getAllFromLevel(Integer level) {
         try {
-
-            List<Space> spaces = this.spaceRepository.getAllFromLevel(level);
+            List<Object> spaces = this.spaceRepository.getAllFromLevel(level);
 
             return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
         } catch (Exception e) {

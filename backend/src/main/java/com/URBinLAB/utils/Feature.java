@@ -4,5 +4,6 @@ public enum Feature {
     SIGNUP,
     LOGOUT,
     ADDDOCUMENT,
-    LOGIN
+    LOGIN,
+    GETALLSPACEFROMLEVEL
 }

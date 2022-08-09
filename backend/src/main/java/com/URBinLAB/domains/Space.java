@@ -31,6 +31,10 @@ public class Space implements Serializable {
 
     public Space() {}
 
+    public Long getId() {
+        return this.id;
+    }
+
     public Space getParent() {
         return this.parent;
     }
@@ -41,10 +45,6 @@ public class Space implements Serializable {
 
     public String getLevelName() {
         return this.levelName;
-    }
-
-    public Long getId() {
-        return this.id;
     }
 
     public Polygon getSpace() {

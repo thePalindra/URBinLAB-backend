@@ -25,6 +25,7 @@ public class AccessControl {
         map.put(Feature.LOGIN, true);
         map.put(Feature.LOGOUT, false);
         map.put(Feature.ADDDOCUMENT, false);
+        map.put(Feature.GETALLSPACEFROMLEVEL, true);
         return map;
     }
 
@@ -35,6 +36,7 @@ public class AccessControl {
         map.put(Feature.LOGIN, false);
         map.put(Feature.LOGOUT, true);
         map.put(Feature.ADDDOCUMENT, true);
+        map.put(Feature.GETALLSPACEFROMLEVEL, true);
         return map;
     }
 
