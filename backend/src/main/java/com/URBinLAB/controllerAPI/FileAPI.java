@@ -8,17 +8,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.websocket.server.PathParam;
+import java.io.IOException;
 import java.util.Date;
 
 public interface FileAPI {
 
-    @RequestMapping(value = "/add_file", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     ResponseEntity<String> addFile(@RequestHeader MultiValueMap<String, String> map,
                                    @PathParam("file") MultipartFile file,
                                    @PathParam("document") Long document,
                                    @PathParam("name") String name,
-                                   @PathParam("format") String format,
-                                   @PathParam("creation") Date creation,
-                                   @PathParam("size") Long size);
+                                   @PathParam("format") String format) throws IOException;
 
 }

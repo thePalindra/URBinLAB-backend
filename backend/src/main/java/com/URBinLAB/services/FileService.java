@@ -19,6 +19,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -68,10 +69,8 @@ public class FileService {
     public ResponseEntity<String> attachFile(MultipartFile file,
                                              Long document,
                                              String name,
-                                             String format,
-                                             Date creation,
-                                             Long size) {
-        try {
+                                             String format) throws IOException {
+
 
             Optional<Document> doc = this.documentRepository.findById(document);
             if (doc.isEmpty())
@@ -81,14 +80,12 @@ public class FileService {
                     .name(name)
                     .file(file.getBytes())
                     .document(doc.get())
-                    .creationDate(creation)
+                    .creationDate(new Date())
                     .format(format)
-                    .size(size)
+                    .size(file.getSize())
                     .build();
             this.fileRepository.save(saved);
-            return new ResponseEntity<>(new Gson().toJson(size), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
-        }
+            return new ResponseEntity<>(new Gson().toJson(file), HttpStatus.OK);
+
     }
 }

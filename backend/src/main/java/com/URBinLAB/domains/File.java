@@ -35,10 +35,6 @@ public class File {
     @Temporal(TemporalType.DATE)
     private Date creationDate;
 
-    @Column(name="insertion_date")
-    @Temporal(TemporalType.DATE)
-    private Date insertionDate;
-
     private Long size;
 
     public File() {}
@@ -61,10 +57,6 @@ public class File {
 
     public Date getCreationDate() {
         return this.creationDate;
-    }
-
-    public Date getInsertionDate() {
-        return this.insertionDate;
     }
 
     public Long getSize() {

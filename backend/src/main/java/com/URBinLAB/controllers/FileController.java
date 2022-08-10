@@ -13,6 +13,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Date;
 
 @CrossOrigin
@@ -33,12 +34,10 @@ public class FileController implements FileAPI {
                                           MultipartFile file,
                                           Long document,
                                           String name,
-                                          String format,
-                                          Date creation,
-                                          Long size) {
+                                          String format) throws IOException {
 
         if (this.fileService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.fileService.attachFile(file, document, name, format, creation, size);
+            return this.fileService.attachFile(file, document, name, format);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
