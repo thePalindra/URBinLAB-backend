@@ -75,7 +75,7 @@ public class SpaceService {
             doc.get().setSpace(space.get());
             this.documentRepository.save(doc.get());
 
-            return new ResponseEntity<>(new Gson().toJson(space.get()), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(doc.get().getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

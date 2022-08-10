@@ -40,7 +40,7 @@ public class Document implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date timeScope;
 
-    @Column(name="creation")
+    @Column(name="insertion")
     @Temporal(TemporalType.DATE)
     private Date creation;
 

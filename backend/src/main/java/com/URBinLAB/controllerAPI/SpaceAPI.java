@@ -10,10 +10,10 @@ import javax.websocket.server.PathParam;
 
 public interface SpaceAPI {
 
-    @RequestMapping(value = "/attach_space", method = RequestMethod.POST)
+    @RequestMapping(value = "/attach", method = RequestMethod.POST)
     ResponseEntity<String> attachSpace(@RequestHeader MultiValueMap<String, String> map,
-                                    @PathParam("space") Long id,
-                                    @PathParam("doc") Long document);
+                                       @PathParam("id") Long id,
+                                       @PathParam("document") Long document);
 
     @RequestMapping(value = "/get_all_from_level", method = RequestMethod.POST)
     ResponseEntity<String> getAllFromLevel(@RequestHeader MultiValueMap<String, String> map,

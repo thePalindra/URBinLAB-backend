@@ -23,7 +23,7 @@ public class Space implements Serializable {
     private Space parent;
 
     private String hierarchy;
-    private Polygon space;
+    private String space;
     private String name;
     private Integer level;
     @Column(name="level_name")
@@ -47,7 +47,7 @@ public class Space implements Serializable {
         return this.levelName;
     }
 
-    public Polygon getSpace() {
+    public String getSpace() {
         return this.space;
     }
 
