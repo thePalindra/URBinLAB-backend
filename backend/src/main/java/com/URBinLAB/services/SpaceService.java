@@ -9,6 +9,8 @@ import com.URBinLAB.repositories.TokenRepository;
 import com.URBinLAB.utils.AccessControl;
 import com.URBinLAB.utils.Feature;
 import com.google.gson.Gson;
+import org.geolatte.geom.Geometry;
+import org.geolatte.geom.codec.Wkt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -76,6 +78,34 @@ public class SpaceService {
             this.documentRepository.save(doc.get());
 
             return new ResponseEntity<>(new Gson().toJson(doc.get().getId()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> addSpace(Long document,
+                                           String space) {
+        try {
+
+            Optional<Document> doc = this.documentRepository.findById(document);
+            if (doc.isEmpty())
+                return new ResponseEntity<>(new Gson().toJson("No document found!"), HttpStatus.BAD_REQUEST);
+
+            Document temp = doc.get();
+
+            Geometry geometry = Wkt.fromWkt(space);
+
+            Space newSpace = Space.builder()
+                    .id(this.spaceRepository.count())
+                    .space(geometry)
+                    .name(temp.getName())
+                    .build();
+            newSpace = this.spaceRepository.save(newSpace);
+
+            temp.setSpace(newSpace);
+            this.documentRepository.save(temp);
+
+            return new ResponseEntity<>(new Gson().toJson(temp.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

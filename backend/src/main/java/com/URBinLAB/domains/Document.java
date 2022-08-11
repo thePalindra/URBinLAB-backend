@@ -64,10 +64,6 @@ public class Document implements Serializable {
         return this.archiver;
     }
 
-    public Space getSpace() {
-        return this.space;
-    }
-
     public String getName() {
         return this.name;
     }

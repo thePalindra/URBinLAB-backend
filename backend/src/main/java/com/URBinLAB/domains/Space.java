@@ -2,7 +2,7 @@ package com.URBinLAB.domains;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import org.springframework.data.geo.Polygon;
+import org.geolatte.geom.Geometry;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,7 +14,6 @@ import java.io.Serializable;
 public class Space implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="space_id")
     private Long id;
 
@@ -23,7 +22,8 @@ public class Space implements Serializable {
     private Space parent;
 
     private String hierarchy;
-    private String space;
+
+    private transient Geometry space;
     private String name;
     private Integer level;
     @Column(name="level_name")
@@ -45,10 +45,6 @@ public class Space implements Serializable {
 
     public String getLevelName() {
         return this.levelName;
-    }
-
-    public String getSpace() {
-        return this.space;
     }
 
     public String getName() {
