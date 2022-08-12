@@ -32,12 +32,10 @@ public class FileController implements FileAPI {
     @Override
     public ResponseEntity<String> addFile(MultiValueMap<String, String> map,
                                           MultipartFile file,
-                                          Long document,
-                                          String name,
-                                          String format) throws IOException {
+                                          Long document) {
 
         if (this.fileService.tokenChecker(map, Feature.ADDDOCUMENT))
-            return this.fileService.attachFile(file, document, name, format);
+            return this.fileService.attachFile(file, document);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }

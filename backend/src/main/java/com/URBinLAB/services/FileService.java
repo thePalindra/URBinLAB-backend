@@ -67,25 +67,25 @@ public class FileService {
     }
 
     public ResponseEntity<String> attachFile(MultipartFile file,
-                                             Long document,
-                                             String name,
-                                             String format) throws IOException {
+                                             Long document) {
 
-
+        try {
             Optional<Document> doc = this.documentRepository.findById(document);
             if (doc.isEmpty())
                 return new ResponseEntity<>(new Gson().toJson("No document found!"), HttpStatus.BAD_REQUEST);
 
             File saved = File.builder()
-                    .name(name)
+                    .name(file.getName())
                     .file(file.getBytes())
                     .document(doc.get())
                     .creationDate(new Date())
-                    .format(format)
+                    .format(file.getContentType())
                     .size(file.getSize())
                     .build();
             this.fileRepository.save(saved);
             return new ResponseEntity<>(new Gson().toJson(file), HttpStatus.OK);
-
+        } catch (Exception e) {
+            return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.BAD_REQUEST);
+        }
     }
 }
