@@ -120,4 +120,22 @@ public class SpaceService {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public ResponseEntity<String> searchByName(String name, Integer level) {
+        List<Object> spaces = this.spaceRepository.searchByName(level, name);
+
+        return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> getEverything(String name) {
+        List<Object> spaces = this.spaceRepository.getEverything(name, "CAOP");
+
+        return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> getTheLevelBellow(String name) {
+        List<Object> spaces = this.spaceRepository.getTheLevelBellow(name, "CAOP");
+
+        return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
+    }
 }
