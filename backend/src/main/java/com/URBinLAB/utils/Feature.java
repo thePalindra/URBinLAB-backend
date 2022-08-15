@@ -3,7 +3,7 @@ package com.URBinLAB.utils;
 public enum Feature {
     SIGNUP,
     LOGOUT,
-    ADDDOCUMENT,
+    ADD_DOCUMENT,
     LOGIN,
-    GETALLSPACEFROMLEVEL
+    SPATIAL_QUERY
 }

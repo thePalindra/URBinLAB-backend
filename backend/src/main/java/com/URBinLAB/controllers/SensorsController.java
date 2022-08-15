@@ -35,7 +35,7 @@ public class SensorsController implements SensorsAPI {
                                                  String link,
                                                  String variable) {
 
-        if (this.sensorsService.tokenChecker(map, Feature.ADDDOCUMENT))
+        if (this.sensorsService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.sensorsService.createDocument(map, name, description, provider, timeScope, link, variable);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);

@@ -36,7 +36,7 @@ public class SatelliteImageController implements SatelliteImageAPI {
                                                  String satellite,
                                                  String resolution) {
 
-        if (this.satelliteImageService.tokenChecker(map, Feature.ADDDOCUMENT))
+        if (this.satelliteImageService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.satelliteImageService.createDocument(map, name, description, provider, timeScope, link, satellite, resolution);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);

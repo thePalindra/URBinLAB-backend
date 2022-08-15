@@ -133,8 +133,8 @@ public class SpaceService {
         return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
     }
 
-    public ResponseEntity<String> getTheLevelBellow(String name) {
-        List<Object> spaces = this.spaceRepository.getTheLevelBellow(name, "CAOP");
+    public ResponseEntity<String> getTheLevelBellow(String name, Integer level) {
+        List<Object> spaces = this.spaceRepository.getTheLevelBellow(name, "CAOP", level);
 
         return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
     }

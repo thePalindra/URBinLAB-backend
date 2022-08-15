@@ -36,7 +36,7 @@ public class PhotographyController implements PhotographyAPI {
                                                  String resolution,
                                                  Boolean color) {
 
-        if (this.photographyService.tokenChecker(map, Feature.ADDDOCUMENT))
+        if (this.photographyService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.photographyService.createDocument(map, name, description, provider, timeScope, link, resolution, color);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);

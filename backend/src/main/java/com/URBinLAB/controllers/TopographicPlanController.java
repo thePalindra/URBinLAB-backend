@@ -38,7 +38,7 @@ public class TopographicPlanController implements BaseMapAPI {
                                                  String resolution,
                                                  String type) {
 
-        if (this.topographicPlanService.tokenChecker(map, Feature.ADDDOCUMENT))
+        if (this.topographicPlanService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.topographicPlanService.createDocument(map, name, description, provider, timeScope, link, scale, raster, resolution, type);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);

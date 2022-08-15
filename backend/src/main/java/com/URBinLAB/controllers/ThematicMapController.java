@@ -40,7 +40,7 @@ public class ThematicMapController implements ThematicMapAPI {
                                                  String theme,
                                                  String mapType) {
 
-        if (this.thematicMapService.tokenChecker(map, Feature.ADDDOCUMENT))
+        if (this.thematicMapService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.thematicMapService.createDocument(map, name, description, provider, timeScope, link, scale, raster, resolution, type, theme, mapType);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);

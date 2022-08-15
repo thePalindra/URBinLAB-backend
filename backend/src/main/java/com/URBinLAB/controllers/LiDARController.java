@@ -35,7 +35,7 @@ public class LiDARController implements LiDARAPI {
                                                  String link,
                                                  String resolution) {
 
-        if (this.liDARService.tokenChecker(map, Feature.ADDDOCUMENT))
+        if (this.liDARService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.liDARService.createDocument(map, name, description, provider, timeScope, link, resolution);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);

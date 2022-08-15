@@ -37,7 +37,7 @@ public class ReportsController implements ReportsAPI {
                                                  String context,
                                                  String theme) {
 
-        if (this.reportsService.tokenChecker(map, Feature.ADDDOCUMENT))
+        if (this.reportsService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.reportsService.createDocument(map, name, description, provider, timeScope, link, context, theme);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);

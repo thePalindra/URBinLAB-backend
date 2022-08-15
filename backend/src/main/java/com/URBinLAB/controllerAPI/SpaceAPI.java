@@ -23,4 +23,18 @@ public interface SpaceAPI {
     @RequestMapping(value = "/get_all_from_level", method = RequestMethod.POST)
     ResponseEntity<String> getAllFromLevel(@RequestHeader MultiValueMap<String, String> map,
                                            @PathParam("level") Integer level);
+
+    @RequestMapping(value = "/search_by_name", method = RequestMethod.POST)
+    ResponseEntity<String> searchByName(@RequestHeader MultiValueMap<String, String> map,
+                                        @PathParam("name") String name,
+                                        @PathParam("level") Integer level);
+
+    @RequestMapping(value = "/get_everything", method = RequestMethod.POST)
+    ResponseEntity<String> getEverything(@RequestHeader MultiValueMap<String, String> map,
+                                         @PathParam("name") String name);
+
+    @RequestMapping(value = "/get_the_level_bellow", method = RequestMethod.POST)
+    ResponseEntity<String> getTheLevelBellow(@RequestHeader MultiValueMap<String, String> map,
+                                             @PathParam("name") String name,
+                                             @PathParam("level") Integer level);
 }

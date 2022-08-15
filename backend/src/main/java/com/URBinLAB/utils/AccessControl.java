@@ -24,8 +24,8 @@ public class AccessControl {
         map.put(Feature.SIGNUP, true);
         map.put(Feature.LOGIN, true);
         map.put(Feature.LOGOUT, false);
-        map.put(Feature.ADDDOCUMENT, false);
-        map.put(Feature.GETALLSPACEFROMLEVEL, true);
+        map.put(Feature.ADD_DOCUMENT, false);
+        map.put(Feature.SPATIAL_QUERY, true);
         return map;
     }
 
@@ -35,8 +35,8 @@ public class AccessControl {
         map.put(Feature.SIGNUP, false);
         map.put(Feature.LOGIN, false);
         map.put(Feature.LOGOUT, true);
-        map.put(Feature.ADDDOCUMENT, true);
-        map.put(Feature.GETALLSPACEFROMLEVEL, true);
+        map.put(Feature.ADD_DOCUMENT, true);
+        map.put(Feature.SPATIAL_QUERY, true);
         return map;
     }
 

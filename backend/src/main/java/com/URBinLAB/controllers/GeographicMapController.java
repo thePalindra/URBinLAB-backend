@@ -38,7 +38,7 @@ public class GeographicMapController implements BaseMapAPI {
                                                  String resolution,
                                                  String type) {
 
-        if (this.geographicMapService.tokenChecker(map, Feature.ADDDOCUMENT))
+        if (this.geographicMapService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.geographicMapService.createDocument(map, name, description, provider, timeScope, link, scale, raster, resolution, type);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);

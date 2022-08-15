@@ -35,7 +35,7 @@ public class DrawingsController implements DrawingsAPI {
                                                  String link,
                                                  String context) {
 
-        if (this.drawingsService.tokenChecker(map, Feature.ADDDOCUMENT))
+        if (this.drawingsService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.drawingsService.createDocument(map, name, description, provider, timeScope, link, context);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);

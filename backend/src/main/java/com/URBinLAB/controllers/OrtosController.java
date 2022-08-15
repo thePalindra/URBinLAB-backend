@@ -36,7 +36,7 @@ public class OrtosController implements OrtosAPI {
                                                  String resolution,
                                                  Integer scale) {
 
-        if (this.ortosService.tokenChecker(map, Feature.ADDDOCUMENT))
+        if (this.ortosService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.ortosService.createDocument(map, name, description, provider, timeScope, link, scale, resolution);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);

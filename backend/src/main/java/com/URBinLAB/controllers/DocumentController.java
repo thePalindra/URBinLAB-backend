@@ -36,7 +36,7 @@ public class DocumentController implements DocumentAPI {
                                                  Date timeScope,
                                                  String link) {
 
-        if (this.documentService.tokenChecker(map, Feature.ADDDOCUMENT))
+        if (this.documentService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.documentService.createDocument(map, name, description, provider, timeScope, link);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);

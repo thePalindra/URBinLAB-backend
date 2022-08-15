@@ -35,7 +35,7 @@ public class SurveysController implements StatisticsAPI {
                                                  String link,
                                                  String theme) {
 
-        if (this.surveysService.tokenChecker(map, Feature.ADDDOCUMENT))
+        if (this.surveysService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.surveysService.createDocument(map, name, description, provider, timeScope, link, theme);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);

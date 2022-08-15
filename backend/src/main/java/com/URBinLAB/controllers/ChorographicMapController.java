@@ -1,7 +1,6 @@
 package com.URBinLAB.controllers;
 
 import com.URBinLAB.controllerAPI.BaseMapAPI;
-import com.URBinLAB.domains.BaseMap;
 import com.URBinLAB.services.ChorographicMapService;
 import com.URBinLAB.utils.Feature;
 import com.google.gson.Gson;
@@ -39,7 +38,7 @@ public class ChorographicMapController implements BaseMapAPI {
                                                  String resolution,
                                                  String type) {
 
-        if (this.chorographicMapService.tokenChecker(map, Feature.ADDDOCUMENT))
+        if (this.chorographicMapService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.chorographicMapService.createDocument(map, name, description, provider, timeScope, link, scale, raster, resolution, type);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);

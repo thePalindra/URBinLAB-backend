@@ -1,7 +1,6 @@
 package com.URBinLAB.controllers;
 
 import com.URBinLAB.controllerAPI.AerialPhotographyAPI;
-import com.URBinLAB.domains.AerialPhotography;
 import com.URBinLAB.services.AerialPhotographyService;
 import com.URBinLAB.utils.Feature;
 import com.google.gson.Gson;
@@ -36,7 +35,7 @@ public class AerialPhotographyController implements AerialPhotographyAPI {
                                                           String link,
                                                           Integer scale,
                                                           String resolution) {
-        if (this.aerialPhotographyService.tokenChecker(map, Feature.ADDDOCUMENT))
+        if (this.aerialPhotographyService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.aerialPhotographyService.createAerialPhotography(map, name, description, provider, timeScope, link, scale, resolution);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);

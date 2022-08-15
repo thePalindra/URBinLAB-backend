@@ -19,18 +19,22 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
 
     @Query(value = "SELECT d.space_id, ST_AsText(d.space), d.name " +
             "FROM \"space\" d " +
-            "WHERE d.name LIKE :name% AND d.level = :level", nativeQuery = true)
+            "WHERE d.name LIKE :name% " +
+            "AND d.level = :level", nativeQuery = true)
     List<Object> searchByName(@Param("level") Integer level, @Param("name") String name);
 
 
     @Query(value = "SELECT mu.space_id, ST_AsText(mu.space), mu.name " +
             "FROM \"space\" d, \"space\" mu\n" +
-            "WHERE d.name LIKE :name AND d.hierarchy = :hierarchy AND d.space_id = mu.parent", nativeQuery = true)
-    List<Object> getTheLevelBellow(@Param("name") String name, @Param("hierarchy") String hierarchy);
+            "WHERE d.name LIKE :name% " +
+            "AND d.level = :level " +
+            "AND d.hierarchy = :hierarchy " +
+            "AND d.space_id = mu.parent", nativeQuery = true)
+    List<Object> getTheLevelBellow(@Param("name") String name, @Param("hierarchy") String hierarchy, @Param("level") Integer lvl);
 
     @Query(value = "select fr.space_id, ST_AsText(fr.space), fr.name \n" +
             "from \"space\" d, \"space\" mu, \"space\" fr\n" +
-            "where d.name LIKE :name \n" +
+            "where d.name LIKE :name% \n" +
             "and d.level = 1 " +
             "and d.hierarchy = :hierarchy\n" +
             "and d.space_id = mu.parent\n" +

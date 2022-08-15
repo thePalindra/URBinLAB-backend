@@ -35,7 +35,7 @@ public class CensusController implements StatisticsAPI {
                                                  String link,
                                                  String theme) {
 
-        if (this.censusService.tokenChecker(map, Feature.ADDDOCUMENT))
+        if (this.censusService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.censusService.createDocument(map, name, description, provider, timeScope, link, theme);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
