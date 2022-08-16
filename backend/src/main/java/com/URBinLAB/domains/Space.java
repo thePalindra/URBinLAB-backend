@@ -2,7 +2,7 @@ package com.URBinLAB.domains;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import org.geolatte.geom.Geometry;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,7 +23,7 @@ public class Space implements Serializable {
 
     private String hierarchy;
 
-    private transient Geometry space;
+    private String space;
     private String name;
     private Integer level;
     @Column(name="level_name")

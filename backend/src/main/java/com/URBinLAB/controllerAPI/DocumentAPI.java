@@ -21,4 +21,9 @@ public interface DocumentAPI {
                                           @PathParam("timeScope") Date timeScope,
                                           @PathParam("link") String link);
 
+    @RequestMapping(value = "/get_document_by_space_geometry", method = RequestMethod.POST)
+    ResponseEntity<String> getDocumentBySpaceGeometry(@RequestHeader MultiValueMap<String, String> map,
+                                                      @PathParam("space") String space,
+                                                      @PathParam("page") Integer page);
+
 }

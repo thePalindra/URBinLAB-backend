@@ -41,4 +41,15 @@ public class DocumentController implements DocumentAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getDocumentBySpaceGeometry(MultiValueMap<String, String> map,
+                                                             String space,
+                                                             Integer page) {
+
+        if (this.documentService.tokenChecker(map, Feature.SPATIAL_QUERY))
+            return this.documentService.getDocumentBySpaceGeometry(space, page);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }

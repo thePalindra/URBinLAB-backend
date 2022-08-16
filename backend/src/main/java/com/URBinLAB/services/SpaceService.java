@@ -10,6 +10,8 @@ import com.URBinLAB.utils.AccessControl;
 import com.URBinLAB.utils.Feature;
 import com.google.gson.Gson;
 import org.geolatte.geom.Geometry;
+import org.geolatte.geom.crs.CoordinateReferenceSystems;
+import org.geolatte.geom.crs.CoordinateReferenceSystems.*;
 import org.geolatte.geom.codec.Wkt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -93,16 +95,9 @@ public class SpaceService {
 
             Document temp = doc.get();
 
-            Geometry geometry = Wkt.fromWkt(space);
+            this.spaceRepository.insert(this.spaceRepository.getMax() + 1, temp.getName(), space);
 
-            Space newSpace = Space.builder()
-                    .id(this.spaceRepository.count())
-                    .space(geometry)
-                    .name(temp.getName())
-                    .build();
-            newSpace = this.spaceRepository.save(newSpace);
-
-            temp.setSpace(newSpace);
+            temp.setSpace(this.spaceRepository.getById(this.spaceRepository.getMax()));
             this.documentRepository.save(temp);
 
             return new ResponseEntity<>(new Gson().toJson(temp.getId()), HttpStatus.OK);
