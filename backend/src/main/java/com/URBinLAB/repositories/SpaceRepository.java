@@ -1,6 +1,7 @@
 package com.URBinLAB.repositories;
 
 import com.URBinLAB.domains.Space;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.geolatte.geom.Geometry;
 import org.springframework.data.jpa.repository.Query;
@@ -40,5 +41,20 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "and d.space_id = mu.parent\n" +
             "and mu.space_id = fr.parent", nativeQuery = true)
     List<Object> getEverything(@Param("name") String name, @Param("hierarchy") String hierarchy);
+
+    @Query(value = "SELECT s2.name, s2.space_id, d.name, d.document_id, d.type, d.time_scope\n" +
+            "FROM \"space\" s1\n" +
+            "INNER JOIN \"space\" s2 ON s2.parent = s1.space_id\n" +
+            "INNER JOIN \"document\" d ON s2.space_id = d.space_id\n" +
+            "WHERE ST_Contains(s1.space, s2.space)\n" +
+            "AND s1.space_id = :id", nativeQuery = true)
+    List<Object> getAllTheDocuments(Pageable pageable, @Param("id") Long id);
+
+
+    @Query(value = "SELECT s.name, s.space_id, d.name, d.document_id, d.type, d.time_scope\n" +
+            "FROM \"space\" s\n" +
+            "INNER JOIN \"document\" d ON s.space_id = d.space_id\n" +
+            "WHERE ST_Contains(:geometry, s.space)", nativeQuery = true)
+    List<Object> getAllTheDocumentsByGeometry(Pageable pageable, @Param("geometry") Geometry geometry);
 
 }

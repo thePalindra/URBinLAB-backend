@@ -121,21 +121,37 @@ public class SpaceService {
         }
     }
 
-    public ResponseEntity<String> searchByName(String name, Integer level) {
-        List<Object> spaces = this.spaceRepository.searchByName(level, name);
+    public ResponseEntity<String> searchByName(String name,
+                                               Integer level) {
+        try {
 
-        return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
+            List<Object> spaces = this.spaceRepository.searchByName(level, name);
+
+            return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public ResponseEntity<String> getEverything(String name) {
-        List<Object> spaces = this.spaceRepository.getEverything(name, "CAOP");
+        try {
+            List<Object> spaces = this.spaceRepository.getEverything(name, "CAOP");
 
-        return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
     }
 
-    public ResponseEntity<String> getTheLevelBellow(String name, Integer level) {
-        List<Object> spaces = this.spaceRepository.getTheLevelBellow(name, "CAOP", level);
+    public ResponseEntity<String> getTheLevelBellow(String name,
+                                                    Integer level) {
+        try {
 
-        return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
+            List<Object> spaces = this.spaceRepository.getTheLevelBellow(name, "CAOP", level);
+
+            return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
     }
 }

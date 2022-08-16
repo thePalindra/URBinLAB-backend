@@ -29,4 +29,10 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
             , nativeQuery = true)
     List<Object> getDocumentByName(Pageable pageable, @Param("name") String name);
 
+
+    @Query(value = "SELECT d.document_id, d.name, d.type, d.time_scope " +
+            "FROM \"document\" d " +
+            "WHERE d.space_id = :space"
+            , nativeQuery = true)
+    List<Object> getDocumentBySpaceId(Pageable pageable, @Param("space") Long space);
 }

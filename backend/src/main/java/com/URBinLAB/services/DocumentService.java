@@ -7,31 +7,38 @@ import com.URBinLAB.utils.AccessControl;
 import com.URBinLAB.utils.Feature;
 
 import com.google.gson.Gson;
+import org.geolatte.geom.Geometry;
+import org.geolatte.geom.codec.Wkt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class DocumentService {
 
     private DocumentRepository documentRepository;
     private TokenRepository tokenRepository;
-    private PhotographyRepository photographyRepository;
+    private SpaceRepository spaceRepository;
     private final Gson gson = new Gson();
 
     @Autowired
     public DocumentService(DocumentRepository documentRepository,
                            TokenRepository tokenRepository,
-                           PhotographyRepository photographyRepository) {
+                           SpaceRepository spaceRepository) {
 
         this.documentRepository = documentRepository;
         this.tokenRepository = tokenRepository;
-        this.photographyRepository = photographyRepository;
+        this.spaceRepository = spaceRepository;
     }
 
     public boolean tokenChecker (MultiValueMap<String, String> map, Feature feature) {
@@ -87,5 +94,25 @@ public class DocumentService {
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    public ResponseEntity<String> getDocumentBySpaceId(Long id, Integer page) {
+
+        Pageable element = PageRequest.of(page, 10);
+
+        List<List<Object>> list = new ArrayList<>();
+        list.add(this.documentRepository.getDocumentBySpaceId(element,id));
+        list.add(this.spaceRepository.getAllTheDocuments(element, id));
+
+        return new ResponseEntity<>(new Gson().toJson(list), HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> getDocumentBySpaceGeometry(String space, Integer page) {
+
+        Pageable element = PageRequest.of(page, 10);
+
+        Geometry geometry = Wkt.fromWkt(space);
+
+        return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllTheDocumentsByGeometry(element, geometry)), HttpStatus.OK);
     }
 }
