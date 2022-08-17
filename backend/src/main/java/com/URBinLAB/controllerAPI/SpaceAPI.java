@@ -20,6 +20,13 @@ public interface SpaceAPI {
                                     @PathParam("document") Long document,
                                     @PathParam("space") String space);
 
+    @RequestMapping(value = "/add_circle", method = RequestMethod.POST)
+    ResponseEntity<String> addCircle(@RequestHeader MultiValueMap<String, String> map,
+                                     @PathParam("document") Long document,
+                                     @PathParam("lng") Double lng,
+                                     @PathParam("lat") Double lat,
+                                     @PathParam("size") Double size);
+
     @RequestMapping(value = "/get_all_from_level", method = RequestMethod.POST)
     ResponseEntity<String> getAllFromLevel(@RequestHeader MultiValueMap<String, String> map,
                                            @PathParam("level") Integer level);
@@ -27,14 +34,7 @@ public interface SpaceAPI {
     @RequestMapping(value = "/search_by_name", method = RequestMethod.POST)
     ResponseEntity<String> searchByName(@RequestHeader MultiValueMap<String, String> map,
                                         @PathParam("name") String name,
-                                        @PathParam("level") Integer level);
+                                        @PathParam("level") Integer level,
+                                        @PathParam("thisLevel") Integer thisLevel);
 
-    @RequestMapping(value = "/get_everything", method = RequestMethod.POST)
-    ResponseEntity<String> getEverything(@RequestHeader MultiValueMap<String, String> map,
-                                         @PathParam("name") String name);
-
-    @RequestMapping(value = "/get_the_level_bellow", method = RequestMethod.POST)
-    ResponseEntity<String> getTheLevelBellow(@RequestHeader MultiValueMap<String, String> map,
-                                             @PathParam("name") String name,
-                                             @PathParam("level") Integer level);
 }

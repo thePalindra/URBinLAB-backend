@@ -26,4 +26,11 @@ public interface DocumentAPI {
                                                       @PathParam("space") String space,
                                                       @PathParam("page") Integer page);
 
+    @RequestMapping(value = "/get_document_by_space_circle", method = RequestMethod.POST)
+    ResponseEntity<String> getDocumentBySpaceCircle(@RequestHeader MultiValueMap<String, String> map,
+                                                    @PathParam("lng") Double lng,
+                                                    @PathParam("lat") Double lat,
+                                                    @PathParam("size") Double size,
+                                                    @PathParam("page") Integer page);
+
 }

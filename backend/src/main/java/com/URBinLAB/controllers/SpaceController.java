@@ -46,6 +46,18 @@ public class SpaceController implements SpaceAPI {
     }
 
     @Override
+    public ResponseEntity<String> addCircle(MultiValueMap<String, String> map,
+                                            Long document,
+                                            Double lng,
+                                            Double lat,
+                                            Double size) {
+        if (this.spaceService.tokenChecker(map, Feature.ADD_DOCUMENT))
+            return this.spaceService.addCircle(document, lng, lat, size);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
     public ResponseEntity<String> getAllFromLevel(MultiValueMap<String, String> map,
                                                   Integer level) {
 
@@ -58,31 +70,11 @@ public class SpaceController implements SpaceAPI {
     @Override
     public ResponseEntity<String> searchByName(MultiValueMap<String, String> map,
                                                String name,
-                                               Integer level) {
+                                               Integer level,
+                                               Integer thisLevel) {
 
         if (this.spaceService.tokenChecker(map, Feature.SPATIAL_QUERY))
-            return this.spaceService.searchByName(name, level);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
-    }
-
-    @Override
-    public ResponseEntity<String> getEverything(MultiValueMap<String, String> map,
-                                                String name) {
-
-        if (this.spaceService.tokenChecker(map, Feature.SPATIAL_QUERY))
-            return this.spaceService.getEverything(name);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
-    }
-
-    @Override
-    public ResponseEntity<String> getTheLevelBellow(MultiValueMap<String, String> map,
-                                                    String name,
-                                                    Integer level) {
-
-        if (this.spaceService.tokenChecker(map, Feature.SPATIAL_QUERY))
-            return this.spaceService.getTheLevelBellow(name, level);
+            return this.spaceService.searchByName(name, level, thisLevel);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }

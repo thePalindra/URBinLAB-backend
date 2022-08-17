@@ -17,9 +17,15 @@ import java.util.List;
 public interface SpaceRepository extends JpaRepository<Space, Long> {
 
     @Modifying
-    @Query(value = "insert into \"space\" (space_id, \"name\", \"space\") VALUES (:id, :name, ST_GeomFromText(:space))", nativeQuery = true)
+    @Query(value = "insert into \"space\" (space_id, \"name\", \"space\") VALUES (:id, :name, Geography(ST_GeomFromText(:space)))", nativeQuery = true)
     @Transactional
     void insert(@Param("id") Long id, @Param("name") String name, @Param("space") String space);
+
+    @Modifying
+    @Query(value = "insert into \"space\" (space_id, \"name\", \"space\") " +
+            "VALUES (?1, ?2, ST_Buffer(Geography(ST_MakePoint(?3, ?4)), ?5))", nativeQuery = true)
+    @Transactional
+    void insertCircle(Long id, String name, Double lng, Double lat, Double size);
 
     @Query(value = "SELECT max(space_id) FROM \"space\"", nativeQuery = true)
     Long getMax();
@@ -29,43 +35,33 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "ORDER BY s.space_id", nativeQuery = true)
     List<Object> getAllFromLevel(@Param("level") Integer level);
 
-    @Query(value = "SELECT d.space_id, ST_AsText(d.space), d.name " +
-            "FROM \"space\" d " +
+    @Query(value = "SELECT s.space_id, ST_AsText(s.space), s.name " +
+            "FROM \"space\" d, \"space\" s " +
             "WHERE d.name LIKE :name% " +
-            "AND d.level = :level", nativeQuery = true)
-    List<Object> searchByName(@Param("level") Integer level, @Param("name") String name);
-
-
-    @Query(value = "SELECT mu.space_id, ST_AsText(mu.space), mu.name " +
-            "FROM \"space\" d, \"space\" mu\n" +
-            "WHERE d.name LIKE :name% " +
-            "AND d.level = :level " +
-            "AND d.hierarchy = :hierarchy " +
-            "AND d.space_id = mu.parent", nativeQuery = true)
-    List<Object> getTheLevelBellow(@Param("name") String name, @Param("hierarchy") String hierarchy, @Param("level") Integer lvl);
-
-    @Query(value = "select fr.space_id, ST_AsText(fr.space), fr.name \n" +
-            "from \"space\" d, \"space\" mu, \"space\" fr\n" +
-            "where d.name LIKE :name% \n" +
-            "and d.level = 1 " +
-            "and d.hierarchy = :hierarchy\n" +
-            "and d.space_id = mu.parent\n" +
-            "and mu.space_id = fr.parent", nativeQuery = true)
-    List<Object> getEverything(@Param("name") String name, @Param("hierarchy") String hierarchy);
+            "AND d.level = :thisLevel " +
+            "AND s.level = :level " +
+            "AND ST_Contains(Geometry(d.space), Geometry(s.space))", nativeQuery = true)
+    List<Object> searchByName(@Param("level") Integer level, @Param("name") String name, @Param("thisLevel") Integer thisLevel);
 
     @Query(value = "SELECT s2.name, s2.space_id, d.name, d.document_id, d.type, d.time_scope\n" +
             "FROM \"space\" s1\n" +
-            "INNER JOIN \"space\" s2 ON s2.parent = s1.space_id\n" +
+            "INNER JOIN \"space\" s2 ON s2.space_id = s1.space_id\n" +
             "INNER JOIN \"document\" d ON s2.space_id = d.space_id\n" +
-            "WHERE ST_Contains(s1.space, s2.space)\n" +
-            "AND s1.space_id = :id", nativeQuery = true)
+            "WHERE s1.space_id = :id \n" +
+            "AND ST_Contains(Geometry(s1.space), Geometry(s2.space))", nativeQuery = true)
     List<Object> getAllTheDocuments(Pageable pageable, @Param("id") Long id);
 
 
-    @Query(value = "SELECT d.space_id, d.name, d.document_id, d.type, d.time_scope\n" +
+    @Query(value = "SELECT DISTINCT d.document_id, d.space_id, d.name, d.type, d.time_scope\n" +
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d ON s.space_id = d.space_id\n" +
-            "WHERE ST_Contains(ST_GeomFromText(:space), s.space)", nativeQuery = true)
+            "WHERE ST_Contains(ST_GeomFromText(:space, 4326), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsByGeometry(Pageable pageable, @Param("space") String space);
 
+
+    @Query(value = "SELECT DISTINCT d.document_id, d.space_id, d.name, d.type, d.time_scope\n" +
+            "FROM \"space\" s\n" +
+            "INNER JOIN \"document\" d ON s.space_id = d.space_id\n" +
+            "WHERE ST_Contains(Geometry(ST_Buffer(Geography(ST_MakePoint(?1, ?2)), ?3)), Geometry(s.space))", nativeQuery = true)
+    List<Object> getAllTheDocumentsByCircle(Pageable pageable, Double lng, Double lat, Double size);
 }

@@ -106,6 +106,31 @@ public class SpaceService {
         }
     }
 
+    public ResponseEntity<String> addCircle(Long document,
+                                            Double lng,
+                                            Double lat,
+                                            Double size) {
+        try {
+
+            System.out.println(size);
+
+            Optional<Document> doc = this.documentRepository.findById(document);
+            if (doc.isEmpty())
+                return new ResponseEntity<>(new Gson().toJson("No document found!"), HttpStatus.BAD_REQUEST);
+
+            Document temp = doc.get();
+
+            this.spaceRepository.insertCircle(this.spaceRepository.getMax() + 1, temp.getName(), lng, lat, size);
+
+            temp.setSpace(this.spaceRepository.getById(this.spaceRepository.getMax()));
+            this.documentRepository.save(temp);
+
+            return new ResponseEntity<>(new Gson().toJson(temp.getId()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
     public ResponseEntity<String> getAllFromLevel(Integer level) {
         try {
             List<Object> spaces = this.spaceRepository.getAllFromLevel(level);
@@ -117,36 +142,16 @@ public class SpaceService {
     }
 
     public ResponseEntity<String> searchByName(String name,
-                                               Integer level) {
+                                               Integer level,
+                                               Integer thisLevel) {
         try {
 
-            List<Object> spaces = this.spaceRepository.searchByName(level, name);
+            List<Object> spaces = this.spaceRepository.searchByName(level, name, thisLevel);
 
             return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
-    }
 
-    public ResponseEntity<String> getEverything(String name) {
-        try {
-            List<Object> spaces = this.spaceRepository.getEverything(name, "CAOP");
-
-            return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    public ResponseEntity<String> getTheLevelBellow(String name,
-                                                    Integer level) {
-        try {
-
-            List<Object> spaces = this.spaceRepository.getTheLevelBellow(name, "CAOP", level);
-
-            return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
-        }
     }
 }
