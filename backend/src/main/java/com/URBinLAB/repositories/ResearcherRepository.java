@@ -20,4 +20,10 @@ public interface ResearcherRepository extends JpaRepository<Researcher, Long> {
 
     @Query("SELECT r FROM Researcher r WHERE r.name = :name AND r.password = :password")
     Researcher login(@Param("name") String name,@Param("password") String password);
+
+    @Query(value = "SELECT r.researcher_id, r.name " +
+            "FROM \"researcher\" r " +
+            "INNER JOIN \"document\" d ON r.researcher_id = d.archiver_id "
+            , nativeQuery = true)
+    List<Object> getAllArchivers();
 }

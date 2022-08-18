@@ -28,4 +28,7 @@ public interface ResearcherAPI {
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     ResponseEntity<String> logout(@RequestHeader MultiValueMap<String, String> map);
+
+    @RequestMapping(value = "/get_archivers", method = RequestMethod.POST)
+    ResponseEntity<String> getArchivers(@RequestHeader MultiValueMap<String, String> map);
 }

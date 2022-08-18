@@ -52,4 +52,12 @@ public class ResearcherController implements ResearcherAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getArchivers(MultiValueMap<String, String> map) {
+        if (this.researcherService.tokenChecker(map, Feature.SPATIAL_QUERY))
+            return this.researcherService.getArchivers();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }
