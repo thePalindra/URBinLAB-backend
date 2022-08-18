@@ -5,8 +5,12 @@ import com.URBinLAB.controllerAPI.CollectionAPI;
 import com.URBinLAB.domains.Collection;
 import com.URBinLAB.services.CollectionService;
 
+import com.URBinLAB.utils.Feature;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
@@ -21,4 +25,11 @@ public class CollectionController implements CollectionAPI {
         this.collectionService = collectionService;
     }
 
+    @Override
+    public ResponseEntity<String> getCollections(MultiValueMap<String, String> map) {
+        if (this.collectionService.tokenChecker(map, Feature.SPATIAL_QUERY))
+            return this.collectionService.getAllCollections();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }
