@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.websocket.server.PathParam;
 import java.util.Date;
+import java.util.Set;
 
 public interface DocumentAPI {
 
@@ -32,5 +33,16 @@ public interface DocumentAPI {
                                                     @PathParam("lat") Double lat,
                                                     @PathParam("size") Double size,
                                                     @PathParam("page") Integer page);
+
+    @RequestMapping(value = "/big_query", method = RequestMethod.POST)
+    ResponseEntity<String> bigQuery(@RequestHeader MultiValueMap<String, String> map,
+                                    @PathParam("name") String name,
+                                    @PathParam("provider") String provider,
+                                    @PathParam("armax") Long archiverMax,
+                                    @PathParam("armin") Long archiverMin,
+                                    @PathParam("yearmax") Long maxYear,
+                                    @PathParam("yearmin") Long minYear,
+                                    @PathParam("types") Set<String> types,
+                                    @PathParam("page") Integer page);
 
 }

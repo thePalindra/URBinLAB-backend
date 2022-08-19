@@ -22,6 +22,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class DocumentService {
@@ -96,7 +97,8 @@ public class DocumentService {
         }
     }
 
-    public ResponseEntity<String> getDocumentBySpaceId(Long id, Integer page) {
+    public ResponseEntity<String> getDocumentBySpaceId(Long id,
+                                                       Integer page) {
 
         Pageable element = PageRequest.of(page, 10);
 
@@ -107,7 +109,8 @@ public class DocumentService {
         return new ResponseEntity<>(new Gson().toJson(list), HttpStatus.OK);
     }
 
-    public ResponseEntity<String> getDocumentBySpaceGeometry(String space, Integer page) {
+    public ResponseEntity<String> getDocumentBySpaceGeometry(String space,
+                                                             Integer page) {
 
 
         Pageable element = PageRequest.of(page, 10);
@@ -115,11 +118,29 @@ public class DocumentService {
         return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllTheDocumentsByGeometry(element, space)), HttpStatus.OK);
     }
 
-    public ResponseEntity<String> getDocumentBySpaceCircle(Double lng, Double lat, Double size, Integer page) {
+    public ResponseEntity<String> getDocumentBySpaceCircle(Double lng,
+                                                           Double lat,
+                                                           Double size,
+                                                           Integer page) {
 
 
         Pageable element = PageRequest.of(page, 10);
 
         return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllTheDocumentsByCircle(element, lng, lat, size)), HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> getElementsFromQuery(String name,
+                                                       String provider,
+                                                       Long archiverMax,
+                                                       Long archiverMin,
+                                                       Long maxYear,
+                                                       Long minYear,
+                                                       Set<String> types,
+                                                       Integer page) {
+
+
+        Pageable element = PageRequest.of(page, 50);
+
+        return new ResponseEntity<>(new Gson().toJson(this.documentRepository.bigFormQuery(element, name, provider, archiverMax, archiverMin, maxYear, minYear, types)), HttpStatus.OK);
     }
 }

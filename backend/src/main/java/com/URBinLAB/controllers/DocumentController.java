@@ -14,6 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.Set;
 
 
 @CrossOrigin
@@ -62,6 +63,23 @@ public class DocumentController implements DocumentAPI {
 
         if (this.documentService.tokenChecker(map, Feature.SPATIAL_QUERY))
             return this.documentService.getDocumentBySpaceCircle(lng, lat, size, page);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> bigQuery(MultiValueMap<String, String> map,
+                                           String name,
+                                           String provider,
+                                           Long archiverMax,
+                                           Long archiverMin,
+                                           Long maxYear,
+                                           Long minYear,
+                                           Set<String> types,
+                                           Integer page) {
+
+        if (this.documentService.tokenChecker(map, Feature.SPATIAL_QUERY))
+            return this.documentService.getElementsFromQuery(name, provider, archiverMax, archiverMin, maxYear, minYear, types, page);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
