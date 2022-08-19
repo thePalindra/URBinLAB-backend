@@ -19,10 +19,7 @@ import org.springframework.util.MultiValueMap;
 
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class DocumentService {
@@ -134,11 +131,11 @@ public class DocumentService {
                                                        Long archiver,
                                                        Long maxYear,
                                                        Long minYear,
-                                                       Set<String> types,
+                                                       String[] types,
                                                        Integer page) {
 
-        Pageable element = PageRequest.of(page, 50);
+        Pageable element = PageRequest.of(0, 50);
 
-        return new ResponseEntity<>(new Gson().toJson(this.documentRepository.bigFormQuery(name, provider, new Long(20), archiver, maxYear, minYear, types, element)), HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson(this.documentRepository.bigFormQuery(name, provider, Long.getLong("0"), archiver, maxYear, minYear, Arrays.asList(types), element)), HttpStatus.OK);
     }
 }

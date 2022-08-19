@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.websocket.server.PathParam;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 public interface DocumentAPI {
@@ -41,7 +42,7 @@ public interface DocumentAPI {
                                     @PathParam("archiver") Long archiverMax,
                                     @PathParam("yearmax") Long maxYear,
                                     @PathParam("yearmin") Long minYear,
-                                    @PathParam("types") Set<String> types,
+                                    @PathParam("types") String[] types,
                                     @PathParam("page") Integer page);
 
 }

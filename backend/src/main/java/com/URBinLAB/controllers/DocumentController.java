@@ -14,6 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 
@@ -74,7 +75,7 @@ public class DocumentController implements DocumentAPI {
                                            Long archiver,
                                            Long maxYear,
                                            Long minYear,
-                                           Set<String> types,
+                                           String[] types,
                                            Integer page) {
 
         if (this.documentService.tokenChecker(map, Feature.SPATIAL_QUERY))

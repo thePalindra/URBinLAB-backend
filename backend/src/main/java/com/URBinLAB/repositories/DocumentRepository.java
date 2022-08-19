@@ -37,38 +37,38 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
             , nativeQuery = true)
     List<Object> getDocumentBySpaceId(Pageable pageable, @Param("space") Long space);
 
-    @Query(value = "SELECT *\n" +
+    @Query(value = "SELECT res.document_id\n" +
             "FROM (SELECT *\n" +
             "\tFROM \"document\" d) res\n" +
             "INNER JOIN (SELECT * \n" +
             "\tFROM \"document\" d\n" +
-            "\tWHERE d.name LIKE ?1%) byName \n" +
+            "\tWHERE d.name LIKE :name%) byName \n" +
             "ON byName.document_id=res.document_id\n" +
             "INNER JOIN (SELECT d.document_id\n" +
             "\tFROM \"document\" d\n" +
-            "\tWHERE d.provider LIKE ?2%) byProvider\n" +
+            "\tWHERE d.provider LIKE :provider%) byProvider\n" +
             "ON byProvider.document_id=res.document_id\n" +
             "INNER JOIN (SELECT d.document_id\n" +
             "\tFROM \"document\" d\n" +
-            "\tWHERE d.archiver_id>=?3 " +
-            "\tAND d.archiver_id<=?4) byArchiver\n" +
+            "\tWHERE d.archiver_id >= CAST(CAST(:maxar AS TEXT) AS integer) " +
+            "\tAND d.archiver_id <= CAST(CAST(:minar AS TEXT) AS integer)) byArchiver\n" +
             "ON byArchiver.document_id=res.document_id\n" +
             "INNER JOIN (SELECT d.document_id\n" +
             "\tFROM \"document\" d\n" +
-            "\tWHERE EXTRACT(YEAR FROM d.time_scope)>=?5\n" +
-            "\tand EXTRACT(YEAR FROM d.time_scope)<=?6) byYear\n" +
+            "\tWHERE EXTRACT(YEAR FROM d.time_scope) >= CAST(CAST(:maxy AS TEXT) AS integer)\n" +
+            "\tand EXTRACT(YEAR FROM d.time_scope) <= CAST(CAST(:miny AS TEXT) AS integer)) byYear\n" +
             "ON byYear.document_id=res.document_id\n" +
             "INNER JOIN (SELECT d.document_id\n" +
             "\tFROM \"document\" d\n" +
-            "\tWHERE d.type IN ?7) byType\n" +
+            "\tWHERE d.type IN :types) byType\n" +
             "ON byType.document_id=res.document_id"
             , nativeQuery = true)
-    List<Object> bigFormQuery(String name,
-                              String provider,
-                              Long archiverMax,
-                              Long archiverMin,
-                              Long yearMax,
-                              Long yearMin,
-                              Set<String> types,
+    List<Object> bigFormQuery(@Param("name")String name,
+                              @Param("provider")String provider,
+                              @Param("maxar")Long archiverMax,
+                              @Param("minar")Long archiverMin,
+                              @Param("maxy")Long yearMax,
+                              @Param("miny")Long yearMin,
+                              @Param("types") List<String> types,
                               Pageable pageable);
 }
