@@ -79,7 +79,7 @@ public class TopographicMapService {
 
             Document document = Document.builder()
                     .archiver(temp.getResearcher())
-                    .type("TOPOGRAHPICMAP")
+                    .type("TOPOGRAPHIC MAP")
                     .description(description)
                     .provider(provider)
                     .timeScope(timeScope)

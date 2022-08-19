@@ -80,7 +80,7 @@ public class TopographicPlanService {
 
             Document document = Document.builder()
                     .archiver(temp.getResearcher())
-                    .type("TOPOGRAPHICPLAN")
+                    .type("TOPOGRAPHIC PLAN")
                     .description(description)
                     .provider(provider)
                     .timeScope(timeScope)

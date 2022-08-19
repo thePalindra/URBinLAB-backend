@@ -72,7 +72,7 @@ public class ThematicStatisticsService {
 
             Document document = Document.builder()
                     .archiver(temp.getResearcher())
-                    .type("THEMATICSTATISTICS")
+                    .type("THEMATIC STATISTICS")
                     .description(description)
                     .provider(provider)
                     .timeScope(timeScope)

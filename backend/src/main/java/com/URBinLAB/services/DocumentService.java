@@ -131,16 +131,14 @@ public class DocumentService {
 
     public ResponseEntity<String> getElementsFromQuery(String name,
                                                        String provider,
-                                                       Long archiverMax,
-                                                       Long archiverMin,
+                                                       Long archiver,
                                                        Long maxYear,
                                                        Long minYear,
                                                        Set<String> types,
                                                        Integer page) {
 
-
         Pageable element = PageRequest.of(page, 50);
 
-        return new ResponseEntity<>(new Gson().toJson(this.documentRepository.bigFormQuery(element, name, provider, archiverMax, archiverMin, maxYear, minYear, types)), HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson(this.documentRepository.bigFormQuery(name, provider, new Long(20), archiver, maxYear, minYear, types, element)), HttpStatus.OK);
     }
 }

@@ -42,33 +42,33 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
             "\tFROM \"document\" d) res\n" +
             "INNER JOIN (SELECT * \n" +
             "\tFROM \"document\" d\n" +
-            "\tWHERE d.name LIKE :mame%) byName \n" +
+            "\tWHERE d.name LIKE ?1%) byName \n" +
             "ON byName.document_id=res.document_id\n" +
             "INNER JOIN (SELECT d.document_id\n" +
             "\tFROM \"document\" d\n" +
-            "\tWHERE d.provider LIKE :provider%) byProvider\n" +
+            "\tWHERE d.provider LIKE ?2%) byProvider\n" +
             "ON byProvider.document_id=res.document_id\n" +
             "INNER JOIN (SELECT d.document_id\n" +
             "\tFROM \"document\" d\n" +
-            "\tWHERE d.archiver_id>=:archiverMin " +
-            "\tAND d.archiver_id<=:archiverMax) byArchiver\n" +
+            "\tWHERE d.archiver_id>=?3 " +
+            "\tAND d.archiver_id<=?4) byArchiver\n" +
             "ON byArchiver.document_id=res.document_id\n" +
             "INNER JOIN (SELECT d.document_id\n" +
             "\tFROM \"document\" d\n" +
-            "\tWHERE EXTRACT(YEAR FROM d.time_scope)>=:yearMin\n" +
-            "\tand EXTRACT(YEAR FROM d.time_scope)<=:yearMax) byYear\n" +
+            "\tWHERE EXTRACT(YEAR FROM d.time_scope)>=?5\n" +
+            "\tand EXTRACT(YEAR FROM d.time_scope)<=?6) byYear\n" +
             "ON byYear.document_id=res.document_id\n" +
             "INNER JOIN (SELECT d.document_id\n" +
             "\tFROM \"document\" d\n" +
-            "\tWHERE d.type IN :types) byType\n" +
+            "\tWHERE d.type IN ?7) byType\n" +
             "ON byType.document_id=res.document_id"
             , nativeQuery = true)
-    List<Object> bigFormQuery(Pageable pageable,
-                              @Param("name") String name,
-                              @Param("provider") String provider,
-                              @Param("archiverMax") Long archiverMax,
-                              @Param("archiverMin") Long archiverMin,
-                              @Param("yearMax") Long yearMax,
-                              @Param("yearMin") Long yearMin,
-                              @Param("types") Set<String> types);
+    List<Object> bigFormQuery(String name,
+                              String provider,
+                              Long archiverMax,
+                              Long archiverMin,
+                              Long yearMax,
+                              Long yearMin,
+                              Set<String> types,
+                              Pageable pageable);
 }

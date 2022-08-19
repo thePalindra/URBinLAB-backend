@@ -79,7 +79,7 @@ public class ChorographicMapService {
 
             Document document = Document.builder()
                     .archiver(temp.getResearcher())
-                    .type("CHOROGRAPHICMAP")
+                    .type("CHOROGRAPHIC MAP")
                     .description(description)
                     .provider(provider)
                     .timeScope(timeScope)

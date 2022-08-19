@@ -79,7 +79,7 @@ public class GeographicMapService {
 
             Document document = Document.builder()
                     .archiver(temp.getResearcher())
-                    .type("GEOGRAPHICMAP")
+                    .type("GEOGRAPHIC MAP")
                     .description(description)
                     .provider(provider)
                     .timeScope(timeScope)

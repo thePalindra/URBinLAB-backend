@@ -76,7 +76,7 @@ public class ThematicMapService {
 
             Document document = Document.builder()
                     .archiver(temp.getResearcher())
-                    .type("THEMATICMAP")
+                    .type("THEMATIC MAP")
                     .description(description)
                     .provider(provider)
                     .timeScope(timeScope)
