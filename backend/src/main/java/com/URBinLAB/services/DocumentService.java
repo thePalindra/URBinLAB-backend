@@ -134,15 +134,7 @@ public class DocumentService {
                                                        String[] types,
                                                        Integer page) {
 
-        Pageable element = PageRequest.of(0, 50);
-
-        System.out.println(name);
-        System.out.println(provider);
-        System.out.println(archiver);
-        System.out.println(maxYear);
-        System.out.println(minYear);
-        System.out.println(page);
-        System.out.println(types[0]);
+        Pageable element = PageRequest.of(page, 50);
 
         return new ResponseEntity<>(new Gson().toJson(this.documentRepository.bigFormQuery(name, provider, archiver, new Long(0), maxYear, minYear, Arrays.asList(types), element)), HttpStatus.OK);
     }
