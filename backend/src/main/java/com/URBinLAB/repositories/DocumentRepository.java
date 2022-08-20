@@ -50,13 +50,13 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
             "ON byProvider.document_id=res.document_id\n" +
             "INNER JOIN (SELECT d.document_id\n" +
             "\tFROM \"document\" d\n" +
-            "\tWHERE d.archiver_id >= CAST(CAST(:maxar AS TEXT) AS integer) " +
-            "\tAND d.archiver_id <= CAST(CAST(:minar AS TEXT) AS integer)) byArchiver\n" +
+            "\tWHERE d.archiver_id >= :minar " +
+            "\tAND d.archiver_id <= :maxar) byArchiver\n" +
             "ON byArchiver.document_id=res.document_id\n" +
             "INNER JOIN (SELECT d.document_id\n" +
             "\tFROM \"document\" d\n" +
-            "\tWHERE EXTRACT(YEAR FROM d.time_scope) >= CAST(CAST(:maxy AS TEXT) AS integer)\n" +
-            "\tand EXTRACT(YEAR FROM d.time_scope) <= CAST(CAST(:miny AS TEXT) AS integer)) byYear\n" +
+            "\tWHERE EXTRACT(YEAR FROM d.time_scope) >= CAST(CAST(:miny AS TEXT) AS integer)\n" +
+            "\tand EXTRACT(YEAR FROM d.time_scope) <= CAST(CAST(:maxy AS TEXT) AS integer)) byYear\n" +
             "ON byYear.document_id=res.document_id\n" +
             "INNER JOIN (SELECT d.document_id\n" +
             "\tFROM \"document\" d\n" +
@@ -67,8 +67,8 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
                               @Param("provider")String provider,
                               @Param("maxar")Long archiverMax,
                               @Param("minar")Long archiverMin,
-                              @Param("maxy")Long yearMax,
-                              @Param("miny")Long yearMin,
+                              @Param("maxy")Integer yearMax,
+                              @Param("miny")Integer yearMin,
                               @Param("types") List<String> types,
                               Pageable pageable);
 }

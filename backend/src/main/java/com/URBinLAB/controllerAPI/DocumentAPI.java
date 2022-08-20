@@ -1,8 +1,10 @@
 package com.URBinLAB.controllerAPI;
 
 
+import com.URBinLAB.utils.GodHelpSpring;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,12 +39,6 @@ public interface DocumentAPI {
 
     @RequestMapping(value = "/big_query", method = RequestMethod.POST)
     ResponseEntity<String> bigQuery(@RequestHeader MultiValueMap<String, String> map,
-                                    @PathParam("name") String name,
-                                    @PathParam("provider") String provider,
-                                    @PathParam("archiver") Long archiverMax,
-                                    @PathParam("yearmax") Long maxYear,
-                                    @PathParam("yearmin") Long minYear,
-                                    @PathParam("types") String[] types,
-                                    @PathParam("page") Integer page);
+                                    @PathParam("res") GodHelpSpring ghs);
 
 }

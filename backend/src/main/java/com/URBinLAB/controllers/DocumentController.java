@@ -6,6 +6,7 @@ import com.URBinLAB.services.DocumentService;
 
 import com.URBinLAB.utils.Feature;
 
+import com.URBinLAB.utils.GodHelpSpring;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -70,16 +71,10 @@ public class DocumentController implements DocumentAPI {
 
     @Override
     public ResponseEntity<String> bigQuery(MultiValueMap<String, String> map,
-                                           String name,
-                                           String provider,
-                                           Long archiver,
-                                           Long maxYear,
-                                           Long minYear,
-                                           String[] types,
-                                           Integer page) {
+                                           GodHelpSpring ghs) {
 
         if (this.documentService.tokenChecker(map, Feature.SPATIAL_QUERY))
-            return this.documentService.getElementsFromQuery(name, provider, archiver, maxYear, minYear, types, page);
+            return this.documentService.getElementsFromQuery(ghs.getName(), ghs.getProvider(), ghs.getArchiver(), ghs.getMax(), ghs.getMin(), ghs.getTypes(), ghs.getPage());
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
