@@ -75,7 +75,7 @@ public class FileService {
                 return new ResponseEntity<>(new Gson().toJson("No document found!"), HttpStatus.BAD_REQUEST);
 
             File saved = File.builder()
-                    .name(file.getName())
+                    .name(file.getOriginalFilename())
                     .file(file.getBytes())
                     .document(doc.get())
                     .creationDate(new Date())

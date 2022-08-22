@@ -42,7 +42,7 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
             , nativeQuery = true)
     Long getMaxArchiverId();
 
-    @Query(value = "SELECT res.document_id\n" +
+    @Query(value = "SELECT res.document_id, res.space_id, res.name, res.type, EXTRACT(YEAR FROM res.time_scope)\n" +
             "FROM (SELECT *\n" +
             "\tFROM \"document\" d) res\n" +
             "INNER JOIN (SELECT * \n" +
