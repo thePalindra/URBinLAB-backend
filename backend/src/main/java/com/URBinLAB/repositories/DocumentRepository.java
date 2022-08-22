@@ -37,6 +37,11 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
             , nativeQuery = true)
     List<Object> getDocumentBySpaceId(Pageable pageable, @Param("space") Long space);
 
+    @Query(value = "SELECT MAX(d.archiver_id) " +
+            "FROM \"document\" d"
+            , nativeQuery = true)
+    Long getMaxArchiverId();
+
     @Query(value = "SELECT res.document_id\n" +
             "FROM (SELECT *\n" +
             "\tFROM \"document\" d) res\n" +

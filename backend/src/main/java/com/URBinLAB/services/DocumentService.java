@@ -134,8 +134,13 @@ public class DocumentService {
                                                        String[] types,
                                                        Integer page) {
 
+        Long minArch = new Long(0);
+        if (archiver==0)
+            archiver = this.documentRepository.getMaxArchiverId();
+        else
+            minArch = archiver;
         Pageable element = PageRequest.of(page, 50);
 
-        return new ResponseEntity<>(new Gson().toJson(this.documentRepository.bigFormQuery(name, provider, archiver, new Long(0), maxYear, minYear, Arrays.asList(types), element)), HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson(this.documentRepository.bigFormQuery(name, provider, archiver, minArch, maxYear, minYear, Arrays.asList(types), element)), HttpStatus.OK);
     }
 }
