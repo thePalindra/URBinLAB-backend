@@ -7,8 +7,6 @@ import com.URBinLAB.utils.AccessControl;
 import com.URBinLAB.utils.Feature;
 
 import com.google.gson.Gson;
-import org.geolatte.geom.Geometry;
-import org.geolatte.geom.codec.Wkt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
-
-import java.lang.reflect.Type;
 import java.util.*;
 
 @Service
