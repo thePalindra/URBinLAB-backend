@@ -6,8 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage 
 import json
 import requests
-import numpy as np
 import time
+import os
 
 
 
@@ -53,7 +53,6 @@ def transform_raster(request):
 @csrf_exempt
 def transform_vector(request):
     if request.method == "POST":
-        count=0
         file = request.FILES["file"]
         filename = file.name
         fs = FileSystemStorage()
@@ -63,13 +62,13 @@ def transform_vector(request):
         for i in aux:
             name = i.name
             fs.save(UPLOAD_FOLDER + name, i)
-
-        time.sleep(1)
         
         res = conversion(filename)
-        
-        #with open(RESULT_FOLDER + filename[:-3] + "json", "w") as f:
-        #    json.dump(res, f)
+
+        os.remove(UPLOAD_FOLDER + filename)
+        for i in aux:
+            name = i.name
+            os.remove(UPLOAD_FOLDER + name)
 
     return HttpResponse(open(RESULT_FOLDER + filename[:-3] + "json"))
 
@@ -108,7 +107,7 @@ def conversion(filename):
     while inFeature:
         geom = inFeature.GetGeometryRef()
         geom.Transform(coordTrans)
-        print(type(geom))
+        print(geom)
         outFeature = ogr.Feature(outLayerDefn)
         outFeature.SetGeometry(geom)
         for i in range(0, outLayerDefn.GetFieldCount()):
