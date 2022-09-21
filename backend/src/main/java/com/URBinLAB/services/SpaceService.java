@@ -154,4 +154,15 @@ public class SpaceService {
         }
 
     }
+
+    public ResponseEntity<String> getAllHierarchies() {
+        try {
+
+            List<Object> spaces = this.spaceRepository.getAllHierarchies();
+
+            return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

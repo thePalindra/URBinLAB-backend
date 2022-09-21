@@ -64,4 +64,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "INNER JOIN \"document\" d ON s.space_id = d.space_id\n" +
             "WHERE ST_Contains(Geometry(ST_Buffer(Geography(ST_MakePoint(?1, ?2)), ?3)), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsByCircle(Pageable pageable, Double lng, Double lat, Double size);
+
+    @Query(value = "SELECT DISTINCT s.hierarchy from \"space\" s", nativeQuery = true)
+    List<Object> getAllHierarchies();
 }

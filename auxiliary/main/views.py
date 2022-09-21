@@ -45,6 +45,11 @@ def transform_raster(request):
                           geo_transform[3]],
                "limit": [geo_transform[1] * warp.RasterXSize + geo_transform[0],
                          geo_transform[5] * warp.RasterXSize + geo_transform[3]]}
+                         
+        os.remove(UPLOAD_FOLDER + filename)
+        for i in aux:
+            name = i.name
+            os.remove(UPLOAD_FOLDER + name)
 
     return HttpResponse(json.dumps(res))
 

@@ -37,4 +37,7 @@ public interface SpaceAPI {
                                         @PathParam("level") Integer level,
                                         @PathParam("thisLevel") Integer thisLevel);
 
+    @RequestMapping(value = "/get_hierarchy", method = RequestMethod.POST)
+    ResponseEntity<String> getAllHierarchies(@RequestHeader MultiValueMap<String, String> map);
+
 }

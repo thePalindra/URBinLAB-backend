@@ -78,4 +78,12 @@ public class SpaceController implements SpaceAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getAllHierarchies(MultiValueMap<String, String> map) {
+        if (this.spaceService.tokenChecker(map, Feature.SPATIAL_QUERY))
+            return this.spaceService.getAllHierarchies();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }
