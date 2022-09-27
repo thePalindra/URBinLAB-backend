@@ -36,12 +36,11 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
     List<Object> getAllFromLevel(@Param("level") Integer level);
 
     @Query(value = "SELECT s.space_id, ST_AsText(s.space), s.name " +
-            "FROM \"space\" d, \"space\" s " +
-            "WHERE d.name LIKE :name% " +
-            "AND d.level = :thisLevel " +
-            "AND s.level = :level " +
-            "AND ST_Contains(Geometry(d.space), Geometry(s.space))", nativeQuery = true)
-    List<Object> searchByName(@Param("level") Integer level, @Param("name") String name, @Param("thisLevel") Integer thisLevel);
+            "FROM \"space\" s " +
+            "WHERE s.hierarchy = :hierarchy " +
+            "AND s.level_name = :level " +
+            "AND s.name LIKE %:name% " , nativeQuery = true)
+    List<Object> searchByName(@Param("name") String name, @Param("level") String level, @Param("hierarchy") String hierarchy);
 
     @Query(value = "SELECT s2.name, s2.space_id, d.name, d.document_id, d.type, d.time_scope\n" +
             "FROM \"space\" s1\n" +
@@ -65,8 +64,9 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "WHERE ST_Contains(Geometry(ST_Buffer(Geography(ST_MakePoint(?1, ?2)), ?3)), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsByCircle(Pageable pageable, Double lng, Double lat, Double size);
 
-    @Query(value = "SELECT DISTINCT s.hierarchy, array_agg(DISTINCT s.level_name) " +
+    @Query(value = "SELECT DISTINCT s.hierarchy, string_agg(DISTINCT s.level_name, ' ') " +
             "FROM \"space\" s " +
+            "WHERE s.hierarchy is not null " +
             "GROUP BY s.hierarchy", nativeQuery = true)
     List<Object> getAllHierarchies();
 }

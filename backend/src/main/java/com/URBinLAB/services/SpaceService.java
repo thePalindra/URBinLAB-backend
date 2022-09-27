@@ -142,17 +142,16 @@ public class SpaceService {
     }
 
     public ResponseEntity<String> searchByName(String name,
-                                               Integer level,
-                                               Integer thisLevel) {
+                                               String level,
+                                               String hierarchy) {
         try {
 
-            List<Object> spaces = this.spaceRepository.searchByName(level, name, thisLevel);
+            List<Object> spaces = this.spaceRepository.searchByName(name, level, hierarchy);
 
             return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
-
     }
 
     public ResponseEntity<String> getAllHierarchies() {

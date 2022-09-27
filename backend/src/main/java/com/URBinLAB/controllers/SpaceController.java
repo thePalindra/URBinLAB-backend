@@ -70,11 +70,11 @@ public class SpaceController implements SpaceAPI {
     @Override
     public ResponseEntity<String> searchByName(MultiValueMap<String, String> map,
                                                String name,
-                                               Integer level,
-                                               Integer thisLevel) {
+                                               String level,
+                                               String hierarchy) {
 
         if (this.spaceService.tokenChecker(map, Feature.SPATIAL_QUERY))
-            return this.spaceService.searchByName(name, level, thisLevel);
+            return this.spaceService.searchByName(name, level, hierarchy);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
