@@ -57,6 +57,8 @@ def transform_raster(request):
 # Unusable for now
 @csrf_exempt
 def transform_vector(request):
+    print(request.method)
+    print(request.FILES)
     if request.method == "POST":
         file = request.FILES["file"]
         filename = file.name
