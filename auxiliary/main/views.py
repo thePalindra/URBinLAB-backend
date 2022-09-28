@@ -41,11 +41,16 @@ def transform_raster(request):
         ds = gdal.Open(UPLOAD_FOLDER + filename, gdal.GA_ReadOnly)
         warp = gdal.Warp(RESULT_FOLDER + filename, ds, dstSRS='EPSG:4326')
         geo_transform = warp.GetGeoTransform()
-        res = {"origin": [geo_transform[0],
+        res = { "origin": [geo_transform[0],
                           geo_transform[3]],
-               "limit": [geo_transform[1] * warp.RasterXSize + geo_transform[0],
-                         geo_transform[5] * warp.RasterXSize + geo_transform[3]]}
-                         
+                "limit": [geo_transform[1] * warp.RasterXSize + geo_transform[0],
+                         geo_transform[5] * warp.RasterXSize + geo_transform[3]],
+                "EPSG": 4326}
+
+         
+        ds = None
+        warp = None
+        geo_transform = None
         os.remove(UPLOAD_FOLDER + filename)
         for i in aux:
             name = i.name
