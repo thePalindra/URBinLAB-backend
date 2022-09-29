@@ -89,7 +89,7 @@ public class PhotographyService {
             Photography photography = Photography.builder()
                     .document(document)
                     .resolution(resolution)
-                    .color(color)
+                    .colors(color)
                     .build();
 
             photography = this.photographyRepository.save(photography);

@@ -3,7 +3,6 @@ package com.URBinLAB.repositories;
 import com.URBinLAB.domains.Space;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.geolatte.geom.Geometry;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,7 +18,12 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
     @Modifying
     @Query(value = "insert into \"space\" (space_id, \"name\", \"space\") VALUES (:id, :name, Geography(ST_GeomFromText(:space)))", nativeQuery = true)
     @Transactional
-    void insert(@Param("id") Long id, @Param("name") String name, @Param("space") String space);
+    void insertWKT(@Param("id") Long id, @Param("name") String name, @Param("space") String space);
+
+    @Modifying
+    @Query(value = "insert into \"space\" (space_id, \"name\", \"space\") VALUES (:id, :name, Geography(ST_GeomFromGeoJSON(:space)))", nativeQuery = true)
+    @Transactional
+    void insertGeoJson(@Param("id") Long id, @Param("name") String name, @Param("space") String space);
 
     @Modifying
     @Query(value = "insert into \"space\" (space_id, \"name\", \"space\") " +

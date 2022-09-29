@@ -9,10 +9,6 @@ import com.URBinLAB.repositories.TokenRepository;
 import com.URBinLAB.utils.AccessControl;
 import com.URBinLAB.utils.Feature;
 import com.google.gson.Gson;
-import org.geolatte.geom.Geometry;
-import org.geolatte.geom.crs.CoordinateReferenceSystems;
-import org.geolatte.geom.crs.CoordinateReferenceSystems.*;
-import org.geolatte.geom.codec.Wkt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -95,7 +91,7 @@ public class SpaceService {
 
             Document temp = doc.get();
 
-            this.spaceRepository.insert(this.spaceRepository.getMax() + 1, temp.getName(), space);
+            this.spaceRepository.insertWKT(this.spaceRepository.getMax() + 1, temp.getName(), space);
 
             temp.setSpace(this.spaceRepository.getById(this.spaceRepository.getMax()));
             this.documentRepository.save(temp);
@@ -121,6 +117,29 @@ public class SpaceService {
             Document temp = doc.get();
 
             this.spaceRepository.insertCircle(this.spaceRepository.getMax() + 1, temp.getName(), lng, lat, size);
+
+            temp.setSpace(this.spaceRepository.getById(this.spaceRepository.getMax()));
+            this.documentRepository.save(temp);
+
+            return new ResponseEntity<>(new Gson().toJson(temp.getId()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> addFileSpace(Long document,
+                                               String geojson,
+                                               String name) {
+        try {
+            System.out.println(geojson);
+
+            Optional<Document> doc = this.documentRepository.findById(document);
+            if (doc.isEmpty())
+                return new ResponseEntity<>(new Gson().toJson("No document found!"), HttpStatus.BAD_REQUEST);
+
+            Document temp = doc.get();
+
+            this.spaceRepository.insertGeoJson(this.spaceRepository.getMax() + 1, name, geojson);
 
             temp.setSpace(this.spaceRepository.getById(this.spaceRepository.getMax()));
             this.documentRepository.save(temp);

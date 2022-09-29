@@ -46,6 +46,17 @@ public class SpaceController implements SpaceAPI {
     }
 
     @Override
+    public ResponseEntity<String> addSpaceGeo(MultiValueMap<String, String> map,
+                                              Long document,
+                                              String space,
+                                              String name) {
+        if (this.spaceService.tokenChecker(map, Feature.ADD_DOCUMENT))
+            return this.spaceService.addFileSpace(document, space, name);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
     public ResponseEntity<String> addCircle(MultiValueMap<String, String> map,
                                             Long document,
                                             Double lng,

@@ -20,6 +20,12 @@ public interface SpaceAPI {
                                     @PathParam("document") Long document,
                                     @PathParam("space") String space);
 
+    @RequestMapping(value = "/add_Geo", method = RequestMethod.POST)
+    ResponseEntity<String> addSpaceGeo(@RequestHeader MultiValueMap<String, String> map,
+                                       @PathParam("document") Long document,
+                                       @PathParam("space") String space,
+                                       @PathParam("name") String name);
+
     @RequestMapping(value = "/add_circle", method = RequestMethod.POST)
     ResponseEntity<String> addCircle(@RequestHeader MultiValueMap<String, String> map,
                                      @PathParam("document") Long document,

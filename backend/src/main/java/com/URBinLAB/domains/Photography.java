@@ -21,7 +21,7 @@ public class Photography {
     private Document document;
     @Column(name="image_resolution")
     private String resolution;
-    private Boolean color;
+    private Boolean colors;
 
     public Photography() {}
 
@@ -38,6 +38,6 @@ public class Photography {
     }
 
     public Boolean isColored() {
-        return this.color;
+        return this.colors;
     }
 }
