@@ -137,16 +137,15 @@ public class DocumentService {
             minArch = archiver;
         Pageable element = PageRequest.of(page, 20);
 
-        System.out.println(name);
-        System.out.println(archiver);
-        System.out.println(provider);
-        System.out.println(Arrays.asList(types));
-        System.out.println(maxYear);
-        System.out.println(minArch);
-        System.out.println(minYear);
-        System.out.println(page);
-
 
         return new ResponseEntity<>(new Gson().toJson(this.documentRepository.bigFormQuery(name, provider, archiver, minArch, maxYear, minYear, Arrays.asList(types), element)), HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> getAllProviders() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.getAllProviders()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
     }
 }

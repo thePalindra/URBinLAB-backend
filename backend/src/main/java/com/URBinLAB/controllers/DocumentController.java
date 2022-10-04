@@ -83,4 +83,12 @@ public class DocumentController implements DocumentAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getAllProviders(MultiValueMap<String, String> map) {
+        if (this.documentService.tokenChecker(map, Feature.SPATIAL_QUERY))
+            return this.documentService.getAllProviders();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }

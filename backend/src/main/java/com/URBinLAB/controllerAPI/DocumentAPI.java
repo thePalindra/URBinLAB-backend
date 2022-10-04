@@ -46,4 +46,7 @@ public interface DocumentAPI {
                                     @RequestParam("types") String[] types,
                                     @RequestParam("page") Integer page);
 
+    @RequestMapping(value = "/get_all_providers", method = RequestMethod.POST)
+    ResponseEntity<String> getAllProviders(@RequestHeader MultiValueMap<String, String> map);
+
 }
