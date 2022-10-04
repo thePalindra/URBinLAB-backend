@@ -148,4 +148,12 @@ public class DocumentService {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public ResponseEntity<String> getAllURLs() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.getAllURLs()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

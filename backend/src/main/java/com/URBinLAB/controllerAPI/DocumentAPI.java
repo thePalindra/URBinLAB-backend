@@ -49,4 +49,6 @@ public interface DocumentAPI {
     @RequestMapping(value = "/get_all_providers", method = RequestMethod.POST)
     ResponseEntity<String> getAllProviders(@RequestHeader MultiValueMap<String, String> map);
 
+    @RequestMapping(value = "/get_all_urls", method = RequestMethod.POST)
+    ResponseEntity<String> getAllURLs(@RequestHeader MultiValueMap<String, String> map);
 }

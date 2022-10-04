@@ -43,8 +43,14 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
     Long getMaxArchiverId();
 
     @Query(value = "SELECT DISTINCT d.provider\n" +
-            "FROM \"document\" d", nativeQuery = true)
+            "FROM \"document\" d " +
+            "ORDER BY d.provider", nativeQuery = true)
     List<String> getAllProviders();
+
+    @Query(value = "SELECT DISTINCT d.link\n" +
+            "FROM \"document\" d " +
+            "ORDER BY d.link", nativeQuery = true)
+    List<String> getAllURLs();
 
     @Query(value = "SELECT res.document_id, res.space_id, res.name, res.type, EXTRACT(YEAR FROM res.time_scope)\n" +
             "FROM (SELECT *\n" +
