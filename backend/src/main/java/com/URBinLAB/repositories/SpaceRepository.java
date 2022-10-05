@@ -68,9 +68,13 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "WHERE ST_Contains(Geometry(ST_Buffer(Geography(ST_MakePoint(?1, ?2)), ?3)), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsByCircle(Pageable pageable, Double lng, Double lat, Double size);
 
-    @Query(value = "SELECT DISTINCT s.hierarchy, string_agg(DISTINCT s.level_name, ' ') " +
+    @Query(value = "SELECT DISTINCT s.hierarchy " +
             "FROM \"space\" s " +
-            "WHERE s.hierarchy is not null " +
-            "GROUP BY s.hierarchy", nativeQuery = true)
+            "WHERE s.hierarchy is not null", nativeQuery = true)
     List<Object> getAllHierarchies();
+
+    @Query(value = "SELECT DISTINCT s.level_name " +
+            "FROM \"space\" s " +
+            "WHERE s.hierarchy = :name", nativeQuery = true)
+    List<Object> getAllLevels(@Param("name") String name);
 }

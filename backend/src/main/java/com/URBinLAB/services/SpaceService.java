@@ -36,7 +36,8 @@ public class SpaceService {
         this.documentRepository = documentRepository;
     }
 
-    public boolean tokenChecker (MultiValueMap<String, String> map, Feature feature) {
+    public boolean tokenChecker (MultiValueMap<String, String> map,
+                                 Feature feature) {
         try {
             if (!map.containsKey("token"))
                 return AccessControl.access(feature, "all");
@@ -179,6 +180,17 @@ public class SpaceService {
             List<Object> spaces = this.spaceRepository.getAllHierarchies();
 
             return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> getAllLevels(String hierarchy) {
+        try {
+
+            List<Object> levels = this.spaceRepository.getAllLevels(hierarchy);
+
+            return new ResponseEntity<>(new Gson().toJson(levels), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
