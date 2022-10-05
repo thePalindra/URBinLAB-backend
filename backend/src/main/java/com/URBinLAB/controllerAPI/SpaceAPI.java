@@ -50,4 +50,8 @@ public interface SpaceAPI {
     ResponseEntity<String> getAllLevels(@RequestHeader MultiValueMap<String, String> map,
                                         @PathParam("hierarchy") String hierarchy);
 
+    @RequestMapping(value = "/get_names", method = RequestMethod.POST)
+    ResponseEntity<String> getAllNamesFromLevel(@RequestHeader MultiValueMap<String, String> map,
+                                                @PathParam("hierarchy") String hierarchy,
+                                                @PathParam("level") String level);
 }

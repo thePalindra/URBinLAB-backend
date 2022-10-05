@@ -195,4 +195,16 @@ public class SpaceService {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public ResponseEntity<String> getAllNamesFromLevel(String hierarchy,
+                                                       String level) {
+        try {
+
+            List<Object> spaces = this.spaceRepository.getAllNamesFromLevel(hierarchy, level);
+
+            return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

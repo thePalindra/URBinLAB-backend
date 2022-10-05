@@ -77,4 +77,10 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "FROM \"space\" s " +
             "WHERE s.hierarchy = :name", nativeQuery = true)
     List<Object> getAllLevels(@Param("name") String name);
+
+    @Query(value = "SELECT DISTINCT s.name " +
+            "FROM \"space\" s " +
+            "WHERE s.hierarchy = :hierarchy " +
+            "AND s.level_name = :level ",  nativeQuery = true)
+    List<Object> getAllNamesFromLevel(@Param("hierarchy") String hierarchy, @Param("level") String level);
 }
