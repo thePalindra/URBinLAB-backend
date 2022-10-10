@@ -39,8 +39,10 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "ORDER BY s.space_id", nativeQuery = true)
     List<Object> getAllFromLevel(@Param("level") Integer level);
 
-    @Query(value = "SELECT s.space_id, ST_AsText(s.space), s.name " +
+    @Query(value = "SELECT s.space_id, ST_AsText(sc.space), s.name " +
             "FROM \"space\" s " +
+            "NATURAL JOIN \"geometry_space\" gs " +
+            "NATURAL JOIN \"space_context\" sc " +
             "WHERE s.hierarchy = :hierarchy " +
             "AND s.level_name = :level " +
             "AND s.name LIKE %:name% " , nativeQuery = true)
