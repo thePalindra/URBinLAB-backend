@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage 
 import json
+import geojson
 import requests
 import time
 import os
@@ -59,11 +60,8 @@ def transform_raster(request):
     return HttpResponse(json.dumps(res))
 
 
-# Unusable for now
 @csrf_exempt
 def transform_vector(request):
-    print(request.method)
-    print(request.FILES)
     if request.method == "POST":
         file = request.FILES["file"]
         filename = file.name
@@ -85,7 +83,31 @@ def transform_vector(request):
     return HttpResponse(open(RESULT_FOLDER + filename[:-3] + "json"))
 
 
+@csrf_exempt
+def generate_mbox(request):
+    if request.method == "POST":
+        file = request.FILES["file"]
+        filename = file.name
+        fs = FileSystemStorage()
+        fs.save(UPLOAD_FOLDER + filename, file)
+
+        aux = request.FILES.getlist("aux")
+        for i in aux:
+            name = i.name
+            fs.save(UPLOAD_FOLDER + name, i)
+        
+        res = conversion(filename)
+
+        os.remove(UPLOAD_FOLDER + filename)
+        for i in aux:
+            name = i.name
+            os.remove(UPLOAD_FOLDER + name)
+
+    return HttpResponse(res)
+
+
 def conversion(filename):
+    print("começou")
     file = ogr.Open(UPLOAD_FOLDER + filename, 1)
     inLayer = file.GetLayer()
     inSpatialRef = inLayer.GetSpatialRef()
@@ -119,11 +141,8 @@ def conversion(filename):
     while inFeature:
         geom = inFeature.GetGeometryRef()
         geom.Transform(coordTrans)
-        print(geom)
         outFeature = ogr.Feature(outLayerDefn)
         outFeature.SetGeometry(geom)
-        for i in range(0, outLayerDefn.GetFieldCount()):
-            outFeature.SetField(str(outLayerDefn.GetFieldDefn(i).GetNameRef()), str(inFeature.GetField(i)))
         outLayer.CreateFeature(outFeature)
         outFeature.Destroy()
         inFeature.Destroy()
@@ -132,4 +151,16 @@ def conversion(filename):
     file.Destroy()
     outDataSet.Destroy()
     with open(RESULT_FOLDER + filename[:-3] + "json") as outfile:
-        return json.load(outfile)
+        poly = geojson.load(outfile)
+        return bbox(list(geojson.utils.coords(poly)))
+
+
+def bbox(coord_list):
+    print("cheguei")
+    box = []
+    for i in (0,1):
+        res = sorted(coord_list, key=lambda x:x[i])
+        box.append((res[0][i],res[-1][i]))
+
+    ret = [[box[0][0], box[1][1]],[box[0][1], box[1][0]]]
+    return ret
