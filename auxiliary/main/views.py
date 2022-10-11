@@ -103,7 +103,7 @@ def generate_mbox(request):
             name = i.name
             os.remove(UPLOAD_FOLDER + name)
 
-    return HttpResponse(res)
+    return HttpResponse(json.dumps(res))
 
 
 def conversion(filename):
@@ -156,11 +156,13 @@ def conversion(filename):
 
 
 def bbox(coord_list):
-    print("cheguei")
     box = []
     for i in (0,1):
         res = sorted(coord_list, key=lambda x:x[i])
         box.append((res[0][i],res[-1][i]))
 
-    ret = [[box[0][0], box[1][1]],[box[0][1], box[1][0]]]
+    ret = {"origin": [box[0][0], box[1][1]],
+                "limit": [box[0][1], box[1][0]],
+                "EPSG": 4326}
+    print(ret)
     return ret
