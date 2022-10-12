@@ -45,4 +45,20 @@ public class ThematicMapController implements ThematicMapAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getAllTheme(MultiValueMap<String, String> map) {
+        if (this.thematicMapService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.thematicMapService.getAllTheme();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> getAllThematicMapType(MultiValueMap<String, String> map) {
+        if (this.thematicMapService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.thematicMapService.getAllThematicMapType();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }

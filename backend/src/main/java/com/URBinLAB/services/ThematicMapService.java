@@ -110,4 +110,20 @@ public class ThematicMapService {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public ResponseEntity<String> getAllTheme() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.thematicMapRepository.getAllTheme()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> getAllThematicMapType() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.thematicMapRepository.getAllThematicMapType()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

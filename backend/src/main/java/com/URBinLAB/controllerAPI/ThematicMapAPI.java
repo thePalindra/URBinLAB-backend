@@ -24,4 +24,10 @@ public interface ThematicMapAPI {
                                           @PathParam("type") String type,
                                           @PathParam("theme") String theme,
                                           @PathParam("mapType") String mapType);
+
+    @RequestMapping(value = "/get_theme", method = RequestMethod.POST)
+    ResponseEntity<String> getAllTheme(@RequestHeader MultiValueMap<String, String> map);
+
+    @RequestMapping(value = "/get_type", method = RequestMethod.POST)
+    ResponseEntity<String> getAllThematicMapType(@RequestHeader MultiValueMap<String, String> map);
 }
