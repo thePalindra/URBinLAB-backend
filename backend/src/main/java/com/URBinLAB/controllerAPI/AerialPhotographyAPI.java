@@ -20,4 +20,10 @@ public interface AerialPhotographyAPI {
                                                    @PathParam("link") String link,
                                                    @PathParam("scale") Integer scale,
                                                    @PathParam("resolution") String resolution);
+
+    @RequestMapping(value = "/get_scale", method = RequestMethod.POST)
+    ResponseEntity<String> getAllScale(@RequestHeader MultiValueMap<String, String> map);
+
+    @RequestMapping(value = "/get_image_resolution", method = RequestMethod.POST)
+    ResponseEntity<String> getAllImageResolution(@RequestHeader MultiValueMap<String, String> map);
 }

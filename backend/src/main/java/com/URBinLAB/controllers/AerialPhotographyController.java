@@ -40,4 +40,20 @@ public class AerialPhotographyController implements AerialPhotographyAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getAllScale(MultiValueMap<String, String> map) {
+        if (this.aerialPhotographyService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.aerialPhotographyService.getAllScale();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> getAllImageResolution(MultiValueMap<String, String> map) {
+        if (this.aerialPhotographyService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.aerialPhotographyService.getAllImageResolution();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }
