@@ -20,4 +20,10 @@ public interface SatelliteImageAPI {
                                           @PathParam("link") String link,
                                           @PathParam("satellite") String satellite,
                                           @PathParam("resolution") String resolution);
+
+    @RequestMapping(value = "/get_resolution", method = RequestMethod.POST)
+    ResponseEntity<String> getAllResolution(@RequestHeader MultiValueMap<String, String> map);
+
+    @RequestMapping(value = "/get_satellite", method = RequestMethod.POST)
+    ResponseEntity<String> getAllSatellite(@RequestHeader MultiValueMap<String, String> map);
 }

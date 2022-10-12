@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface StatisticsRepository extends JpaRepository<Statistics, Long> {
 
-    @Query(value = "SELECT s.theme " +
+    @Query(value = "SELECT DISTINCT s.theme " +
             "FROM \"statistics\" s", nativeQuery = true)
     List<String> getAllThemes();
 }

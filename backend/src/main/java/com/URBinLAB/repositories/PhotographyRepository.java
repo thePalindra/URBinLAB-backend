@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface PhotographyRepository extends JpaRepository<Photography, Long> {
 
-    @Query(value = "SELECT p.image_resolution " +
+    @Query(value = "SELECT DISTINCT p.image_resolution " +
             "FROM \"photography\" p", nativeQuery = true)
     List<String> getAllImageResolution();
 }

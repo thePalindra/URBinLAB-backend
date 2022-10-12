@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface DrawingsRepository extends JpaRepository<Drawings, Long> {
 
-    @Query(value = "SELECT d.context " +
+    @Query(value = "SELECT DISTINCT d.context " +
             "FROM \"drawings\" d", nativeQuery = true)
     List<String> getAllContext();
 }

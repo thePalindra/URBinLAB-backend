@@ -41,4 +41,20 @@ public class SatelliteImageController implements SatelliteImageAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getAllSatellite(MultiValueMap<String, String> map) {
+        if (this.satelliteImageService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.satelliteImageService.getAllSatellite();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> getAllResolution(MultiValueMap<String, String> map) {
+        if (this.satelliteImageService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.satelliteImageService.getAllResolution();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }
