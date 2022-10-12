@@ -20,4 +20,10 @@ public interface ReportsAPI {
                                           @PathParam("link") String link,
                                           @PathParam("context") String context,
                                           @PathParam("theme") String theme);
+
+    @RequestMapping(value = "/get_context", method = RequestMethod.POST)
+    ResponseEntity<String> getAllContext(@RequestHeader MultiValueMap<String, String> map);
+
+    @RequestMapping(value = "/get_theme", method = RequestMethod.POST)
+    ResponseEntity<String> getAllTheme(@RequestHeader MultiValueMap<String, String> map);
 }
