@@ -41,4 +41,20 @@ public class OrtosController implements OrtosAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getAllScale(MultiValueMap<String, String> map) {
+        if (this.ortosService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.ortosService.getAllScale();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> getAllResolution(MultiValueMap<String, String> map) {
+        if (this.ortosService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.ortosService.getAllResolution();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }

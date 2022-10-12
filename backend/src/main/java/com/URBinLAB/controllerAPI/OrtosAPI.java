@@ -20,4 +20,10 @@ public interface OrtosAPI {
                                           @PathParam("link") String link,
                                           @PathParam("resolution") String resolution,
                                           @PathParam("scale") Integer scale);
+
+    @RequestMapping(value = "/get_scale", method = RequestMethod.POST)
+    ResponseEntity<String> getAllScale(@RequestHeader MultiValueMap<String, String> map);
+
+    @RequestMapping(value = "/get_resolution", method = RequestMethod.POST)
+    ResponseEntity<String> getAllResolution(@RequestHeader MultiValueMap<String, String> map);
 }
