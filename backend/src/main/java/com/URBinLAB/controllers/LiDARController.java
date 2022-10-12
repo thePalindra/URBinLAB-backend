@@ -40,4 +40,12 @@ public class LiDARController implements LiDARAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getAllResolution(MultiValueMap<String, String> map) {
+        if (this.liDARService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.liDARService.getAllResolution();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }

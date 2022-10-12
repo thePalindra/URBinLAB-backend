@@ -19,4 +19,7 @@ public interface LiDARAPI {
                                           @PathParam("timeScope") Date timeScope,
                                           @PathParam("link") String link,
                                           @PathParam("resolution") String resolution);
+
+    @RequestMapping(value = "/get_resolution", method = RequestMethod.POST)
+    ResponseEntity<String> getAllResolution(@RequestHeader MultiValueMap<String, String> map);
 }
