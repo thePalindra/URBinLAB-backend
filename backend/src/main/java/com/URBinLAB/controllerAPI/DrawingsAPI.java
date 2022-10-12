@@ -19,4 +19,7 @@ public interface DrawingsAPI {
                                           @PathParam("timeScope") Date timeScope,
                                           @PathParam("link") String link,
                                           @PathParam("context") String context);
+
+    @RequestMapping(value = "/get_context", method = RequestMethod.POST)
+    ResponseEntity<String> getAllContext(@RequestHeader MultiValueMap<String, String> map);
 }

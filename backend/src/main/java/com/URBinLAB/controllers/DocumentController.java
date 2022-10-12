@@ -86,7 +86,7 @@ public class DocumentController implements DocumentAPI {
 
     @Override
     public ResponseEntity<String> getAllProviders(MultiValueMap<String, String> map) {
-        if (this.documentService.tokenChecker(map, Feature.SPATIAL_QUERY))
+        if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
             return this.documentService.getAllProviders();
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
@@ -94,7 +94,7 @@ public class DocumentController implements DocumentAPI {
 
     @Override
     public ResponseEntity<String> getAllURLs(MultiValueMap<String, String> map) {
-        if (this.documentService.tokenChecker(map, Feature.SPATIAL_QUERY))
+        if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
             return this.documentService.getAllURLs();
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);

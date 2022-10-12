@@ -99,4 +99,12 @@ public class DrawingsService {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public ResponseEntity<String> getAllContext() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.drawingsRepository.getAllContext()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -5,5 +5,6 @@ public enum Feature {
     LOGOUT,
     ADD_DOCUMENT,
     LOGIN,
-    SPATIAL_QUERY
+    SPATIAL_QUERY,
+    AUX_QUERY
 }

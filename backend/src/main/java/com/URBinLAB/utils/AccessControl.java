@@ -26,6 +26,7 @@ public class AccessControl {
         map.put(Feature.LOGOUT, false);
         map.put(Feature.ADD_DOCUMENT, false);
         map.put(Feature.SPATIAL_QUERY, true);
+        map.put(Feature.AUX_QUERY, true);
         return map;
     }
 
@@ -37,6 +38,7 @@ public class AccessControl {
         map.put(Feature.LOGOUT, true);
         map.put(Feature.ADD_DOCUMENT, true);
         map.put(Feature.SPATIAL_QUERY, true);
+        map.put(Feature.AUX_QUERY, true);
         return map;
     }
 

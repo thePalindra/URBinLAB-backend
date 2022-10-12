@@ -40,4 +40,12 @@ public class DrawingsController implements DrawingsAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getAllContext(MultiValueMap<String, String> map) {
+        if (this.drawingsService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.drawingsService.getAllContext();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }
