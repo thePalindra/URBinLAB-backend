@@ -43,4 +43,19 @@ public class ChorographicMapController implements BaseMapAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getAllImageResolution(MultiValueMap<String, String> map) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<String> getAllScale(MultiValueMap<String, String> map) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<String> getAllGeometryType(MultiValueMap<String, String> map) {
+        return null;
+    }
 }

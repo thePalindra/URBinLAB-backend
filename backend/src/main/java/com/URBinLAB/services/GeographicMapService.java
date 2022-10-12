@@ -117,4 +117,28 @@ public class GeographicMapService {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public ResponseEntity<String> getAllScale() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.cartographyRepository.getAllScale()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> getAllImageResolution() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.cartographyRepository.getAllImageResolution()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> getAllGeometryType() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.cartographyRepository.getAllGeometryType()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

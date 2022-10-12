@@ -22,4 +22,13 @@ public interface BaseMapAPI {
                                           @PathParam("raster") Boolean raster,
                                           @PathParam("resolution") String resolution,
                                           @PathParam("type") String type);
+
+    @RequestMapping(value = "/get_image_resolution", method = RequestMethod.POST)
+    ResponseEntity<String> getAllImageResolution(@RequestHeader MultiValueMap<String, String> map);
+
+    @RequestMapping(value = "/get_scale", method = RequestMethod.POST)
+    ResponseEntity<String> getAllScale(@RequestHeader MultiValueMap<String, String> map);
+
+    @RequestMapping(value = "/get_geometry_type", method = RequestMethod.POST)
+    ResponseEntity<String> getAllGeometryType(@RequestHeader MultiValueMap<String, String> map);
 }

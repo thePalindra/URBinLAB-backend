@@ -43,4 +43,28 @@ public class GeographicMapController implements BaseMapAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getAllScale(MultiValueMap<String, String> map) {
+        if (this.geographicMapService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.geographicMapService.getAllScale();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> getAllImageResolution(MultiValueMap<String, String> map) {
+        if (this.geographicMapService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.geographicMapService.getAllImageResolution();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> getAllGeometryType(MultiValueMap<String, String> map) {
+        if (this.geographicMapService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.geographicMapService.getAllGeometryType();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }
