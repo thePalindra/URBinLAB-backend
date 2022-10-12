@@ -40,4 +40,12 @@ public class SensorsController implements SensorsAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getAllVariable(MultiValueMap<String, String> map) {
+        if (this.sensorsService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.sensorsService.getAllVariable();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }

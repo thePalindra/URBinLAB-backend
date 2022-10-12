@@ -19,4 +19,7 @@ public interface SensorsAPI {
                                           @PathParam("timeScope") Date timeScope,
                                           @PathParam("link") String link,
                                           @PathParam("variable") String variable);
+
+    @RequestMapping(value = "/get_variable", method = RequestMethod.POST)
+    ResponseEntity<String> getAllVariable(@RequestHeader MultiValueMap<String, String> map);
 }
