@@ -101,4 +101,12 @@ public class ThematicStatisticsService {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public ResponseEntity<String> getAllThemes() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.statisticsRepository.getAllThemes()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

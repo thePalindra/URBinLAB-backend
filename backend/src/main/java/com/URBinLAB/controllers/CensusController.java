@@ -40,4 +40,9 @@ public class CensusController implements StatisticsAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getAllThemes(MultiValueMap<String, String> map) {
+        return null;
+    }
 }

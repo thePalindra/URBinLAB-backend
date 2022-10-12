@@ -19,4 +19,7 @@ public interface StatisticsAPI {
                                           @PathParam("timeScope") Date timeScope,
                                           @PathParam("link") String link,
                                           @PathParam("theme") String theme);
+
+    @RequestMapping(value = "/get_themes", method = RequestMethod.POST)
+    ResponseEntity<String> getAllThemes(@RequestHeader MultiValueMap<String, String> map);
 }

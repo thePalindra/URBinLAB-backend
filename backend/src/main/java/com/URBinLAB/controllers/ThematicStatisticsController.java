@@ -40,4 +40,12 @@ public class ThematicStatisticsController implements StatisticsAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getAllThemes(MultiValueMap<String, String> map) {
+        if (this.thematicStatisticsService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.thematicStatisticsService.getAllThemes();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }
