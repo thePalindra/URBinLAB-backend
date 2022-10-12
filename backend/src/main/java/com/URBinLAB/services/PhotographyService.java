@@ -99,4 +99,12 @@ public class PhotographyService {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public ResponseEntity<String> getAllImageResolution() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.photographyRepository.getAllImageResolution()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

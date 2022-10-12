@@ -20,4 +20,7 @@ public interface PhotographyAPI {
                                           @PathParam("link") String link,
                                           @PathParam("resolution") String resolution,
                                           @PathParam("color") Boolean color);
+
+    @RequestMapping(value = "/get_image_resolution", method = RequestMethod.POST)
+    ResponseEntity<String> getAllImageResolution(@RequestHeader MultiValueMap<String, String> map);
 }
