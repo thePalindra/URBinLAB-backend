@@ -11,6 +11,7 @@ import java.util.List;
 public interface PhotographyRepository extends JpaRepository<Photography, Long> {
 
     @Query(value = "SELECT DISTINCT p.image_resolution " +
-            "FROM \"photography\" p", nativeQuery = true)
+            "FROM \"photography\" p " +
+            "ORDER BY p.image_resolution", nativeQuery = true)
     List<String> getAllImageResolution();
 }

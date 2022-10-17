@@ -11,10 +11,12 @@ import java.util.List;
 public interface OrtosRepository extends JpaRepository<Ortos, Long> {
 
     @Query(value = "SELECT DISTINCT o.resolution " +
-            "FROM \"ortos\" o", nativeQuery = true)
+            "FROM \"ortos\" o " +
+            "ORDER BY o.resolution", nativeQuery = true)
     List<String> getAllResolution();
 
     @Query(value = "SELECT DISTINCT o.scale " +
-            "FROM \"ortos\" o", nativeQuery = true)
+            "FROM \"ortos\" o " +
+            "ORDER BY o.scale", nativeQuery = true)
     List<String> getAllScale();
 }

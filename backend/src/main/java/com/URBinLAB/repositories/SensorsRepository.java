@@ -11,6 +11,7 @@ import java.util.List;
 public interface SensorsRepository extends JpaRepository<Sensors, Long> {
 
     @Query(value = "SELECT DISTINCT s.variable " +
-            "FROM \"sensors\" s", nativeQuery = true)
+            "FROM \"sensors\" s " +
+            "ORDER BY s.variable", nativeQuery = true)
     List<String> getAllVariable();
 }

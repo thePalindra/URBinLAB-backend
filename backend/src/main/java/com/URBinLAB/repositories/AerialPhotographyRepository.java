@@ -11,10 +11,12 @@ import java.util.List;
 public interface AerialPhotographyRepository extends JpaRepository<AerialPhotography, Long> {
 
     @Query(value = "SELECT DISTINCT ap.approximate_scale " +
-            "FROM \"aerial_photography\" ap", nativeQuery = true)
+            "FROM \"aerial_photography\" ap " +
+            "ORDER BY ap.approximate_scale", nativeQuery = true)
     List<String> getAllScale();
 
     @Query(value = "SELECT DISTINCT ap.image_resolution " +
-            "FROM \"aerial_photography\" ap", nativeQuery = true)
+            "FROM \"aerial_photography\" ap " +
+            "ORDER BY ap.image_resolution", nativeQuery = true)
     List<String> getAllImageResolution();
 }

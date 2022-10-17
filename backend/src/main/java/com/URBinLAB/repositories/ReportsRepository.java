@@ -11,10 +11,12 @@ import java.util.List;
 public interface ReportsRepository extends JpaRepository<Reports, Long> {
 
     @Query(value = "SELECT DISTINCT r.context " +
-            "FROM \"reports\" r", nativeQuery = true)
+            "FROM \"reports\" r " +
+            "ORDER BY r.context", nativeQuery = true)
     List<String> getAllContext();
 
     @Query(value = "SELECT DISTINCT r.theme " +
-            "FROM \"reports\" r", nativeQuery = true)
+            "FROM \"reports\" r " +
+            "ORDER BY r.theme", nativeQuery = true)
     List<String> getAllTheme();
 }

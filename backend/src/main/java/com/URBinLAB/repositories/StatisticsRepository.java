@@ -11,6 +11,7 @@ import java.util.List;
 public interface StatisticsRepository extends JpaRepository<Statistics, Long> {
 
     @Query(value = "SELECT DISTINCT s.theme " +
-            "FROM \"statistics\" s", nativeQuery = true)
+            "FROM \"statistics\" s " +
+            "ORDER BY s.theme", nativeQuery = true)
     List<String> getAllThemes();
 }

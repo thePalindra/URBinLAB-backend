@@ -11,6 +11,7 @@ import java.util.List;
 public interface LiDARRepository extends JpaRepository<LiDAR, Long> {
 
     @Query(value = "SELECT DISTINCT l.resolution " +
-            "FROM \"lidar\" l", nativeQuery = true)
+            "FROM \"lidar\" l " +
+            "ORDER BY l.resolution", nativeQuery = true)
     List<String> getAllResolution();
 }

@@ -70,17 +70,20 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
 
     @Query(value = "SELECT DISTINCT s.hierarchy " +
             "FROM \"space\" s " +
-            "WHERE s.hierarchy is not null", nativeQuery = true)
+            "WHERE s.hierarchy is not null " +
+            "ORDER BY s.hierarchy", nativeQuery = true)
     List<Object> getAllHierarchies();
 
     @Query(value = "SELECT DISTINCT s.level_name " +
             "FROM \"space\" s " +
-            "WHERE s.hierarchy = :name", nativeQuery = true)
+            "WHERE s.hierarchy = :name " +
+            "ORDER BY s.level_name", nativeQuery = true)
     List<Object> getAllLevels(@Param("name") String name);
 
     @Query(value = "SELECT DISTINCT s.name " +
             "FROM \"space\" s " +
             "WHERE s.hierarchy = :hierarchy " +
-            "AND s.level_name = :level ",  nativeQuery = true)
+            "AND s.level_name = :level " +
+            "ORDER BY s.name ",  nativeQuery = true)
     List<Object> getAllNamesFromLevel(@Param("hierarchy") String hierarchy, @Param("level") String level);
 }

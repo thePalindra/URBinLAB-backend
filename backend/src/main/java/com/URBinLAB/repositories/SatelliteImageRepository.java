@@ -11,10 +11,12 @@ import java.util.List;
 public interface SatelliteImageRepository extends JpaRepository<SatelliteImage, Long> {
 
     @Query(value = "SELECT DISTINCT si.satellite " +
-            "FROM \"satellite_image\" si", nativeQuery = true)
+            "FROM \"satellite_image\" si " +
+            "ORDER BY si.satellite", nativeQuery = true)
     List<String> getAllSatellite();
 
     @Query(value = "SELECT DISTINCT si.resolution " +
-            "FROM \"satellite_image\" si", nativeQuery = true)
+            "FROM \"satellite_image\" si " +
+            "ORDER BY si.resolution", nativeQuery = true)
     List<String> getAllResolution();
 }
