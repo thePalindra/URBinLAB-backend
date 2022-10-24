@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @Repository
@@ -68,11 +69,18 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "WHERE ST_Contains(Geometry(ST_Buffer(Geography(ST_MakePoint(?1, ?2)), ?3)), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsByCircle(Pageable pageable, Double lng, Double lat, Double size);
 
+    @Query(value = "SELECT DISTINCT s.hierarchy_type " +
+            "FROM \"space\" s " +
+            "WHERE s.hierarchy_type is not null " +
+            "ORDER BY s.hierarchy_type", nativeQuery = true)
+    List<Object> getAllHierarchyTypes();
+
     @Query(value = "SELECT DISTINCT s.hierarchy " +
             "FROM \"space\" s " +
             "WHERE s.hierarchy is not null " +
+            "AND s.hierarchy_type = :type " +
             "ORDER BY s.hierarchy", nativeQuery = true)
-    List<Object> getAllHierarchies();
+    List<Object> getAllHierarchies(@Param("type") String type);
 
     @Query(value = "SELECT DISTINCT s.level_name " +
             "FROM \"space\" s " +

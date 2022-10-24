@@ -23,6 +23,9 @@ public class Space implements Serializable {
 
     private String hierarchy;
 
+    @Column(name="hierarchy_type")
+    private String hierarchyType;
+
     private String name;
     private Integer level;
     @Column(name="level_name")
@@ -48,5 +51,13 @@ public class Space implements Serializable {
 
     public String getName() {
         return this.name;
+    }
+
+    public String getHierarchy() {
+        return this.hierarchy;
+    }
+
+    public String getHierarchyType() {
+        return this.hierarchyType;
     }
 }

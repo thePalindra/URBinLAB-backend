@@ -174,15 +174,23 @@ public class SpaceService {
         }
     }
 
-    public ResponseEntity<String> getAllHierarchies() {
+    public ResponseEntity<String> getAllHierarchyTypes() {
         try {
 
-            List<Object> spaces = this.spaceRepository.getAllHierarchies();
+            List<Object> spaces = this.spaceRepository.getAllHierarchyTypes();
 
             return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    public ResponseEntity<String> getAllHierarchies(String type) {
+
+            List<Object> spaces = this.spaceRepository.getAllHierarchies(type);
+
+            return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
+
     }
 
     public ResponseEntity<String> getAllLevels(String hierarchy) {
