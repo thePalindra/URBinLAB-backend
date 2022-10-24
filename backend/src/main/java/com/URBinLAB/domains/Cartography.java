@@ -20,7 +20,7 @@ public class Cartography {
     @JoinColumn(name = "document_id", referencedColumnName = "document_id")
     private Document document;
 
-    private Integer scale;
+    private String scale;
     private Boolean raster;
     @Column(name="image_resolution")
     private String resolution;
@@ -37,7 +37,7 @@ public class Cartography {
         return this.document;
     }
 
-    public Integer getScale() {
+    public String getScale() {
         return this.scale;
     }
 

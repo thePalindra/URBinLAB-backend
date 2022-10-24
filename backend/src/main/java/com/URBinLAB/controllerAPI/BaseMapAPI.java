@@ -18,7 +18,7 @@ public interface BaseMapAPI {
                                           @PathParam("provider") String provider,
                                           @PathParam("timeScope") Date timeScope,
                                           @PathParam("link") String link,
-                                          @PathParam("scale") Integer scale,
+                                          @PathParam("scale") String scale,
                                           @PathParam("raster") Boolean raster,
                                           @PathParam("resolution") String resolution,
                                           @PathParam("type") String type);

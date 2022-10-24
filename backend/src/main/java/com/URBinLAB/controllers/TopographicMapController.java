@@ -33,7 +33,7 @@ public class TopographicMapController implements BaseMapAPI {
                                                  String provider,
                                                  Date timeScope,
                                                  String link,
-                                                 Integer scale,
+                                                 String scale,
                                                  Boolean raster,
                                                  String resolution,
                                                  String type) {

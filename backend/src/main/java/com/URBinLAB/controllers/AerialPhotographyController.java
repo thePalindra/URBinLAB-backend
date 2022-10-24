@@ -33,7 +33,7 @@ public class AerialPhotographyController implements AerialPhotographyAPI {
                                                           String provider,
                                                           Date timeScope,
                                                           String link,
-                                                          Integer scale,
+                                                          String scale,
                                                           String resolution) {
         if (this.aerialPhotographyService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.aerialPhotographyService.createAerialPhotography(map, name, description, provider, timeScope, link, scale, resolution);

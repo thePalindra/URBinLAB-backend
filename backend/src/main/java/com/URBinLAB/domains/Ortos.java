@@ -20,7 +20,7 @@ public class Ortos {
     @JoinColumn(name = "aerial_image_id")
     private AerialImage image;
     private String resolution;
-    private Integer scale;
+    private String scale;
 
     public Ortos() {}
 
@@ -36,7 +36,7 @@ public class Ortos {
         return this.resolution;
     }
 
-    public Integer getScale() {
+    public String getScale() {
         return this.scale;
     }
 }

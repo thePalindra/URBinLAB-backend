@@ -19,7 +19,7 @@ public interface OrtosAPI {
                                           @PathParam("timeScope") Date timeScope,
                                           @PathParam("link") String link,
                                           @PathParam("resolution") String resolution,
-                                          @PathParam("scale") Integer scale);
+                                          @PathParam("scale") String scale);
 
     @RequestMapping(value = "/get_scale", method = RequestMethod.POST)
     ResponseEntity<String> getAllScale(@RequestHeader MultiValueMap<String, String> map);

@@ -67,7 +67,7 @@ public class TopographicMapService {
                                                  String provider,
                                                  Date timeScope,
                                                  String link,
-                                                 Integer scale,
+                                                 String scale,
                                                  Boolean raster,
                                                  String resolution,
                                                  String type) {

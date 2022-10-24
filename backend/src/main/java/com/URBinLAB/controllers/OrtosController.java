@@ -34,7 +34,7 @@ public class OrtosController implements OrtosAPI {
                                                  Date timeScope,
                                                  String link,
                                                  String resolution,
-                                                 Integer scale) {
+                                                 String scale) {
 
         if (this.ortosService.tokenChecker(map, Feature.ADD_DOCUMENT))
             return this.ortosService.createDocument(map, name, description, provider, timeScope, link, scale, resolution);

@@ -67,7 +67,7 @@ public class AerialPhotographyService {
                                                           String provider,
                                                           Date timeScope,
                                                           String link,
-                                                          Integer scale,
+                                                          String scale,
                                                           String resolution) {
         try {
 

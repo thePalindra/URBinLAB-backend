@@ -18,7 +18,7 @@ public interface AerialPhotographyAPI {
                                                    @PathParam("provider") String provider,
                                                    @PathParam("timeScope") Date timeScope,
                                                    @PathParam("link") String link,
-                                                   @PathParam("scale") Integer scale,
+                                                   @PathParam("scale") String scale,
                                                    @PathParam("resolution") String resolution);
 
     @RequestMapping(value = "/get_scale", method = RequestMethod.POST)

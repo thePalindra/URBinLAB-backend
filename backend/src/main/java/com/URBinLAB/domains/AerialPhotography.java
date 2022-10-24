@@ -23,7 +23,7 @@ public class AerialPhotography implements Serializable {
     @Column(name="image_resolution")
     private String resolution;
     @Column(name="approximate_scale")
-    private Integer scale;
+    private String scale;
 
     public AerialPhotography() {}
 
@@ -43,7 +43,7 @@ public class AerialPhotography implements Serializable {
         return this.aerialImage;
     }
 
-    public Integer getScale() {
+    public String getScale() {
         return this.scale;
     }
 }
