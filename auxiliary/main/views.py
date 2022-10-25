@@ -4,6 +4,7 @@ from django import forms
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage 
+from elasticsearch import Elasticsearch
 import json
 import geojson
 import requests
@@ -14,6 +15,8 @@ import os
 
 UPLOAD_FOLDER = "files/"
 RESULT_FOLDER = "result/"
+es = Elasticsearch('http://localhost:9200')
+index = "URBinLAB"
 
 
 class UploadFileForm(forms.Form):
@@ -81,6 +84,15 @@ def transform_vector(request):
             os.remove(UPLOAD_FOLDER + name)
 
     return HttpResponse(open(RESULT_FOLDER + filename[:-3] + "json"))
+
+
+@csrf_exempt
+def put_ES(request):
+    if request.method == "POST":
+        doc = {"text": request.doc}
+        resp = es.index(index=index, id=request.id, document=doc)
+
+    return HttpResponse(es.get(index=index, id=request.id))
 
 
 @csrf_exempt
