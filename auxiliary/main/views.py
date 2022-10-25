@@ -15,8 +15,8 @@ import os
 
 UPLOAD_FOLDER = "files/"
 RESULT_FOLDER = "result/"
+INDEX = "URBinLAB"
 es = Elasticsearch('http://localhost:9200')
-index = "URBinLAB"
 
 
 class UploadFileForm(forms.Form):
@@ -90,9 +90,43 @@ def transform_vector(request):
 def put_ES(request):
     if request.method == "POST":
         doc = {"text": request.doc}
-        resp = es.index(index=index, id=request.id, document=doc)
+        resp = es.index(index=INDEX, id=request.id, document=doc)
 
-    return HttpResponse(es.get(index=index, id=request.id))
+    return HttpResponse(es.get(index=INDEX, id=request.id))
+
+
+@csrf_exempt
+def search_ES(request):
+    if request.method == "POST":
+        query = request.query.split(" ")
+
+        clauses = [{
+            "span_multi": {
+                "match": {
+                    "fuzzy": {
+                        "text": {
+                            "value": i, 
+                            "fuzziness": 2
+                        }
+                    }
+                }
+            }
+        } for i in query]
+
+        payload = {
+            "bool": {
+                "must": [{
+                    "span_near": {
+                        "clauses": clauses, 
+                        "slop": 12, 
+                        "in_order": False
+                    }
+                }]
+            }
+        }
+        resp = es.search(index=INDEX, query=payload, size=100)
+
+    return HttpResponse(resp)
 
 
 @csrf_exempt
