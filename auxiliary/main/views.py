@@ -15,7 +15,7 @@ import os
 
 UPLOAD_FOLDER = "files/"
 RESULT_FOLDER = "result/"
-INDEX = "URBinLAB"
+INDEX = "urbinlab"
 es = Elasticsearch('http://localhost:9200')
 
 
@@ -89,16 +89,22 @@ def transform_vector(request):
 @csrf_exempt
 def put_ES(request):
     if request.method == "POST":
-        doc = {"text": request.doc}
-        resp = es.index(index=INDEX, id=request.id, document=doc)
+        desc = ""
+        for key in request.POST:
+            value = request.POST[key]
+            desc += str(value) + " "
 
-    return HttpResponse(es.get(index=INDEX, id=request.id))
+        print(desc)
+        doc = {"text": desc}
+        resp = es.index(index=INDEX, id=request.POST["id"], document=doc)
+
+    return HttpResponse(json.dumps(str(es.get(index=INDEX, id=request.POST["id"]))))
 
 
 @csrf_exempt
 def search_ES(request):
     if request.method == "POST":
-        query = request.query.split(" ")
+        query = request.POST["query"].split(" ")
 
         clauses = [{
             "span_multi": {
