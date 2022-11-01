@@ -131,8 +131,12 @@ def search_ES(request):
             }
         }
         resp = es.search(index=INDEX, query=payload, size=100)
+        res = []
+        print(resp)
+        for i in resp["hits"]["hits"]:    
+            res.append(int(i["_id"]))
 
-    return HttpResponse(resp)
+    return HttpResponse(json.dumps(res))
 
 
 @csrf_exempt
