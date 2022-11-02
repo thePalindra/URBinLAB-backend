@@ -105,10 +105,7 @@ public class DocumentService {
     public ResponseEntity<String> getDocumentBySpaceGeometry(String space,
                                                              Integer page) {
 
-
-        Pageable element = PageRequest.of(page, 10);
-
-        return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllTheDocumentsByGeometry(element, space)), HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllTheDocumentsByGeometry(space)), HttpStatus.OK);
     }
 
     public ResponseEntity<String> getDocumentBySpaceCircle(Double lng,
@@ -116,10 +113,7 @@ public class DocumentService {
                                                            Double size,
                                                            Integer page) {
 
-
-        Pageable element = PageRequest.of(page, 10);
-
-        return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllTheDocumentsByCircle(element, lng, lat, size)), HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllTheDocumentsByCircle(lng, lat, size)), HttpStatus.OK);
     }
 
     public ResponseEntity<String> getElementsFromQuery(String name,

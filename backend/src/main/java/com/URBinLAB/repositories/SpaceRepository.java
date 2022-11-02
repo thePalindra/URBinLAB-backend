@@ -56,18 +56,18 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
     List<Object> getAllTheDocuments(Pageable pageable, @Param("id") Long id);
 
 
-    @Query(value = "SELECT DISTINCT d.document_id, d.space_id, d.name, d.type, d.time_scope\n" +
+    @Query(value = "SELECT DISTINCT d.document_id, d.collection_id, d.archiver_id, d.space_id, d.name, d.description, d.type, d.provider, d.time_scope, d.insertion, d.link\n" +
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d ON s.space_id = d.space_id\n" +
             "WHERE ST_Contains(ST_GeomFromText(:space, 4326), Geometry(s.space))", nativeQuery = true)
-    List<Object> getAllTheDocumentsByGeometry(Pageable pageable, @Param("space") String space);
+    List<Object> getAllTheDocumentsByGeometry(@Param("space") String space);
 
 
-    @Query(value = "SELECT DISTINCT d.document_id, d.space_id, d.name, d.type, d.time_scope\n" +
+    @Query(value = "SELECT DISTINCT d.document_id, d.collection_id, d.archiver_id, d.space_id, d.name, d.description, d.type, d.provider, d.time_scope, d.insertion, d.link\n" +
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d ON s.space_id = d.space_id\n" +
             "WHERE ST_Contains(Geometry(ST_Buffer(Geography(ST_MakePoint(?1, ?2)), ?3)), Geometry(s.space))", nativeQuery = true)
-    List<Object> getAllTheDocumentsByCircle(Pageable pageable, Double lng, Double lat, Double size);
+    List<Object> getAllTheDocumentsByCircle(Double lng, Double lat, Double size);
 
     @Query(value = "SELECT DISTINCT s.hierarchy_type " +
             "FROM \"space\" s " +
