@@ -51,4 +51,8 @@ public interface DocumentAPI {
 
     @RequestMapping(value = "/get_all_urls", method = RequestMethod.POST)
     ResponseEntity<String> getAllURLs(@RequestHeader MultiValueMap<String, String> map);
+
+    @RequestMapping(value = "/from_list", method = RequestMethod.POST)
+    ResponseEntity<String> fromList(@RequestHeader MultiValueMap<String, String> map,
+                                    @RequestParam("list") Integer[] list);
 }

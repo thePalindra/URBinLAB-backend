@@ -141,6 +141,14 @@ public class DocumentService {
         return new ResponseEntity<>(new Gson().toJson(this.documentRepository.bigFormQuery(name, provider, archiver, minArch, maxYear, minYear, Arrays.asList(types), element)), HttpStatus.OK);
     }
 
+    public ResponseEntity<String> getFromList(Integer[] list) {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.fromList(Arrays.asList(list))), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
     public ResponseEntity<String> getAllProviders() {
         try {
             return new ResponseEntity<>(new Gson().toJson(this.documentRepository.getAllProviders()), HttpStatus.OK);

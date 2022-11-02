@@ -86,4 +86,10 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
                               @Param("miny")Integer yearMin,
                               @Param("types") List<String> types,
                               Pageable pageable);
+
+    @Query(value = "SELECT * \n" +
+            "FROM \"document\"  " +
+            "WHERE \"document_id\" IN :list " +
+            "ORDER BY \"name\"", nativeQuery = true)
+    List<Object> fromList(@Param("list") List<Integer> list);
 }

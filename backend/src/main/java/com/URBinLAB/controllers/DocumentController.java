@@ -85,6 +85,15 @@ public class DocumentController implements DocumentAPI {
     }
 
     @Override
+    public ResponseEntity<String> fromList(MultiValueMap<String, String> map,
+                                           Integer[] list) {
+        if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.documentService.getFromList(list);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
     public ResponseEntity<String> getAllProviders(MultiValueMap<String, String> map) {
         if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
             return this.documentService.getAllProviders();
