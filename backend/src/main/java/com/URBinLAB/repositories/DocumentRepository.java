@@ -92,4 +92,9 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
             "WHERE \"document_id\" IN :list " +
             "ORDER BY \"name\"", nativeQuery = true)
     List<Object> fromList(@Param("list") List<Integer> list);
+
+    @Query(value = "SELECT d.provider, COUNT(d.document_id)\n" +
+            "FROM \"document\" d\n" +
+            "GROUP BY d.provider", nativeQuery = true)
+    List<Object> groupByProvider();
 }
