@@ -7,16 +7,22 @@ from django.core.files.storage import FileSystemStorage
 from elasticsearch import Elasticsearch
 import json
 import geojson
-import requests
-import time
 import os
 
+
+
+def load_dic():
+    with open("main/dictionary.txt", "r") as f:
+        results = f.read().split("\n")
+
+        return set(results)
 
 
 UPLOAD_FOLDER = "files/"
 RESULT_FOLDER = "result/"
 INDEX = "urbinlab"
 es = Elasticsearch('http://localhost:9200')
+dic = load_dic()
 
 
 class UploadFileForm(forms.Form):
@@ -91,11 +97,19 @@ def put_ES(request):
     if request.method == "POST":
         desc = ""
         for key in request.POST:
-            value = request.POST[key]
-            desc += str(value) + " "
+            value = str(request.POST[key])
+            desc += value + " "
 
-        print(desc)
-        doc = {"text": desc}
+        for i in desc.lower().split(" "):
+            dic.add(i)
+            if len(dic)%10==0:
+                f = open("main/dictionary.txt", "w")
+                for j in dic:
+                    f.write(j)
+                    f.write("\n")
+
+        print(dic)
+        doc = {"text": desc.lower()}
         resp = es.index(index=INDEX, id=request.POST["id"], document=doc)
 
     return HttpResponse(json.dumps(str(es.get(index=INDEX, id=request.POST["id"]))))
@@ -112,7 +126,7 @@ def search_ES(request):
                     "fuzzy": {
                         "text": {
                             "value": i, 
-                            "fuzziness": 2
+                            "fuzziness": 1
                         }
                     }
                 }
@@ -160,6 +174,11 @@ def generate_mbox(request):
             os.remove(UPLOAD_FOLDER + name)
 
     return HttpResponse(json.dumps(res))
+
+
+@csrf_exempt
+def get_dictionary(request):
+    return HttpResponse(json.dumps(list(dic)))
 
 
 def conversion(filename):

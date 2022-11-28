@@ -6,5 +6,6 @@ public enum Feature {
     ADD_DOCUMENT,
     LOGIN,
     SPATIAL_QUERY,
-    AUX_QUERY
+    AUX_QUERY,
+    ADD_KEYWORD
 }

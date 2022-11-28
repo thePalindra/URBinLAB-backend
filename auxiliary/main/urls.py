@@ -9,4 +9,5 @@ urlpatterns = [
     path("mbox", views.generate_mbox, name="mbox"),
     path("es/put", views.put_ES, name="put_ES"),
     path("es/search", views.search_ES, name="search_ES"),
+    path("dictionary", views.get_dictionary, name="get_dictionary"),
 ]
