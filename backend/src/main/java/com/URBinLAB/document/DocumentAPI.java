@@ -68,7 +68,7 @@ public interface DocumentAPI {
                                                 @RequestParam("id") Long id);
 
     @RequestMapping(value = "/get_by_name", method = RequestMethod.POST)
-    ResponseEntity<String> getDocumentByName(@RequestHeader MultiValueMap<String, String> map,
+    ResponseEntity<String> getDocumentByNameInList(@RequestHeader MultiValueMap<String, String> map,
                                              @RequestParam("name") String name,
                                              @RequestParam("list") Integer[] list);
 
@@ -95,4 +95,8 @@ public interface DocumentAPI {
                                              @RequestParam("archivers") Integer[] archivers,
                                              @RequestParam("types") String[] types,
                                              @RequestParam("list") Integer[] list);
+
+    @RequestMapping(value = "/name", method = RequestMethod.POST)
+    ResponseEntity<String> getDocumentByName(@RequestHeader MultiValueMap<String, String> map,
+                                             @RequestParam("name") String name);
 }

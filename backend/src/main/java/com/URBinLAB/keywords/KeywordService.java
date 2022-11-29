@@ -83,4 +83,12 @@ public class KeywordService {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public ResponseEntity<String> groupByKeyword() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.keywordRepository.groupByKeyword()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

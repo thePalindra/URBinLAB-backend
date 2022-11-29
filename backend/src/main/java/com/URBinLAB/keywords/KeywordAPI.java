@@ -23,4 +23,7 @@ public interface KeywordAPI {
     ResponseEntity<String> addKeywordToDocument(@RequestHeader MultiValueMap<String, String> map,
                                                 @RequestParam("document") Long document,
                                                 @RequestParam("keywords") List<Long> keywords);
+
+    @RequestMapping(value = "/group", method = RequestMethod.POST)
+    ResponseEntity<String> groupByKeyword(@RequestHeader MultiValueMap<String, String> map);
 }

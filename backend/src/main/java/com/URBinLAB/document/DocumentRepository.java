@@ -21,7 +21,8 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
     List<Object> getAllPaging(Pageable pageable);
 
     @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
-            "FROM \"document\" d" , nativeQuery = true)
+            "FROM \"document\" d\n" +
+            "ORDER BY RANDOM()" , nativeQuery = true)
     List<Object> getAll();
 
     @Query(value = "select d.\"document_id\" as id, d.\"name\", d.\"clicks\", d.\"files\"\n" +
@@ -29,7 +30,7 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
             "where d.\"name\" like %:name% \n" +
             "order by d.\"clicks\" desc"
             , nativeQuery = true)
-    List<Object> getDocumentByName(Pageable pageable, @Param("name") String name);
+    List<Object> getDocumentByNameInList(Pageable pageable, @Param("name") String name);
 
 
     @Query(value = "SELECT d.document_id, d.name, d.type, d.time_scope " +
@@ -133,9 +134,14 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
     @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
             "FROM \"document\" d\n" +
             "WHERE d.document_id IN :list\n" +
-            "AND d.name LIKE %:name%", nativeQuery = true)
-    List<Object> getDocumentByName(@Param("name") String name,
-                                   @Param("list") List<Integer> list);
+            "AND LOWER(d.name) LIKE %LOWER(:name)%", nativeQuery = true)
+    List<Object> getDocumentByNameInList(@Param("name") String name,
+                                         @Param("list") List<Integer> list);
+
+    @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
+            "FROM \"document\" d\n" +
+            "WHERE LOWER(d.name) LIKE %:name%", nativeQuery = true)
+    List<Object> getDocumentByName(@Param("name") String name);
 
     @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
             "FROM \"document\" d\n" +

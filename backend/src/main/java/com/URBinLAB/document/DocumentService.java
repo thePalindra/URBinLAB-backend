@@ -179,9 +179,9 @@ public class DocumentService {
         }
     }
 
-    public ResponseEntity<String> getDocumentByName(String name, Integer[] list) {
+    public ResponseEntity<String> getDocumentByNameInList(String name, Integer[] list) {
         try {
-            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.getDocumentByName(name, List.of(list))), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.getDocumentByNameInList(name, List.of(list))), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
@@ -227,6 +227,14 @@ public class DocumentService {
                     List.of(archivers),
                     List.of(types),
                     List.of(list))), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> getDocumentByName(String name) {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.getDocumentByName(name.toLowerCase())), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

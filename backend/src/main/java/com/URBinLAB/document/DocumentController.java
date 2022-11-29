@@ -123,11 +123,11 @@ public class DocumentController implements DocumentAPI {
     }
 
     @Override
-    public ResponseEntity<String> getDocumentByName(MultiValueMap<String, String> map,
+    public ResponseEntity<String> getDocumentByNameInList(MultiValueMap<String, String> map,
                                                     String name,
                                                     Integer[] list) {
         if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.documentService.getDocumentByName(name, list);
+            return this.documentService.getDocumentByNameInList(name, list);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
@@ -185,6 +185,15 @@ public class DocumentController implements DocumentAPI {
     public ResponseEntity<String> getAll(MultiValueMap<String, String> map) {
         if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
             return this.documentService.getAll();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> getDocumentByName(MultiValueMap<String, String> map,
+                                                    String name) {
+        if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.documentService.getDocumentByName(name);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }

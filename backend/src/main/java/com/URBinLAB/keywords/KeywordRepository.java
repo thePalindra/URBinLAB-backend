@@ -23,5 +23,13 @@ public interface KeywordRepository extends JpaRepository<Keyword, Long> {
             "WHERE k.keyword = :keyword", nativeQuery = true)
     List<Object> getKeywordByKeyword(@Param("keyword") String keyword);
 
-
+    @Query(value = "SELECT k.keyword, COUNT(d.document_id) count_docs\n" +
+            "FROM \"keyword\" k\n" +
+            "INNER JOIN \"document_keyword\" dk\n" +
+            "ON k.keyword_id = dk.keyword_id\n" +
+            "INNER JOIN \"document\" d\n" +
+            "ON d.document_id = dk.document_id\n" +
+            "GROUP BY k.keyword\n" +
+            "ORDER BY count_docs", nativeQuery = true)
+    List<Object> groupByKeyword();
 }
