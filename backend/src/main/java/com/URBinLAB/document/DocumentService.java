@@ -91,9 +91,9 @@ public class DocumentService {
         }
     }
 
-    public ResponseEntity<String> getAll() {
+    public ResponseEntity<String> getAll(Long limit) {
         try {
-            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.getAll()), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.getAll(limit)), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
@@ -151,8 +151,13 @@ public class DocumentService {
     }
 
     public ResponseEntity<String> getFromList(Integer[] list) {
-            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.fromList(Arrays.asList(list))), HttpStatus.OK);
-
+        try {
+            String array = Arrays.toString(list);
+            array = array.replaceFirst("\\[", "{").replaceFirst("]", "}");
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.fromList(Arrays.asList(list), array)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public ResponseEntity<String> getAllProviders() {
@@ -172,16 +177,13 @@ public class DocumentService {
     }
 
     public ResponseEntity<String> getSpaceFromDocument(Long id) {
-        try {
             return new ResponseEntity<>(new Gson().toJson(this.documentRepository.getSpaceFromDocument(id)), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
-        }
+
     }
 
-    public ResponseEntity<String> getDocumentByNameInList(String name, Integer[] list) {
+    public ResponseEntity<String> getDocumentByName(String name, Integer[] list) {
         try {
-            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.getDocumentByNameInList(name, List.of(list))), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.getDocumentByName(name.toLowerCase(), List.of(list))), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
@@ -190,6 +192,38 @@ public class DocumentService {
     public ResponseEntity<String> groupByProvider(Integer[] list) {
         try {
             return new ResponseEntity<>(new Gson().toJson(this.documentRepository.groupByProvider(List.of(list))), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> groupByYear() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.groupByYear()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> groupByType() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.groupByType()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> groupByArchiver() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.groupByArchiver()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> groupByProvider() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.groupByProvider()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
@@ -219,14 +253,26 @@ public class DocumentService {
         }
     }
 
-    public ResponseEntity<String> getDocumentByYear(Integer[] years, String[] providers, Integer[] archivers, String[] types, Integer[] list) {
+    public ResponseEntity<String> filter(Integer[] years, String[] providers, Integer[] archivers, String[] types, Integer[] list) {
         try {
-            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.getDocumentByYear(
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.filter(
                     List.of(years),
                     List.of(providers),
                     List.of(archivers),
                     List.of(types),
                     List.of(list))), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> filter(Integer[] years, String[] providers, Integer[] archivers, String[] types) {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.filter(
+                    List.of(years),
+                    List.of(providers),
+                    List.of(archivers),
+                    List.of(types))), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
@@ -240,4 +286,43 @@ public class DocumentService {
         }
     }
 
+    public ResponseEntity<String> orderByYearAsc(Integer[] list) {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.orderByYearAsc(List.of(list))), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> orderByYearDesc(Integer[] list) {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.orderByYearDesc(List.of(list))), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> orderByNameAsc(Integer[] list) {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.orderByNameAsc(List.of(list))), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> orderByNameDesc(Integer[] list) {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.orderByNameDesc(List.of(list))), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> getDocumentById(Long id) {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.documentRepository.getDocumentById(id)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

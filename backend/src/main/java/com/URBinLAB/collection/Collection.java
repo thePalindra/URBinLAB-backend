@@ -25,11 +25,6 @@ public class Collection implements Serializable {
 
     private String name;
     private String description;
-    private String provider;
-
-    @Column(name="time_scope")
-    @Temporal(TemporalType.DATE)
-    private Date timeScope;
 
     public Collection() {}
 
@@ -47,13 +42,5 @@ public class Collection implements Serializable {
 
     public String getDescription() {
         return this.description;
-    }
-
-    public String getProvider() {
-        return this.provider;
-    }
-
-    public Date getTimeScope() {
-        return this.timeScope;
     }
 }

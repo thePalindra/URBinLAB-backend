@@ -14,6 +14,11 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
     @Query("SELECT d FROM Document d WHERE d.name = :name")
     List<Document> getOneByName(@Param("name") String name);
 
+    @Query(value = "SELECT *\n" +
+            "FROM \"document\" d\n" +
+            "WHERE d.document_id = :id", nativeQuery = true)
+    List<Object> getDocumentById(@Param("id") Long id);
+
     @Query(value = "select d.\"document_id\" as id, d.\"name\", d.\"clicks\", d.\"files\"\n" +
             "from \"document\" d \n" +
             "order by d.\"clicks\" desc"
@@ -22,15 +27,16 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
 
     @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
             "FROM \"document\" d\n" +
-            "ORDER BY RANDOM()" , nativeQuery = true)
-    List<Object> getAll();
+            "ORDER BY RANDOM()\n" +
+            "LIMIT :limit" , nativeQuery = true)
+    List<Object> getAll(@Param("limit") Long limit);
 
     @Query(value = "select d.\"document_id\" as id, d.\"name\", d.\"clicks\", d.\"files\"\n" +
             "from \"document\" d \n" +
             "where d.\"name\" like %:name% \n" +
             "order by d.\"clicks\" desc"
             , nativeQuery = true)
-    List<Object> getDocumentByNameInList(Pageable pageable, @Param("name") String name);
+    List<Object> getDocumentByName(Pageable pageable, @Param("name") String name);
 
 
     @Query(value = "SELECT d.document_id, d.name, d.type, d.time_scope " +
@@ -91,8 +97,12 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
 
     @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
             "FROM \"document\" d\n" +
-            "WHERE d.document_id IN :list " , nativeQuery = true)
-    List<Object> fromList(@Param("list") List<Integer> list);
+            "JOIN UNNEST(CAST(:array AS int[]))\n" +
+            "WITH ORDINALITY t(document_id, ord)\n" +
+            "USING (document_id)\n" +
+            "WHERE d.document_id IN :list \n" +
+            "ORDER BY t.ord;" , nativeQuery = true)
+    List<Object> fromList(@Param("list") List<Integer> list, @Param("array") String array);
 
     @Query(value = "SELECT d.provider, COUNT(d.document_id)\n" +
             "FROM \"document\" d\n" +
@@ -124,7 +134,7 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
             "ORDER BY r.name", nativeQuery = true)
     List<Object> groupByArchiver(@Param("list") List<Integer> list);
 
-    @Query(value = "SELECT ST_AsText(s.space)\n" +
+    @Query(value = "SELECT ST_AsText(s.space), ST_AsText(ST_Centroid(s.space)) as center\n" +
             "FROM \"document\" d\n" +
             "INNER JOIN \"space\" s \n" +
             "ON d.space_id = s.space_id\n" +
@@ -134,9 +144,9 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
     @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
             "FROM \"document\" d\n" +
             "WHERE d.document_id IN :list\n" +
-            "AND LOWER(d.name) LIKE %LOWER(:name)%", nativeQuery = true)
-    List<Object> getDocumentByNameInList(@Param("name") String name,
-                                         @Param("list") List<Integer> list);
+            "AND LOWER(d.name) LIKE %:name%", nativeQuery = true)
+    List<Object> getDocumentByName(@Param("name") String name,
+                                   @Param("list") List<Integer> list);
 
     @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
             "FROM \"document\" d\n" +
@@ -150,9 +160,74 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
             "AND d.provider IN :providers\n" +
             "AND d.archiver_id IN :archivers\n" +
             "AND d.type IN :types", nativeQuery = true)
-    List<Object> getDocumentByYear(@Param("years") List<Integer> years,
-                                   @Param("providers") List<String> providers,
-                                   @Param("archivers") List<Integer> archivers,
-                                   @Param("types") List<String> types,
-                                   @Param("list") List<Integer> list);
+    List<Object> filter(@Param("years") List<Integer> years,
+                        @Param("providers") List<String> providers,
+                        @Param("archivers") List<Integer> archivers,
+                        @Param("types") List<String> types,
+                        @Param("list") List<Integer> list);
+
+    @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
+            "FROM \"document\" d\n" +
+            "WHERE EXTRACT(YEAR FROM d.time_scope) IN :years\n" +
+            "AND d.provider IN :providers\n" +
+            "AND d.archiver_id IN :archivers\n" +
+            "AND d.type IN :types", nativeQuery = true)
+    List<Object> filter(@Param("years") List<Integer> years,
+                        @Param("providers") List<String> providers,
+                        @Param("archivers") List<Integer> archivers,
+                        @Param("types") List<String> types);
+
+    @Query(value = "SELECT d.provider, COUNT(d.document_id)\n" +
+            "FROM \"document\" d\n" +
+            "GROUP BY d.provider\n" +
+            "ORDER BY d.provider", nativeQuery = true)
+    List<Object> groupByProvider();
+
+    @Query(value = "SELECT EXTRACT(YEAR FROM d.time_scope), COUNT(d.document_id)\n" +
+            "FROM \"document\" d\n" +
+            "GROUP BY EXTRACT(YEAR FROM d.time_scope)\n" +
+            "ORDER BY EXTRACT(YEAR FROM d.time_scope)", nativeQuery = true)
+    List<Object> groupByYear();
+
+    @Query(value = "SELECT d.type, COUNT(d.document_id)\n" +
+            "FROM \"document\" d\n" +
+            "GROUP BY d.type\n" +
+            "ORDER BY d.type", nativeQuery = true)
+    List<Object> groupByType();
+
+    @Query(value = "SELECT r.name, r.researcher_id, COUNT(d.document_id)\n" +
+            "FROM \"researcher\" r\n" +
+            "INNER JOIN \"document\" d\n" +
+            "ON d.archiver_id = r.researcher_id\n" +
+            "GROUP BY r.researcher_id\n" +
+            "ORDER BY r.name", nativeQuery = true)
+    List<Object> groupByArchiver();
+
+    @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
+            "FROM \"document\" d\n" +
+            "WHERE d.document_id IN :list\n" +
+            "ORDER BY EXTRACT(YEAR FROM d.time_scope)\n" +
+            "ASC", nativeQuery = true)
+    List<Object> orderByYearAsc(@Param("list") List<Integer> list);
+
+    @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
+            "FROM \"document\" d\n" +
+            "WHERE d.document_id IN :list\n" +
+            "ORDER BY EXTRACT(YEAR FROM d.time_scope)\n" +
+            "DESC", nativeQuery = true)
+    List<Object> orderByYearDesc(@Param("list") List<Integer> list);
+
+    @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
+            "FROM \"document\" d\n" +
+            "WHERE d.document_id IN :list\n" +
+            "ORDER BY d.name\n" +
+            "ASC", nativeQuery = true)
+    List<Object> orderByNameAsc(@Param("list") List<Integer> list);
+
+    @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
+            "FROM \"document\" d\n" +
+            "WHERE d.document_id IN :list\n" +
+            "ORDER BY d.name\n" +
+            "DESC", nativeQuery = true)
+    List<Object> orderByNameDesc(@Param("list") List<Integer> list);
 }

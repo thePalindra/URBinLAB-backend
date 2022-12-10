@@ -23,7 +23,8 @@ public interface DocumentAPI {
 
 
     @RequestMapping(value = "/all", method = RequestMethod.POST)
-    ResponseEntity<String> getAll(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getAll(@RequestHeader MultiValueMap<String, String> map,
+                                  @RequestParam("limit") Long limit);
 
 
     @RequestMapping(value = "/get_document_by_space_geometry", method = RequestMethod.POST)
@@ -67,36 +68,79 @@ public interface DocumentAPI {
     ResponseEntity<String> getSpaceFromDocument(@RequestHeader MultiValueMap<String, String> map,
                                                 @RequestParam("id") Long id);
 
-    @RequestMapping(value = "/get_by_name", method = RequestMethod.POST)
-    ResponseEntity<String> getDocumentByNameInList(@RequestHeader MultiValueMap<String, String> map,
+    @RequestMapping(value = "/get_by_name_in_list", method = RequestMethod.POST)
+    ResponseEntity<String> getDocumentByName(@RequestHeader MultiValueMap<String, String> map,
                                              @RequestParam("name") String name,
                                              @RequestParam("list") Integer[] list);
 
-    @RequestMapping(value = "/group_provider", method = RequestMethod.POST)
+    @RequestMapping(value = "/group_provider_list", method = RequestMethod.POST)
     ResponseEntity<String> groupByProvider(@RequestHeader MultiValueMap<String, String> map,
                                            @RequestParam("list") Integer[] list);
 
-    @RequestMapping(value = "/group_year", method = RequestMethod.POST)
+    @RequestMapping(value = "/group_year_list", method = RequestMethod.POST)
     ResponseEntity<String> groupByYear(@RequestHeader MultiValueMap<String, String> map,
                                        @RequestParam("list") Integer[] list);
 
-    @RequestMapping(value = "/group_type", method = RequestMethod.POST)
+    @RequestMapping(value = "/group_type_list", method = RequestMethod.POST)
     ResponseEntity<String> groupByType(@RequestHeader MultiValueMap<String, String> map,
                                        @RequestParam("list") Integer[] list);
 
-    @RequestMapping(value = "/group_archivist", method = RequestMethod.POST)
+    @RequestMapping(value = "/group_archivist_list", method = RequestMethod.POST)
     ResponseEntity<String> groupByArchiver(@RequestHeader MultiValueMap<String, String> map,
                                            @RequestParam("list") Integer[] list);
 
+    @RequestMapping(value = "/group_provider", method = RequestMethod.POST)
+    ResponseEntity<String> groupByProvider(@RequestHeader MultiValueMap<String, String> map);
+
+    @RequestMapping(value = "/group_year", method = RequestMethod.POST)
+    ResponseEntity<String> groupByYear(@RequestHeader MultiValueMap<String, String> map);
+
+    @RequestMapping(value = "/group_type", method = RequestMethod.POST)
+    ResponseEntity<String> groupByType(@RequestHeader MultiValueMap<String, String> map);
+
+    @RequestMapping(value = "/group_archivist", method = RequestMethod.POST)
+    ResponseEntity<String> groupByArchiver(@RequestHeader MultiValueMap<String, String> map);
+
+    @RequestMapping(value = "/filter_list", method = RequestMethod.POST)
+    ResponseEntity<String> filter(@RequestHeader MultiValueMap<String, String> map,
+                                  @RequestParam("years") Integer[] years,
+                                  @RequestParam("providers") String[] providers,
+                                  @RequestParam("archivers") Integer[] archivers,
+                                  @RequestParam("types") String[] types,
+                                  @RequestParam("list") Integer[] list);
+
     @RequestMapping(value = "/filter", method = RequestMethod.POST)
-    ResponseEntity<String> getDocumentByYear(@RequestHeader MultiValueMap<String, String> map,
-                                             @RequestParam("years") Integer[] years,
-                                             @RequestParam("providers") String[] providers,
-                                             @RequestParam("archivers") Integer[] archivers,
-                                             @RequestParam("types") String[] types,
-                                             @RequestParam("list") Integer[] list);
+    ResponseEntity<String> filter(@RequestHeader MultiValueMap<String, String> map,
+                                  @RequestParam("years") Integer[] years,
+                                  @RequestParam("providers") String[] providers,
+                                  @RequestParam("archivers") Integer[] archivers,
+                                  @RequestParam("types") String[] types);
 
     @RequestMapping(value = "/name", method = RequestMethod.POST)
     ResponseEntity<String> getDocumentByName(@RequestHeader MultiValueMap<String, String> map,
                                              @RequestParam("name") String name);
+
+
+    @RequestMapping(value = "/year_asc", method = RequestMethod.POST)
+    ResponseEntity<String> orderByYearAsc(@RequestHeader MultiValueMap<String, String> map,
+                                          @RequestParam("list") Integer[] list);
+
+
+    @RequestMapping(value = "/year_desc", method = RequestMethod.POST)
+    ResponseEntity<String> orderByYearDesc(@RequestHeader MultiValueMap<String, String> map,
+                                           @RequestParam("list") Integer[] list);
+
+
+    @RequestMapping(value = "/name_asc", method = RequestMethod.POST)
+    ResponseEntity<String> orderByNameAsc(@RequestHeader MultiValueMap<String, String> map,
+                                          @RequestParam("list") Integer[] list);
+
+
+    @RequestMapping(value = "/name_desc", method = RequestMethod.POST)
+    ResponseEntity<String> orderByNameDesc(@RequestHeader MultiValueMap<String, String> map,
+                                           @RequestParam("list") Integer[] list);
+
+    @RequestMapping(value = "/by_id", method = RequestMethod.POST)
+    ResponseEntity<String> getDocumentById(@RequestHeader MultiValueMap<String, String> map,
+                                           @RequestParam("id") Long id);
 }

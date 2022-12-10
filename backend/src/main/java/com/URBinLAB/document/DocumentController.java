@@ -123,11 +123,11 @@ public class DocumentController implements DocumentAPI {
     }
 
     @Override
-    public ResponseEntity<String> getDocumentByNameInList(MultiValueMap<String, String> map,
+    public ResponseEntity<String> getDocumentByName(MultiValueMap<String, String> map,
                                                     String name,
                                                     Integer[] list) {
         if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.documentService.getDocumentByNameInList(name, list);
+            return this.documentService.getDocumentByName(name, list);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
@@ -169,22 +169,67 @@ public class DocumentController implements DocumentAPI {
     }
 
     @Override
-    public ResponseEntity<String> getDocumentByYear(MultiValueMap<String, String> map,
-                                                    Integer[] years,
-                                                    String[] providers,
-                                                    Integer[] archivers,
-                                                    String[] types,
-                                                    Integer[] list) {
+    public ResponseEntity<String> groupByProvider(MultiValueMap<String, String> map) {
         if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.documentService.getDocumentByYear(years, providers, archivers, types, list);
+            return this.documentService.groupByProvider();
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
 
     @Override
-    public ResponseEntity<String> getAll(MultiValueMap<String, String> map) {
+    public ResponseEntity<String> groupByYear(MultiValueMap<String, String> map) {
         if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.documentService.getAll();
+            return this.documentService.groupByYear();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> groupByType(MultiValueMap<String, String> map) {
+        if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.documentService.groupByType();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> groupByArchiver(MultiValueMap<String, String> map) {
+        if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.documentService.groupByArchiver();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> filter(MultiValueMap<String, String> map,
+                                         Integer[] years,
+                                         String[] providers,
+                                         Integer[] archivers,
+                                         String[] types,
+                                         Integer[] list) {
+        if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.documentService.filter(years, providers, archivers, types, list);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> filter(MultiValueMap<String, String> map,
+                                         Integer[] years,
+                                         String[] providers,
+                                         Integer[] archivers,
+                                         String[] types) {
+        if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.documentService.filter(years, providers, archivers, types);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> getAll(MultiValueMap<String, String> map,
+                                         Long limit) {
+        if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.documentService.getAll(limit);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
@@ -194,6 +239,51 @@ public class DocumentController implements DocumentAPI {
                                                     String name) {
         if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
             return this.documentService.getDocumentByName(name);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> orderByYearAsc(MultiValueMap<String, String> map,
+                                                 Integer[] list) {
+        if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.documentService.orderByYearAsc(list);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> orderByYearDesc(MultiValueMap<String, String> map,
+                                                  Integer[] list) {
+        if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.documentService.orderByYearDesc(list);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> orderByNameAsc(MultiValueMap<String, String> map,
+                                                 Integer[] list) {
+        if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.documentService.orderByNameAsc(list);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> orderByNameDesc(MultiValueMap<String, String> map,
+                                                  Integer[] list) {
+        if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.documentService.orderByNameDesc(list);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> getDocumentById(MultiValueMap<String, String> map,
+                                                  Long id) {
+        if (this.documentService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.documentService.getDocumentById(id);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }

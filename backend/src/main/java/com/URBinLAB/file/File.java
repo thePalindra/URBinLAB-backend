@@ -3,7 +3,6 @@ package com.URBinLAB.file;
 import com.URBinLAB.document.Document;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -23,9 +22,7 @@ public class File {
     @JoinColumn(name = "document_id")
     private Document document;
 
-    @Lob
-    @Type(type="org.hibernate.type.BinaryType")
-    private byte[] file;
+    private String file;
 
     private String name;
 
@@ -48,7 +45,7 @@ public class File {
         return this.document;
     }
 
-    public byte[] getFile() {
+    public String getFile() {
         return this.file;
     }
 

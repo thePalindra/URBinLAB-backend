@@ -16,6 +16,9 @@ public interface FileAPI {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     ResponseEntity<String> addFile(@RequestHeader MultiValueMap<String, String> map,
                                    @PathParam("file") MultipartFile file,
-                                   @PathParam("document") Long document);
+                                   @PathParam("document") Long document) throws IOException;
 
+    @RequestMapping(value = "/get", method = RequestMethod.POST)
+    ResponseEntity<String> getFiles(@RequestHeader MultiValueMap<String, String> map,
+                                    @PathParam("id") Long id);
 }

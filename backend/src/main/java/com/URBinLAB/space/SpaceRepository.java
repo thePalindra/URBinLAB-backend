@@ -33,8 +33,9 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
     @Query(value = "SELECT max(space_id) FROM \"space\"", nativeQuery = true)
     Long getMax();
 
-    @Query(value = "SELECT s.space_id, ST_AsText(s.space), s.name FROM \"space\" s " +
-            "WHERE s.level = :level AND s.hierarchy = \'CAOP\' " +
+    @Query(value = "SELECT s.space_id, ST_AsText(s.space), s.name \n" +
+            "FROM \"space\" s \n" +
+            "WHERE s.level = :level AND s.hierarchy = \'CAOP\' \n" +
             "ORDER BY s.space_id", nativeQuery = true)
     List<Object> getAllFromLevel(@Param("level") Integer level);
 
@@ -62,11 +63,12 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "WHERE ST_Contains(ST_GeomFromText(:space, 4326), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsByGeometry(@Param("space") String space);
 
-    @Query(value = "SELECT DISTINCT d.document_id\n" +
+    @Query(value = "SELECT DISTINCT d.document_id, ST_Area(s.space) area\n" +
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d \n" +
             "ON s.space_id = d.space_id\n" +
-            "WHERE ST_Contains(Geometry(s.space), ST_GeomFromText(:space, 4326))\n", nativeQuery = true)
+            "WHERE ST_Contains(Geometry(s.space), ST_GeomFromText(:space, 4326))\n" +
+            "ORDER BY area", nativeQuery = true)
     List<Object> getAllTheDocumentsByMarker(@Param("space") String space);
 
     @Query(value = "SELECT DISTINCT d.document_id\n" +
