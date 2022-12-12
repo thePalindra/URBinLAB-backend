@@ -44,4 +44,9 @@ public class SurveysController implements StatisticsAPI {
     public ResponseEntity<String> getAllThemes(MultiValueMap<String, String> map) {
         return null;
     }
+
+    @Override
+    public ResponseEntity<String> getById(MultiValueMap<String, String> map, Long id) {
+        return null;
+    }
 }

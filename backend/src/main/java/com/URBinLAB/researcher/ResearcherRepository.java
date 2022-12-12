@@ -24,4 +24,9 @@ public interface ResearcherRepository extends JpaRepository<Researcher, Long> {
             "INNER JOIN \"document\" d ON r.researcher_id = d.archiver_id "
             , nativeQuery = true)
     List<Object> getAllArchivers();
+
+    @Query(value = "SELECT \"name\"\n" +
+            "FROM \"researcher\"\n" +
+            "WHERE researcher_id = :id", nativeQuery = true)
+    Object getArchiverName(@Param("id") Long id);
 }

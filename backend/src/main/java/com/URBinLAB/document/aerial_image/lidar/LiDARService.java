@@ -114,4 +114,12 @@ public class LiDARService {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public ResponseEntity<String> getById(Long id) {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.liDARRepository.getByDocId(id)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -59,4 +59,13 @@ public class ThematicMapController implements ThematicMapAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getById(MultiValueMap<String, String> map,
+                                          Long id) {
+        if (this.thematicMapService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.thematicMapService.getById(id);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }

@@ -112,4 +112,12 @@ public class ThematicStatisticsService {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public ResponseEntity<String> getById(Long id) {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.statisticsRepository.getByDocId(id)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -127,4 +127,12 @@ public class ResearcherService {
             return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public ResponseEntity<String> getArchiverName(Long id) {
+        try {
+            return new ResponseEntity<>(this.gson.toJson(this.researcherRepository.getArchiverName(id)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

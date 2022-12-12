@@ -47,4 +47,13 @@ public class PhotographyController implements PhotographyAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getById(MultiValueMap<String, String> map,
+                                          Long id) {
+        if (this.photographyService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.photographyService.getById(id);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }

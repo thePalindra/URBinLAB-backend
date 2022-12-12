@@ -66,4 +66,13 @@ public class GeographicMapController implements BaseMapAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getById(MultiValueMap<String, String> map,
+                                          Long id) {
+        if (this.geographicMapService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.geographicMapService.getById(id);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }

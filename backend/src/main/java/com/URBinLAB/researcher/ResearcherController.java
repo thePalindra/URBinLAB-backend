@@ -55,8 +55,17 @@ public class ResearcherController implements ResearcherAPI {
 
     @Override
     public ResponseEntity<String> getArchivers(MultiValueMap<String, String> map) {
-        if (this.researcherService.tokenChecker(map, Feature.SPATIAL_QUERY))
+        if (this.researcherService.tokenChecker(map, Feature.AUX_QUERY))
             return this.researcherService.getArchivers();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
+    public ResponseEntity<String> getArchiverName(MultiValueMap<String, String> map,
+                                                  Long id) {
+        if (this.researcherService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.researcherService.getArchiverName(id);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }

@@ -54,4 +54,12 @@ public class AerialPhotographyController implements AerialPhotographyAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> getById(MultiValueMap<String, String> map, Long id) {
+        if (this.aerialPhotographyService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.aerialPhotographyService.getById(id);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }

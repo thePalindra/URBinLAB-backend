@@ -2,6 +2,7 @@ package com.URBinLAB.document.cartography;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,4 +24,11 @@ public interface CartographyRepository extends JpaRepository<Cartography, Long> 
             "FROM \"cartography\" c " +
             "ORDER BY c.scale", nativeQuery = true)
     List<String> getAllScale();
+
+    @Query(value = "SELECT car.scale, car.raster, car.image_resolution, car.geometry_type\n" +
+            "FROM \"document\" d\n" +
+            "INNER JOIN \"cartography\" car\n" +
+            "ON car.document_id = d.document_id\n" +
+            "WHERE d.document_id = :id", nativeQuery = true)
+    Object getByDocId(@Param("id") Long id);
 }
