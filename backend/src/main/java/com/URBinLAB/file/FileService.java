@@ -85,8 +85,8 @@ public class FileService {
                     .build();
 
 
-            System.out.println(request.getServletContext().getRealPath("/"));
-            file.transferTo(new java.io.File(VOLUME_PATH + file.getOriginalFilename()));
+            //System.out.println(request.getServletContext().getRealPath("/"));
+            //file.transferTo(new java.io.File(VOLUME_PATH + file.getOriginalFilename()));
             this.fileRepository.save(saved);
             return new ResponseEntity<>(new Gson().toJson(file), HttpStatus.OK);
         } catch (Exception e) {
@@ -95,9 +95,17 @@ public class FileService {
     }
 
     public ResponseEntity<String> getFiles(Long id) {
-
         try {
             return new ResponseEntity<>(new Gson().toJson(this.fileRepository.getFiles(id)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> deleteFile(Long id) {
+        try{
+            this.fileRepository.deleteById(id);
+            return new ResponseEntity<>(new Gson().toJson("Deleted successfully"), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.BAD_REQUEST);
         }

@@ -39,6 +39,15 @@ public class DocumentController implements DocumentAPI {
     }
 
     @Override
+    public ResponseEntity<String> deleteDocument(MultiValueMap<String, String> map,
+                                                 Long id) {
+        if (this.documentService.tokenChecker(map, Feature.ADD_DOCUMENT))
+            return this.documentService.deleteDocument(id);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
     public ResponseEntity<String> getDocumentBySpaceGeometry(MultiValueMap<String, String> map,
                                                              String space,
                                                              Integer page) {

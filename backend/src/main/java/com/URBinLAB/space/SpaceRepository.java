@@ -43,7 +43,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "FROM \"space\" s " +
             "WHERE s.hierarchy LIKE %:hierarchy% " +
             "AND s.level_name LIKE %:level% " +
-            "AND s.name LIKE %:name% " , nativeQuery = true)
+            "AND s.name = :name " , nativeQuery = true)
     List<Object> searchByName(@Param("name") String name, @Param("level") String level, @Param("hierarchy") String hierarchy);
 
     @Query(value = "SELECT s2.name, s2.space_id, d.name, d.document_id, d.type, d.time_scope\n" +

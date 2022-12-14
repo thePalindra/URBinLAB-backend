@@ -44,4 +44,14 @@ public class FileController implements FileAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> deleteFile(MultiValueMap<String, String> map,
+                                             Long id) {
+
+        if (this.fileService.tokenChecker(map, Feature.ADD_DOCUMENT))
+            return this.fileService.deleteFile(id);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }

@@ -21,11 +21,13 @@ public interface DocumentAPI {
                                           @PathParam("timeScope") Date timeScope,
                                           @PathParam("link") String link);
 
-
     @RequestMapping(value = "/all", method = RequestMethod.POST)
     ResponseEntity<String> getAll(@RequestHeader MultiValueMap<String, String> map,
                                   @RequestParam("limit") Long limit);
 
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    ResponseEntity<String> deleteDocument(@RequestHeader MultiValueMap<String, String> map,
+                                          @RequestParam("id") Long id);
 
     @RequestMapping(value = "/get_document_by_space_geometry", method = RequestMethod.POST)
     ResponseEntity<String> getDocumentBySpaceGeometry(@RequestHeader MultiValueMap<String, String> map,

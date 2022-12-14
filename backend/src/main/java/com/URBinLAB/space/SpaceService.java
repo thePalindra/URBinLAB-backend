@@ -138,7 +138,11 @@ public class SpaceService {
 
             Document temp = doc.get();
 
-            this.spaceRepository.insertGeoJson(this.spaceRepository.getMax() + 1, name, geojson);
+            Long max = 0l;
+            if (this.spaceRepository.getMax()!=null)
+                max = this.spaceRepository.getMax();
+
+            this.spaceRepository.insertGeoJson(max + 1, name, geojson);
 
             temp.setSpace(this.spaceRepository.getById(this.spaceRepository.getMax()));
             this.documentRepository.save(temp);

@@ -99,6 +99,15 @@ public class DocumentService {
         }
     }
 
+    public ResponseEntity<String> deleteDocument(Long id) {
+        try {
+            this.documentRepository.deleteById(id);
+            return new ResponseEntity<>(new Gson().toJson("Deleted successfully!"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
     public ResponseEntity<String> getDocumentBySpaceId(Long id,
                                                        Integer page) {
 
