@@ -37,6 +37,10 @@ public class File {
 
     public File() {}
 
+    public void setDocument(Document document) {
+        this.document = document;
+    }
+
     public Long getId() {
         return this.id;
     }

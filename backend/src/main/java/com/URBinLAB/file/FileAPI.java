@@ -25,4 +25,9 @@ public interface FileAPI {
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     ResponseEntity<String> deleteFile(@RequestHeader MultiValueMap<String, String> map,
                                       @RequestParam("id") Long id);
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    ResponseEntity<String> updateFile(@RequestHeader MultiValueMap<String, String> map,
+                                      @RequestParam("id") Long id,
+                                      @RequestParam("document") Long document);
 }

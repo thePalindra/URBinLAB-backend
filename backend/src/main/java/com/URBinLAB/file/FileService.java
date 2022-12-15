@@ -107,7 +107,22 @@ public class FileService {
             this.fileRepository.deleteById(id);
             return new ResponseEntity<>(new Gson().toJson("Deleted successfully"), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Gson().toJson("Something went wrong!"), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> updateFile(Long id,
+                                             Long document) {
+        try {
+            Document doc = this.documentRepository.getById(document);
+            File file = this.fileRepository.getById(id);
+
+            file.setDocument(doc);
+            this.fileRepository.save(file);
+            return new ResponseEntity<>(new Gson().toJson(file.getId()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new Gson().toJson("Something went wrong!"), HttpStatus.BAD_REQUEST);
+
         }
     }
 }
