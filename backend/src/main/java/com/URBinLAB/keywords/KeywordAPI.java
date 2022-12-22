@@ -19,6 +19,9 @@ public interface KeywordAPI {
     ResponseEntity<String> getKeywordByKeyword(@RequestHeader MultiValueMap<String, String> map,
                                                @RequestParam("keyword") String keyword);
 
+    @RequestMapping(value = "/get_all", method = RequestMethod.POST)
+    ResponseEntity<String> getAll(@RequestHeader MultiValueMap<String, String> map);
+
     @RequestMapping(value = "/document", method = RequestMethod.POST)
     ResponseEntity<String> addKeywordToDocument(@RequestHeader MultiValueMap<String, String> map,
                                                 @RequestParam("document") Long document,

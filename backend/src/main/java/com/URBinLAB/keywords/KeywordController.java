@@ -45,6 +45,14 @@ public class KeywordController implements KeywordAPI {
     }
 
     @Override
+    public ResponseEntity<String> getAll(MultiValueMap<String, String> map) {
+        if (this.keywordService.tokenChecker(map, Feature.AUX_QUERY))
+            return this.keywordService.getAll();
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+    @Override
     public ResponseEntity<String> addKeywordToDocument(MultiValueMap<String, String> map,
                                                        Long document,
                                                        List<Long> keywords) {

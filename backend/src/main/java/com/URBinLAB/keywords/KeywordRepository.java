@@ -32,4 +32,8 @@ public interface KeywordRepository extends JpaRepository<Keyword, Long> {
             "GROUP BY k.keyword\n" +
             "ORDER BY count_docs", nativeQuery = true)
     List<Object> groupByKeyword();
+
+    @Query(value = "SELECT *\n" +
+            "FROM \"keyword\"", nativeQuery = true)
+    List<Object> getAll();
 }

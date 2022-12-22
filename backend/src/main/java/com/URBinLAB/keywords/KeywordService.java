@@ -91,4 +91,12 @@ public class KeywordService {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public ResponseEntity<String> getAll() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.keywordRepository.getAll()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
 }
