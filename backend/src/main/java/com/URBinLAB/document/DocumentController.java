@@ -296,4 +296,14 @@ public class DocumentController implements DocumentAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> addCollection(MultiValueMap<String, String> map,
+                                                Long id,
+                                                Long collection) {
+        if (this.documentService.tokenChecker(map, Feature.ADD_DOCUMENT))
+            return this.documentService.addCollection(id, collection);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
 }

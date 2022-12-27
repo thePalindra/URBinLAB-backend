@@ -10,9 +10,7 @@ import java.util.List;
 @Repository
 public interface CollectionRepository extends JpaRepository<Collection, Long> {
 
-    @Query(value = "SELECT col.collection_id, col.name " +
-            "FROM \"collection\" col " +
-            "NATURAL JOIN \"document\" d "
-            , nativeQuery = true)
+    @Query(value = "SELECT col.collection_id, col.name \n" +
+            "FROM \"collection\" col", nativeQuery = true)
     List<Object> getAllCollections();
 }

@@ -145,4 +145,9 @@ public interface DocumentAPI {
     @RequestMapping(value = "/by_id", method = RequestMethod.POST)
     ResponseEntity<String> getDocumentById(@RequestHeader MultiValueMap<String, String> map,
                                            @RequestParam("id") Long id);
+
+    @RequestMapping(value = "/add_collection", method = RequestMethod.POST)
+    ResponseEntity<String> addCollection(@RequestHeader MultiValueMap<String, String> map,
+                                           @RequestParam("id") Long id,
+                                           @RequestParam("col") Long collection);
 }

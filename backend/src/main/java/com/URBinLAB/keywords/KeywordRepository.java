@@ -34,6 +34,7 @@ public interface KeywordRepository extends JpaRepository<Keyword, Long> {
     List<Object> groupByKeyword();
 
     @Query(value = "SELECT *\n" +
-            "FROM \"keyword\"", nativeQuery = true)
+            "FROM \"keyword\"\n" +
+            "ORDER BY \"keyword\"", nativeQuery = true)
     List<Object> getAll();
 }

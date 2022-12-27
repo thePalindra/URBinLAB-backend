@@ -54,15 +54,12 @@ public class KeywordService {
     }
 
     public ResponseEntity<String> addKeyword(String keyword) {
-        try {
             Keyword temp = Keyword.builder()
                     .keyword(keyword)
                     .build();
 
-            return new ResponseEntity<>(new Gson().toJson(this.keywordRepository.save(temp).getId()), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
-        }
+            return new ResponseEntity<>(new Gson().toJson(this.keywordRepository.save(temp)), HttpStatus.OK);
+
     }
 
     public ResponseEntity<String> getKeywordByKeyword(String keyword) {

@@ -1,5 +1,7 @@
 package com.URBinLAB.document;
 
+import com.URBinLAB.collection.Collection;
+import com.URBinLAB.collection.CollectionRepository;
 import com.URBinLAB.space.SpaceRepository;
 import com.URBinLAB.token.Token;
 import com.URBinLAB.token.TokenRepository;
@@ -16,7 +18,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class DocumentService {
@@ -24,16 +29,19 @@ public class DocumentService {
     private DocumentRepository documentRepository;
     private TokenRepository tokenRepository;
     private SpaceRepository spaceRepository;
+    private CollectionRepository collectionRepository;
     private final Gson gson = new Gson();
 
     @Autowired
     public DocumentService(DocumentRepository documentRepository,
                            TokenRepository tokenRepository,
-                           SpaceRepository spaceRepository) {
+                           SpaceRepository spaceRepository,
+                           CollectionRepository collectionRepository) {
 
         this.documentRepository = documentRepository;
         this.tokenRepository = tokenRepository;
         this.spaceRepository = spaceRepository;
+        this.collectionRepository = collectionRepository;
     }
 
     public boolean tokenChecker (MultiValueMap<String, String> map, Feature feature) {
@@ -330,6 +338,19 @@ public class DocumentService {
     public ResponseEntity<String> getDocumentById(Long id) {
         try {
             return new ResponseEntity<>(new Gson().toJson(this.documentRepository.getDocumentById(id)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> addCollection(Long id, Long collection) {
+        try {
+            Collection col = this.collectionRepository.getById(collection);
+            Document document = this.documentRepository.getById(id);
+
+            document.setCollection(col);
+            document = this.documentRepository.save(document);
+            return new ResponseEntity<>(new Gson().toJson(document), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

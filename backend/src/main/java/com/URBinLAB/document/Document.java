@@ -93,4 +93,8 @@ public class Document implements Serializable {
     public String getLink() {
         return this.link;
     }
+
+    public void setCollection(Collection collection) {
+        this.collection = collection;
+    }
 }

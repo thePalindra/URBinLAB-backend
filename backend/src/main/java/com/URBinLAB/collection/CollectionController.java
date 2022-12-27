@@ -28,4 +28,17 @@ public class CollectionController implements CollectionAPI {
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
+
+    @Override
+    public ResponseEntity<String> createCollection(MultiValueMap<String, String> map,
+                                                   String name,
+                                                   String description) {
+
+        if (this.collectionService.tokenChecker(map, Feature.ADD_DOCUMENT))
+            return this.collectionService.createCollection(map, name, description);
+
+        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    }
+
+
 }
