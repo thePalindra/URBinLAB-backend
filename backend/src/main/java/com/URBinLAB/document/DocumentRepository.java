@@ -2,14 +2,24 @@ package com.URBinLAB.document;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Long> {
+
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE \"document\"\n" +
+            "SET collection_id = :col\n" +
+            "WHERE document_id=:id", nativeQuery = true)
+    @Transactional
+    void changeCollection(@Param("id") Long id, @Param("col") Long collection);
 
     @Query("SELECT d FROM Document d WHERE d.name = :name")
     List<Document> getOneByName(@Param("name") String name);

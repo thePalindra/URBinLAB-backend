@@ -1,6 +1,5 @@
 package com.URBinLAB.document;
 
-import com.URBinLAB.collection.Collection;
 import com.URBinLAB.collection.CollectionRepository;
 import com.URBinLAB.space.SpaceRepository;
 import com.URBinLAB.token.Token;
@@ -17,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -343,14 +343,15 @@ public class DocumentService {
         }
     }
 
+    @Transactional
     public ResponseEntity<String> addCollection(Long id, Long collection) {
         try {
-            Collection col = this.collectionRepository.getById(collection);
-            Document document = this.documentRepository.getById(id);
+            Document doc = this.documentRepository.getById(id);
+            doc.setCollection(this.collectionRepository.getById(collection));
 
-            document.setCollection(col);
-            document = this.documentRepository.save(document);
-            return new ResponseEntity<>(new Gson().toJson(document), HttpStatus.OK);
+            this.documentRepository.save(doc);
+
+            return new ResponseEntity<>(new Gson().toJson("OK"), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
