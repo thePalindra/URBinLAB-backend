@@ -33,20 +33,16 @@ public class CensusController implements StatisticsAPI {
                                                  Date timeScope,
                                                  String link,
                                                  String theme) {
-
-        if (this.censusService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.censusService.createDocument(map, name, description, provider, timeScope, link, theme);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.censusService.createDocument(map, name, description, provider, timeScope, link, theme);
     }
 
     @Override
-    public ResponseEntity<String> getAllThemes(MultiValueMap<String, String> map) {
+    public ResponseEntity<String> getAllThemes() {
         return null;
     }
 
     @Override
-    public ResponseEntity<String> getById(MultiValueMap<String, String> map, Long id) {
+    public ResponseEntity<String> getById(Long id) {
         return null;
     }
 }

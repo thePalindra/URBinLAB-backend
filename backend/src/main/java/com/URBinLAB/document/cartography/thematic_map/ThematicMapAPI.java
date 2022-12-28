@@ -27,12 +27,11 @@ public interface ThematicMapAPI {
                                           @PathParam("mapType") String mapType);
 
     @RequestMapping(value = "/get_theme", method = RequestMethod.POST)
-    ResponseEntity<String> getAllTheme(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getAllTheme();
 
     @RequestMapping(value = "/get_type", method = RequestMethod.POST)
-    ResponseEntity<String> getAllThematicMapType(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getAllThematicMapType();
 
     @RequestMapping(value = "/get_by_id", method = RequestMethod.POST)
-    ResponseEntity<String> getById(@RequestHeader MultiValueMap<String, String> map,
-                                   @RequestParam("id") Long id);
+    ResponseEntity<String> getById(@RequestParam("id") Long id);
 }

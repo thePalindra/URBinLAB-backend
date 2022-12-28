@@ -37,35 +37,21 @@ public class ThematicMapController implements ThematicMapAPI {
                                                  String type,
                                                  String theme,
                                                  String mapType) {
-
-        if (this.thematicMapService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.thematicMapService.createDocument(map, name, description, provider, timeScope, link, scale, raster, resolution, type, theme, mapType);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.thematicMapService.createDocument(map, name, description, provider, timeScope, link, scale, raster, resolution, type, theme, mapType);
     }
 
     @Override
-    public ResponseEntity<String> getAllTheme(MultiValueMap<String, String> map) {
-        if (this.thematicMapService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.thematicMapService.getAllTheme();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllTheme() {
+        return this.thematicMapService.getAllTheme();
     }
 
     @Override
-    public ResponseEntity<String> getAllThematicMapType(MultiValueMap<String, String> map) {
-        if (this.thematicMapService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.thematicMapService.getAllThematicMapType();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllThematicMapType() {
+        return this.thematicMapService.getAllThematicMapType();
     }
 
     @Override
-    public ResponseEntity<String> getById(MultiValueMap<String, String> map,
-                                          Long id) {
-        if (this.thematicMapService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.thematicMapService.getById(id);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getById(Long id) {
+        return this.thematicMapService.getById(id);
     }
 }

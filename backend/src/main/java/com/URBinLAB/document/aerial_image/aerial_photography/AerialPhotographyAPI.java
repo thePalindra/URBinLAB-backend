@@ -23,12 +23,11 @@ public interface AerialPhotographyAPI {
                                                    @PathParam("resolution") String resolution);
 
     @RequestMapping(value = "/get_scale", method = RequestMethod.POST)
-    ResponseEntity<String> getAllScale(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getAllScale();
 
     @RequestMapping(value = "/get_image_resolution", method = RequestMethod.POST)
-    ResponseEntity<String> getAllImageResolution(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getAllImageResolution();
 
     @RequestMapping(value = "/get_by_id", method = RequestMethod.POST)
-    ResponseEntity<String> getById(@RequestHeader MultiValueMap<String, String> map,
-                                   @RequestParam("id") Long id);
+    ResponseEntity<String> getById(@RequestParam("id") Long id);
 }

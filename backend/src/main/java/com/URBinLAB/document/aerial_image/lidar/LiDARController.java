@@ -32,27 +32,16 @@ public class LiDARController implements LiDARAPI {
                                                  Date timeScope,
                                                  String link,
                                                  String resolution) {
-
-        if (this.liDARService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.liDARService.createDocument(map, name, description, provider, timeScope, link, resolution);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.liDARService.createDocument(map, name, description, provider, timeScope, link, resolution);
     }
 
     @Override
-    public ResponseEntity<String> getAllResolution(MultiValueMap<String, String> map) {
-        if (this.liDARService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.liDARService.getAllResolution();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllResolution() {
+        return this.liDARService.getAllResolution();
     }
 
     @Override
-    public ResponseEntity<String> getById(MultiValueMap<String, String> map,
-                                          Long id) {
-        if (this.liDARService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.liDARService.getById(id);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getById(Long id) {
+        return this.liDARService.getById(id);
     }
 }

@@ -10,4 +10,5 @@ urlpatterns = [
     path("es/put", views.put_ES, name="put_ES"),
     path("es/search", views.search_ES, name="search_ES"),
     path("dictionary", views.get_dictionary, name="get_dictionary"),
+    path("add_collection", views.help, name="add_collection"),
 ]

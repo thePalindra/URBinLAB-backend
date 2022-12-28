@@ -25,48 +25,30 @@ public class ResearcherController implements ResearcherAPI {
     }
 
     @Override
-    public ResponseEntity<String> signUp(MultiValueMap<String, String> map,
-                                         String name,
+    public ResponseEntity<String> signUp(String name,
                                          String email,
                                          String password) {
-        if (this.researcherService.tokenChecker(map, Feature.SIGNUP))
-            return this.researcherService.signUp(name, email, password);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.researcherService.signUp(name, email, password);
     }
 
     @Override
-    public ResponseEntity<String> login(MultiValueMap<String, String> map,
-                                        String name,
+    public ResponseEntity<String> login(String name,
                                         String password) {
-        if (this.researcherService.tokenChecker(map, Feature.LOGIN))
-            return this.researcherService.login(name, password);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.researcherService.login(name, password);
     }
 
     @Override
     public ResponseEntity<String> logout(MultiValueMap<String, String> map) {
-        if (this.researcherService.tokenChecker(map, Feature.LOGOUT))
-            return this.researcherService.logout(map);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.researcherService.logout(map);
     }
 
     @Override
-    public ResponseEntity<String> getArchivers(MultiValueMap<String, String> map) {
-        if (this.researcherService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.researcherService.getArchivers();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getArchivers() {
+        return this.researcherService.getArchivers();
     }
 
     @Override
-    public ResponseEntity<String> getArchiverName(MultiValueMap<String, String> map,
-                                                  Long id) {
-        if (this.researcherService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.researcherService.getArchiverName(id);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getArchiverName(Long id) {
+        return this.researcherService.getArchiverName(id);
     }
 }

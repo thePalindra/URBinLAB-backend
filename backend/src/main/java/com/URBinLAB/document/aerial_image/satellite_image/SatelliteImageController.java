@@ -33,35 +33,21 @@ public class SatelliteImageController implements SatelliteImageAPI {
                                                  String link,
                                                  String satellite,
                                                  String resolution) {
-
-        if (this.satelliteImageService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.satelliteImageService.createDocument(map, name, description, provider, timeScope, link, satellite, resolution);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.satelliteImageService.createDocument(map, name, description, provider, timeScope, link, satellite, resolution);
     }
 
     @Override
-    public ResponseEntity<String> getAllSatellite(MultiValueMap<String, String> map) {
-        if (this.satelliteImageService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.satelliteImageService.getAllSatellite();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllSatellite() {
+        return this.satelliteImageService.getAllSatellite();
     }
 
     @Override
-    public ResponseEntity<String> getAllResolution(MultiValueMap<String, String> map) {
-        if (this.satelliteImageService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.satelliteImageService.getAllResolution();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllResolution() {
+        return this.satelliteImageService.getAllResolution();
     }
 
     @Override
-    public ResponseEntity<String> getById(MultiValueMap<String, String> map,
-                                          Long id) {
-        if (this.satelliteImageService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.satelliteImageService.getById(id);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getById(Long id) {
+        return this.satelliteImageService.getById(id);
     }
 }

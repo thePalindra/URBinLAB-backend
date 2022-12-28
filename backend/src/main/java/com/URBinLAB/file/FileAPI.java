@@ -14,20 +14,16 @@ import java.util.Date;
 public interface FileAPI {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    ResponseEntity<String> addFile(@RequestHeader MultiValueMap<String, String> map,
-                                   @PathParam("file") MultipartFile file,
+    ResponseEntity<String> addFile(@PathParam("file") MultipartFile file,
                                    @PathParam("document") Long document) throws IOException;
 
     @RequestMapping(value = "/get", method = RequestMethod.POST)
-    ResponseEntity<String> getFiles(@RequestHeader MultiValueMap<String, String> map,
-                                    @PathParam("id") Long id);
+    ResponseEntity<String> getFiles(@PathParam("id") Long id);
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    ResponseEntity<String> deleteFile(@RequestHeader MultiValueMap<String, String> map,
-                                      @RequestParam("id") Long id);
+    ResponseEntity<String> deleteFile(@RequestParam("id") Long id);
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    ResponseEntity<String> updateFile(@RequestHeader MultiValueMap<String, String> map,
-                                      @RequestParam("id") Long id,
+    ResponseEntity<String> updateFile(@RequestParam("id") Long id,
                                       @RequestParam("document") Long document);
 }

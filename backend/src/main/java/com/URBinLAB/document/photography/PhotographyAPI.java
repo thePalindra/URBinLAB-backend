@@ -23,9 +23,8 @@ public interface PhotographyAPI {
                                           @PathParam("color") Boolean color);
 
     @RequestMapping(value = "/get_image_resolution", method = RequestMethod.POST)
-    ResponseEntity<String> getAllImageResolution(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getAllImageResolution();
 
     @RequestMapping(value = "/get_by_id", method = RequestMethod.POST)
-    ResponseEntity<String> getById(@RequestHeader MultiValueMap<String, String> map,
-                                   @RequestParam("id") Long id);
+    ResponseEntity<String> getById(@RequestParam("id") Long id);
 }

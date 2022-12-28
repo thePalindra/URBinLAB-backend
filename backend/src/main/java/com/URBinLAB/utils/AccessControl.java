@@ -21,26 +21,18 @@ public class AccessControl {
     private static Map<Feature, Boolean> setAll() {
         Map<Feature, Boolean> map = new HashMap<>();
 
-        map.put(Feature.SIGNUP, true);
-        map.put(Feature.LOGIN, true);
-        map.put(Feature.LOGOUT, false);
-        map.put(Feature.ADD_DOCUMENT, false);
-        map.put(Feature.SPATIAL_QUERY, true);
-        map.put(Feature.AUX_QUERY, true);
-        map.put(Feature.ADD_KEYWORD, false);
+        map.put(Feature.ALL, true);
+        map.put(Feature.ONLY_MASTER, false);
+        map.put(Feature.RESEARCHER_OR_ABOVE, false);
         return map;
     }
 
     private static Map<Feature, Boolean> setAdmin() {
         Map<Feature, Boolean> map = new HashMap<>();
 
-        map.put(Feature.SIGNUP, false);
-        map.put(Feature.LOGIN, false);
-        map.put(Feature.LOGOUT, true);
-        map.put(Feature.ADD_DOCUMENT, true);
-        map.put(Feature.SPATIAL_QUERY, true);
-        map.put(Feature.AUX_QUERY, true);
-        map.put(Feature.ADD_KEYWORD, true);
+        map.put(Feature.ALL, true);
+        map.put(Feature.ONLY_MASTER, true);
+        map.put(Feature.RESEARCHER_OR_ABOVE, true);
         return map;
     }
 }

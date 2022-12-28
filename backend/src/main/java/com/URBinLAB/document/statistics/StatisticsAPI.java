@@ -22,9 +22,8 @@ public interface StatisticsAPI {
                                           @PathParam("theme") String theme);
 
     @RequestMapping(value = "/get_themes", method = RequestMethod.POST)
-    ResponseEntity<String> getAllThemes(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getAllThemes();
 
     @RequestMapping(value = "/get_by_id", method = RequestMethod.POST)
-    ResponseEntity<String> getById(@RequestHeader MultiValueMap<String, String> map,
-                                   @RequestParam("id") Long id);
+    ResponseEntity<String> getById(@RequestParam("id") Long id);
 }

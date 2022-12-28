@@ -33,27 +33,16 @@ public class ThematicStatisticsController implements StatisticsAPI {
                                                  Date timeScope,
                                                  String link,
                                                  String theme) {
-
-        if (this.thematicStatisticsService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.thematicStatisticsService.createDocument(map, name, description, provider, timeScope, link, theme);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.thematicStatisticsService.createDocument(map, name, description, provider, timeScope, link, theme);
     }
 
     @Override
-    public ResponseEntity<String> getAllThemes(MultiValueMap<String, String> map) {
-        if (this.thematicStatisticsService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.thematicStatisticsService.getAllThemes();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllThemes() {
+        return this.thematicStatisticsService.getAllThemes();
     }
 
     @Override
-    public ResponseEntity<String> getById(MultiValueMap<String, String> map,
-                                          Long id) {
-        if (this.thematicStatisticsService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.thematicStatisticsService.getById(id);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getById(Long id) {
+        return this.thematicStatisticsService.getById(id);
     }
 }

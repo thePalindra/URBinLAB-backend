@@ -36,43 +36,26 @@ public class GeographicMapController implements BaseMapAPI {
                                                  Boolean raster,
                                                  String resolution,
                                                  String type) {
-
-        if (this.geographicMapService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.geographicMapService.createDocument(map, name, description, provider, timeScope, link, scale, raster, resolution, type);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.geographicMapService.createDocument(map, name, description, provider, timeScope, link, scale, raster, resolution, type);
     }
 
     @Override
-    public ResponseEntity<String> getAllScale(MultiValueMap<String, String> map) {
-        if (this.geographicMapService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.geographicMapService.getAllScale();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllScale() {
+        return this.geographicMapService.getAllScale();
     }
 
     @Override
-    public ResponseEntity<String> getAllImageResolution(MultiValueMap<String, String> map) {
-        if (this.geographicMapService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.geographicMapService.getAllImageResolution();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllImageResolution() {
+        return this.geographicMapService.getAllImageResolution();
     }
 
     @Override
-    public ResponseEntity<String> getAllGeometryType(MultiValueMap<String, String> map) {
-        if (this.geographicMapService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.geographicMapService.getAllGeometryType();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllGeometryType() {
+        return this.geographicMapService.getAllGeometryType();
     }
 
     @Override
-    public ResponseEntity<String> getById(MultiValueMap<String, String> map,
-                                          Long id) {
-        if (this.geographicMapService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.geographicMapService.getById(id);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getById(Long id) {
+        return this.geographicMapService.getById(id);
     }
 }

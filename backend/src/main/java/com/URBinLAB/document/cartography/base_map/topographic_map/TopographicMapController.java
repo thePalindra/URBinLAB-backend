@@ -36,30 +36,26 @@ public class TopographicMapController implements BaseMapAPI {
                                                  Boolean raster,
                                                  String resolution,
                                                  String type) {
-
-        if (this.topographicMapService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.topographicMapService.createDocument(map, name, description, provider, timeScope, link, scale, raster, resolution, type);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.topographicMapService.createDocument(map, name, description, provider, timeScope, link, scale, raster, resolution, type);
     }
 
     @Override
-    public ResponseEntity<String> getAllImageResolution(MultiValueMap<String, String> map) {
+    public ResponseEntity<String> getAllImageResolution() {
         return null;
     }
 
     @Override
-    public ResponseEntity<String> getAllScale(MultiValueMap<String, String> map) {
+    public ResponseEntity<String> getAllScale() {
         return null;
     }
 
     @Override
-    public ResponseEntity<String> getAllGeometryType(MultiValueMap<String, String> map) {
+    public ResponseEntity<String> getAllGeometryType() {
         return null;
     }
 
     @Override
-    public ResponseEntity<String> getById(MultiValueMap<String, String> map, Long id) {
+    public ResponseEntity<String> getById(Long id) {
         return null;
     }
 }

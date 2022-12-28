@@ -33,35 +33,21 @@ public class OrtosController implements OrtosAPI {
                                                  String link,
                                                  String resolution,
                                                  String scale) {
-
-        if (this.ortosService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.ortosService.createDocument(map, name, description, provider, timeScope, link, scale, resolution);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.ortosService.createDocument(map, name, description, provider, timeScope, link, scale, resolution);
     }
 
     @Override
-    public ResponseEntity<String> getAllScale(MultiValueMap<String, String> map) {
-        if (this.ortosService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.ortosService.getAllScale();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllScale() {
+        return this.ortosService.getAllScale();
     }
 
     @Override
-    public ResponseEntity<String> getAllResolution(MultiValueMap<String, String> map) {
-        if (this.ortosService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.ortosService.getAllResolution();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllResolution() {
+        return this.ortosService.getAllResolution();
     }
 
     @Override
-    public ResponseEntity<String> getById(MultiValueMap<String, String> map,
-                                          Long id) {
-        if (this.ortosService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.ortosService.getById(id);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getById(Long id) {
+        return this.ortosService.getById(id);
     }
 }

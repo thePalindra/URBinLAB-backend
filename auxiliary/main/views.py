@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage 
 from elasticsearch import Elasticsearch
+import requests
 import json
 import geojson
 import os
@@ -33,6 +34,19 @@ class UploadFileForm(forms.Form):
 def index(request):
     a = json.dumps({"first": 1, "second": 2})
     return HttpResponse(a)
+
+
+@csrf_exempt
+def help(request):
+    form = {
+            "collection": request.POST["collection"],
+            "document": request.POST["document"]
+        }
+    if request.method == 'POST':
+        server = requests.post("http://localhost:8080/generic/add_collection", data=form)
+        print(server)
+    
+    return HttpResponse(json.dumps(form))
 
 
 @csrf_exempt

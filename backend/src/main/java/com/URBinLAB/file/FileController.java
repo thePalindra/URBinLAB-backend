@@ -25,44 +25,24 @@ public class FileController implements FileAPI {
 
 
     @Override
-    public ResponseEntity<String> addFile(MultiValueMap<String, String> map,
-                                          MultipartFile file,
+    public ResponseEntity<String> addFile(MultipartFile file,
                                           Long document) throws IOException {
-
-        if (this.fileService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.fileService.attachFile(file, document);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.fileService.attachFile(file, document);
     }
 
     @Override
-    public ResponseEntity<String> getFiles(MultiValueMap<String, String> map,
-                                           Long id) {
-
-        if (this.fileService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.fileService.getFiles(id);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getFiles(Long id) {
+        return this.fileService.getFiles(id);
     }
 
     @Override
-    public ResponseEntity<String> deleteFile(MultiValueMap<String, String> map,
-                                             Long id) {
-
-        if (this.fileService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.fileService.deleteFile(id);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> deleteFile(Long id) {
+        return this.fileService.deleteFile(id);
     }
 
     @Override
-    public ResponseEntity<String> updateFile(MultiValueMap<String, String> map,
-                                             Long id,
+    public ResponseEntity<String> updateFile(Long id,
                                              Long document) {
-
-        if (this.fileService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.fileService.updateFile(id, document);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.fileService.updateFile(id, document);
     }
 }

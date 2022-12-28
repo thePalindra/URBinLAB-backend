@@ -33,33 +33,21 @@ public class AerialPhotographyController implements AerialPhotographyAPI {
                                                           String link,
                                                           String scale,
                                                           String resolution) {
-        if (this.aerialPhotographyService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.aerialPhotographyService.createAerialPhotography(map, name, description, provider, timeScope, link, scale, resolution);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.aerialPhotographyService.createAerialPhotography(map, name, description, provider, timeScope, link, scale, resolution);
     }
 
     @Override
-    public ResponseEntity<String> getAllScale(MultiValueMap<String, String> map) {
-        if (this.aerialPhotographyService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.aerialPhotographyService.getAllScale();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllScale() {
+        return this.aerialPhotographyService.getAllScale();
     }
 
     @Override
-    public ResponseEntity<String> getAllImageResolution(MultiValueMap<String, String> map) {
-        if (this.aerialPhotographyService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.aerialPhotographyService.getAllImageResolution();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllImageResolution() {
+        return this.aerialPhotographyService.getAllImageResolution();
     }
 
     @Override
-    public ResponseEntity<String> getById(MultiValueMap<String, String> map, Long id) {
-        if (this.aerialPhotographyService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.aerialPhotographyService.getById(id);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getById(Long id) {
+        return this.aerialPhotographyService.getById(id);
     }
 }

@@ -25,50 +25,28 @@ public class KeywordController implements KeywordAPI {
     }
 
     @Override
-    public ResponseEntity<String> addKeyword(MultiValueMap<String, String> map,
-                                             String keyword) {
-
-        if (this.keywordService.tokenChecker(map, Feature.ADD_KEYWORD))
-            return this.keywordService.addKeyword(keyword);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> addKeyword(String keyword) {
+        return this.keywordService.addKeyword(keyword);
     }
 
     @Override
-    public ResponseEntity<String> getKeywordByKeyword(MultiValueMap<String, String> map,
-                                                      String keyword) {
-
-        if (this.keywordService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.keywordService.getKeywordByKeyword(keyword);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getKeywordByKeyword(String keyword) {
+        return this.keywordService.getKeywordByKeyword(keyword);
     }
 
     @Override
-    public ResponseEntity<String> getAll(MultiValueMap<String, String> map) {
-        if (this.keywordService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.keywordService.getAll();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAll() {
+        return this.keywordService.getAll();
     }
 
     @Override
-    public ResponseEntity<String> addKeywordToDocument(MultiValueMap<String, String> map,
-                                                       Long document,
+    public ResponseEntity<String> addKeywordToDocument(Long document,
                                                        List<Long> keywords) {
-
-        if (this.keywordService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.keywordService.addKeywordToDocument(document, keywords);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.keywordService.addKeywordToDocument(document, keywords);
     }
 
     @Override
-    public ResponseEntity<String> groupByKeyword(MultiValueMap<String, String> map) {
-
-        if (this.keywordService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.keywordService.groupByKeyword();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> groupByKeyword() {
+        return this.keywordService.groupByKeyword();
     }
 }

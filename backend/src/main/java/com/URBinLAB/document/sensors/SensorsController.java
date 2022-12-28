@@ -32,27 +32,16 @@ public class SensorsController implements SensorsAPI {
                                                  Date timeScope,
                                                  String link,
                                                  String variable) {
-
-        if (this.sensorsService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.sensorsService.createDocument(map, name, description, provider, timeScope, link, variable);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.sensorsService.createDocument(map, name, description, provider, timeScope, link, variable);
     }
 
     @Override
-    public ResponseEntity<String> getAllVariable(MultiValueMap<String, String> map) {
-        if (this.sensorsService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.sensorsService.getAllVariable();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllVariable() {
+        return this.sensorsService.getAllVariable();
     }
 
     @Override
-    public ResponseEntity<String> getById(MultiValueMap<String, String> map,
-                                          Long id) {
-        if (this.sensorsService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.sensorsService.getById(id);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getById(Long id) {
+        return this.sensorsService.getById(id);
     }
 }

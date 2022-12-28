@@ -23,12 +23,11 @@ public interface SatelliteImageAPI {
                                           @PathParam("resolution") String resolution);
 
     @RequestMapping(value = "/get_resolution", method = RequestMethod.POST)
-    ResponseEntity<String> getAllResolution(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getAllResolution();
 
     @RequestMapping(value = "/get_satellite", method = RequestMethod.POST)
-    ResponseEntity<String> getAllSatellite(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getAllSatellite();
 
     @RequestMapping(value = "/get_by_id", method = RequestMethod.POST)
-    ResponseEntity<String> getById(@RequestHeader MultiValueMap<String, String> map,
-                                   @RequestParam("id") Long id);
+    ResponseEntity<String> getById(@RequestParam("id") Long id);
 }

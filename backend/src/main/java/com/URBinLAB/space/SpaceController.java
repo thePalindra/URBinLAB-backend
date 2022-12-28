@@ -24,103 +24,62 @@ public class SpaceController implements SpaceAPI {
 
 
     @Override
-    public ResponseEntity<String> attachSpace(MultiValueMap<String, String> map,
-                                           Long id,
-                                           Long document) {
-        if (this.spaceService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.spaceService.attachSpace(id, document);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> attachSpace(Long id,
+                                              Long document) {
+        return this.spaceService.attachSpace(id, document);
     }
 
     @Override
-    public ResponseEntity<String> addSpace(MultiValueMap<String, String> map,
-                                           Long document,
+    public ResponseEntity<String> addSpace(Long document,
                                            String space) {
-        if (this.spaceService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.spaceService.addSpace(document, space);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.spaceService.addSpace(document, space);
     }
 
     @Override
-    public ResponseEntity<String> addSpaceGeo(MultiValueMap<String, String> map,
-                                              Long document,
+    public ResponseEntity<String> addSpaceGeo(Long document,
                                               String space,
                                               String name) {
-        if (this.spaceService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.spaceService.addFileSpace(document, space, name);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.spaceService.addFileSpace(document, space, name);
     }
 
     @Override
-    public ResponseEntity<String> addCircle(MultiValueMap<String, String> map,
-                                            Long document,
+    public ResponseEntity<String> addCircle(Long document,
                                             Double lng,
                                             Double lat,
                                             Double size) {
-        if (this.spaceService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.spaceService.addCircle(document, lng, lat, size);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.spaceService.addCircle(document, lng, lat, size);
     }
 
     @Override
-    public ResponseEntity<String> getAllFromLevel(MultiValueMap<String, String> map,
-                                                  Integer level) {
-
-        if (this.spaceService.tokenChecker(map, Feature.SPATIAL_QUERY))
-            return this.spaceService.getAllFromLevel(level);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllFromLevel(Integer level) {
+        return this.spaceService.getAllFromLevel(level);
     }
 
     @Override
-    public ResponseEntity<String> searchByName(MultiValueMap<String, String> map,
-                                               String name,
+    public ResponseEntity<String> searchByName(String name,
                                                String level,
                                                String hierarchy) {
-
-        if (this.spaceService.tokenChecker(map, Feature.SPATIAL_QUERY))
-            return this.spaceService.searchByName(name, level, hierarchy);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.spaceService.searchByName(name, level, hierarchy);
     }
 
     @Override
-    public ResponseEntity<String> getAllHierarchyTypes(MultiValueMap<String, String> map) {
-        if (this.spaceService.tokenChecker(map, Feature.SPATIAL_QUERY))
-            return this.spaceService.getAllHierarchyTypes();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllHierarchyTypes() {
+        return this.spaceService.getAllHierarchyTypes();
     }
 
     @Override
-    public ResponseEntity<String> getAllHierarchies(MultiValueMap<String, String> map,
-                                                    String type) {
-        if (this.spaceService.tokenChecker(map, Feature.SPATIAL_QUERY))
-            return this.spaceService.getAllHierarchies(type);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllHierarchies(String type) {
+        return this.spaceService.getAllHierarchies(type);
     }
 
     @Override
-    public ResponseEntity<String> getAllLevels(MultiValueMap<String, String> map,
-                                               String hierarchy) {
-        if (this.spaceService.tokenChecker(map, Feature.SPATIAL_QUERY))
-            return this.spaceService.getAllLevels(hierarchy);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllLevels(String hierarchy) {
+        return this.spaceService.getAllLevels(hierarchy);
     }
 
     @Override
-    public ResponseEntity<String> getAllNamesFromLevel(MultiValueMap<String, String> map,
-                                                       String hierarchy,
+    public ResponseEntity<String> getAllNamesFromLevel(String hierarchy,
                                                        String level) {
-        if (this.spaceService.tokenChecker(map, Feature.SPATIAL_QUERY))
-            return this.spaceService.getAllNamesFromLevel(hierarchy, level);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.spaceService.getAllNamesFromLevel(hierarchy, level);
     }
 }

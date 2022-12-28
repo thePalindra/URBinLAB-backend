@@ -44,30 +44,6 @@ public class DocumentService {
         this.collectionRepository = collectionRepository;
     }
 
-    public boolean tokenChecker (MultiValueMap<String, String> map, Feature feature) {
-        try {
-            if (!map.containsKey("token"))
-                return AccessControl.access(feature, "all");
-
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
-            Token temp = gson.fromJson(token, Token.class);
-
-            Token toCompare = this.tokenRepository.getById(temp.getId());
-            if (!temp.getToken().equals(toCompare.getToken()))
-                return false;
-
-            if (System.currentTimeMillis() > temp.getLogin().getTime() + AccessControl.TIME) {
-                this.tokenRepository.delete(toCompare);
-                return false;
-            }
-
-            return AccessControl.access(feature, temp.getRole());
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     public ResponseEntity<String> createDocument(MultiValueMap<String, String> map,
                                                  String name,
                                                  String description,
@@ -343,13 +319,9 @@ public class DocumentService {
         }
     }
 
-    @Transactional
     public ResponseEntity<String> addCollection(Long id, Long collection) {
         try {
-            Document doc = this.documentRepository.getById(id);
-            doc.setCollection(this.collectionRepository.getById(collection));
-
-            this.documentRepository.save(doc);
+            this.documentRepository.changeCollection(id, collection);
 
             return new ResponseEntity<>(new Gson().toJson("OK"), HttpStatus.OK);
         } catch (Exception e) {

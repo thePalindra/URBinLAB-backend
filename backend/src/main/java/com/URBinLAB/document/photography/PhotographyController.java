@@ -33,27 +33,16 @@ public class PhotographyController implements PhotographyAPI {
                                                  String link,
                                                  String resolution,
                                                  Boolean color) {
-
-        if (this.photographyService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.photographyService.createDocument(map, name, description, provider, timeScope, link, resolution, color);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.photographyService.createDocument(map, name, description, provider, timeScope, link, resolution, color);
     }
 
     @Override
-    public ResponseEntity<String> getAllImageResolution(MultiValueMap<String, String> map) {
-        if (this.photographyService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.photographyService.getAllImageResolution();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllImageResolution() {
+        return this.photographyService.getAllImageResolution();
     }
 
     @Override
-    public ResponseEntity<String> getById(MultiValueMap<String, String> map,
-                                          Long id) {
-        if (this.photographyService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.photographyService.getById(id);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getById(Long id) {
+        return this.photographyService.getById(id);
     }
 }

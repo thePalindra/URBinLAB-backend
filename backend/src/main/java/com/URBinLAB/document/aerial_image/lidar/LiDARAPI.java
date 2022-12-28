@@ -21,9 +21,8 @@ public interface LiDARAPI {
                                           @PathParam("resolution") String resolution);
 
     @RequestMapping(value = "/get_resolution", method = RequestMethod.POST)
-    ResponseEntity<String> getAllResolution(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getAllResolution();
 
     @RequestMapping(value = "/get_by_id", method = RequestMethod.POST)
-    ResponseEntity<String> getById(MultiValueMap<String, String> map,
-                                   Long id);
+    ResponseEntity<String> getById(Long id);
 }

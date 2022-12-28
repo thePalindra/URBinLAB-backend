@@ -22,9 +22,8 @@ public interface SensorsAPI {
                                           @PathParam("variable") String variable);
 
     @RequestMapping(value = "/get_variable", method = RequestMethod.POST)
-    ResponseEntity<String> getAllVariable(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getAllVariable();
 
     @RequestMapping(value = "/get_by_id", method = RequestMethod.POST)
-    ResponseEntity<String> getById(@RequestHeader MultiValueMap<String, String> map,
-                                   @RequestParam("id") Long id);
+    ResponseEntity<String> getById(@RequestParam("id") Long id);
 }

@@ -18,39 +18,12 @@ import java.util.List;
 public class KeywordService {
 
     private KeywordRepository keywordRepository;
-    private TokenRepository tokenRepository;
     private final Gson gson = new Gson();
 
 
     @Autowired
-    public KeywordService(KeywordRepository keywordRepository,
-                          TokenRepository tokenRepository) {
+    public KeywordService(KeywordRepository keywordRepository) {
         this.keywordRepository = keywordRepository;
-        this.tokenRepository = tokenRepository;
-    }
-
-    public boolean tokenChecker (MultiValueMap<String, String> map, Feature feature) {
-        try {
-            if (!map.containsKey("token"))
-                return AccessControl.access(feature, "all");
-
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
-            Token temp = gson.fromJson(token, Token.class);
-
-            Token toCompare = this.tokenRepository.getById(temp.getId());
-            if (!temp.getToken().equals(toCompare.getToken()))
-                return false;
-
-            if (System.currentTimeMillis() > temp.getLogin().getTime() + AccessControl.TIME) {
-                this.tokenRepository.delete(toCompare);
-                return false;
-            }
-
-            return AccessControl.access(feature, temp.getRole());
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     public ResponseEntity<String> addKeyword(String keyword) {

@@ -22,9 +22,8 @@ public interface DrawingsAPI {
                                           @PathParam("context") String context);
 
     @RequestMapping(value = "/get_context", method = RequestMethod.POST)
-    ResponseEntity<String> getAllContext(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getAllContext();
 
     @RequestMapping(value = "/get_by_id", method = RequestMethod.POST)
-    ResponseEntity<String> getById(@RequestHeader MultiValueMap<String, String> map,
-                                   @RequestParam("id") Long id);
+    ResponseEntity<String> getById(@RequestParam("id") Long id);
 }

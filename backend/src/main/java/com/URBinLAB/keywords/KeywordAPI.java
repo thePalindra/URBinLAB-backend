@@ -12,21 +12,18 @@ import java.util.List;
 public interface KeywordAPI {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    ResponseEntity<String> addKeyword(@RequestHeader MultiValueMap<String, String> map,
-                                      @RequestParam("keyword") String keyword);
+    ResponseEntity<String> addKeyword(@RequestParam("keyword") String keyword);
 
     @RequestMapping(value = "/get", method = RequestMethod.POST)
-    ResponseEntity<String> getKeywordByKeyword(@RequestHeader MultiValueMap<String, String> map,
-                                               @RequestParam("keyword") String keyword);
+    ResponseEntity<String> getKeywordByKeyword(@RequestParam("keyword") String keyword);
 
     @RequestMapping(value = "/get_all", method = RequestMethod.POST)
-    ResponseEntity<String> getAll(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getAll();
 
     @RequestMapping(value = "/document", method = RequestMethod.POST)
-    ResponseEntity<String> addKeywordToDocument(@RequestHeader MultiValueMap<String, String> map,
-                                                @RequestParam("document") Long document,
+    ResponseEntity<String> addKeywordToDocument(@RequestParam("document") Long document,
                                                 @RequestParam("keywords") List<Long> keywords);
 
     @RequestMapping(value = "/group", method = RequestMethod.POST)
-    ResponseEntity<String> groupByKeyword(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> groupByKeyword();
 }

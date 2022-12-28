@@ -35,34 +35,22 @@ public class ReportsController implements ReportsAPI {
                                                  String context,
                                                  String theme) {
 
-        if (this.reportsService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.reportsService.createDocument(map, name, description, provider, timeScope, link, context, theme);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.reportsService.createDocument(map, name, description, provider, timeScope, link, context, theme);
     }
 
     @Override
-    public ResponseEntity<String> getAllContext(MultiValueMap<String, String> map) {
-        if (this.reportsService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.reportsService.getAllContext();
+    public ResponseEntity<String> getAllContext() {
+        return this.reportsService.getAllContext();
 
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }
 
     @Override
-    public ResponseEntity<String> getAllTheme(MultiValueMap<String, String> map) {
-        if (this.reportsService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.reportsService.getAllTheme();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllTheme() {
+        return this.reportsService.getAllTheme();
     }
 
     @Override
-    public ResponseEntity<String> getById(MultiValueMap<String, String> map,
-                                              Long id) {
-        if (this.reportsService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.reportsService.getById(id);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getById(Long id) {
+        return this.reportsService.getById(id);
     }
 }

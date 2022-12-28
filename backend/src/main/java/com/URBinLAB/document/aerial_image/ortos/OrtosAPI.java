@@ -23,12 +23,11 @@ public interface OrtosAPI {
                                           @PathParam("scale") String scale);
 
     @RequestMapping(value = "/get_scale", method = RequestMethod.POST)
-    ResponseEntity<String> getAllScale(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getAllScale();
 
     @RequestMapping(value = "/get_resolution", method = RequestMethod.POST)
-    ResponseEntity<String> getAllResolution(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getAllResolution();
 
     @RequestMapping(value = "/get_by_id", method = RequestMethod.POST)
-    ResponseEntity<String> getById(@RequestHeader MultiValueMap<String, String> map,
-                                   @RequestParam("id") Long id);
+    ResponseEntity<String> getById(@RequestParam("id") Long id);
 }

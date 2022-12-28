@@ -13,23 +13,20 @@ import javax.websocket.server.PathParam;
 public interface ResearcherAPI {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    ResponseEntity<String> signUp(@RequestHeader MultiValueMap<String, String> map,
-                                  @PathParam("name") String name,
+    ResponseEntity<String> signUp(@PathParam("name") String name,
                                   @PathParam("email") String email,
                                   @PathParam("password") String password);
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    ResponseEntity<String> login(@RequestHeader MultiValueMap<String, String> map,
-                                 @PathParam("name") String name,
+    ResponseEntity<String> login(@PathParam("name") String name,
                                  @PathParam("password") String password);
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     ResponseEntity<String> logout(@RequestHeader MultiValueMap<String, String> map);
 
     @RequestMapping(value = "/get_archivers", method = RequestMethod.POST)
-    ResponseEntity<String> getArchivers(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getArchivers();
 
     @RequestMapping(value = "/archiver_name", method = RequestMethod.POST)
-    ResponseEntity<String> getArchiverName(@RequestHeader MultiValueMap<String, String> map,
-                                           @RequestParam("id") Long id);
+    ResponseEntity<String> getArchiverName(@RequestParam("id") Long id);
 }

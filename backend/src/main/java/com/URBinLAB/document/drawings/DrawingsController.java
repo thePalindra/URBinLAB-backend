@@ -32,27 +32,16 @@ public class DrawingsController implements DrawingsAPI {
                                                  Date timeScope,
                                                  String link,
                                                  String context) {
-
-        if (this.drawingsService.tokenChecker(map, Feature.ADD_DOCUMENT))
-            return this.drawingsService.createDocument(map, name, description, provider, timeScope, link, context);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+        return this.drawingsService.createDocument(map, name, description, provider, timeScope, link, context);
     }
 
     @Override
-    public ResponseEntity<String> getAllContext(MultiValueMap<String, String> map) {
-        if (this.drawingsService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.drawingsService.getAllContext();
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getAllContext() {
+        return this.drawingsService.getAllContext();
     }
 
     @Override
-    public ResponseEntity<String> getById(MultiValueMap<String, String> map,
-                                          Long id) {
-        if (this.drawingsService.tokenChecker(map, Feature.AUX_QUERY))
-            return this.drawingsService.getById(id);
-
-        return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> getById(Long id) {
+        return this.drawingsService.getById(id);
     }
 }
