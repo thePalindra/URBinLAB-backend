@@ -21,6 +21,10 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
     @Transactional
     void changeCollection(@Param("id") Long id, @Param("col") Long collection);
 
+    @Query(value = "SELECT MAX(d.document_id)\n" +
+            "FROM \"document\" d \n", nativeQuery = true)
+    Long getMaxId();
+
     @Query("SELECT d FROM Document d WHERE d.name = :name")
     List<Document> getOneByName(@Param("name") String name);
 

@@ -5,15 +5,16 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage 
 from elasticsearch import Elasticsearch
-import requests
 import json
 import geojson
 import os
 
 
+DICTIONARY_PATH="C:\\Users\\Palindra\\Desktop\\FCT-UNL\\5º Ano\\Tese\\2º Semestre\\Projeto\\dictionary.txt"
+
 
 def load_dic():
-    with open("main/dictionary.txt", "r") as f:
+    with open(DICTIONARY_PATH, "r") as f:
         results = f.read().split("\n")
 
         return set(results)
@@ -22,8 +23,8 @@ def load_dic():
 UPLOAD_FOLDER = "files/"
 RESULT_FOLDER = "result/"
 INDEX = "urbinlab"
-es = Elasticsearch('http://localhost:9200')
-dic = load_dic()
+es = Elasticsearch('http://elastic-search:9200')
+dic = set([])
 
 
 class UploadFileForm(forms.Form):
@@ -32,7 +33,7 @@ class UploadFileForm(forms.Form):
 
 
 def index(request):
-    a = json.dumps({"first": 1, "second": 2})
+    a = json.dumps({"first": 1, "second": es.ping()})
     return HttpResponse(a)
 
 
@@ -116,11 +117,11 @@ def put_ES(request):
 
         for i in desc.lower().split(" "):
             dic.add(i)
-            if len(dic)%10==0:
-                f = open("main/dictionary.txt", "w")
+            """if len(dic)%10==0:
+                f = open(DICTIONARY_PATH, "w")
                 for j in dic:
                     f.write(j)
-                    f.write("\n")
+                    f.write("\n")"""
 
         print(dic)
         doc = {"text": desc.lower()}
@@ -132,9 +133,9 @@ def put_ES(request):
 @csrf_exempt
 def search_ES(request):
     if request.method == "POST":
-        query = request.POST["query"].split(" ")
+        search = request.POST["query"]
 
-        clauses = [{
+        """clauses = [{
             "span_multi": {
                 "match": {
                     "fuzzy": {
@@ -157,8 +158,26 @@ def search_ES(request):
                     }
                 }]
             }
+        }"""
+
+        query = {
+            "query": {
+                "fuzzy": {
+                    "text": {
+                        "value": search,
+                        "fuzziness": "AUTO"
+                    }
+                }
+            },
+            "sort": [
+                {
+                    "_score": {
+                        "order": "desc"
+                    }
+                }
+            ]
         }
-        resp = es.search(index=INDEX, query=payload, size=100)
+        resp = es.search(index=INDEX, query=query, size=100)
         res = []
         print(resp)
         for i in resp["hits"]["hits"]:    

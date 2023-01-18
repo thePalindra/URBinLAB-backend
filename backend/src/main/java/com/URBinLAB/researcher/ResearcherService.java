@@ -29,9 +29,9 @@ public class ResearcherService {
         this.tokenRepository = tokenRepository;
     }
 
-    public ResponseEntity<String> signUp(String name
-            , String email
-            , String password){
+    public ResponseEntity<String> signUp(String name,
+                                         String email,
+                                         String password){
 
         try {
 
@@ -45,9 +45,9 @@ public class ResearcherService {
                     .role("admin")
                     .build();
             user.sha256Pass();
-            this.researcherRepository.save(user);
+            user = this.researcherRepository.save(user);
 
-            return new ResponseEntity<>(this.gson.toJson("Account created!"), HttpStatus.OK);
+            return new ResponseEntity<>(this.gson.toJson(user.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.BAD_REQUEST);
         }

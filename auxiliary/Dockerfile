@@ -22,4 +22,4 @@ ENV PYTHONUNBUFFERED=1
 
 EXPOSE 5050
 
-CMD [ "python", "manage.py", "runserver", "5050", "--noreload"]
+CMD [ "python", "manage.py", "runserver", "0.0.0.0:5050"]

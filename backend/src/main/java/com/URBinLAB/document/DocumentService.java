@@ -27,21 +27,15 @@ import java.util.List;
 public class DocumentService {
 
     private DocumentRepository documentRepository;
-    private TokenRepository tokenRepository;
     private SpaceRepository spaceRepository;
-    private CollectionRepository collectionRepository;
     private final Gson gson = new Gson();
 
     @Autowired
     public DocumentService(DocumentRepository documentRepository,
-                           TokenRepository tokenRepository,
-                           SpaceRepository spaceRepository,
-                           CollectionRepository collectionRepository) {
+                           SpaceRepository spaceRepository) {
 
         this.documentRepository = documentRepository;
-        this.tokenRepository = tokenRepository;
         this.spaceRepository = spaceRepository;
-        this.collectionRepository = collectionRepository;
     }
 
     public ResponseEntity<String> createDocument(MultiValueMap<String, String> map,
@@ -56,7 +50,13 @@ public class DocumentService {
             token = token.substring(1, token.length() - 1);
             Token temp = gson.fromJson(token, Token.class);
 
+            Long id = this.documentRepository.getMaxId();
+
+            if (id == null)
+                id = 0l;
+
             Document document = Document.builder()
+                    .id(id+1)
                     .archiver(temp.getResearcher())
                     .type("GENERIC")
                     .description(description)
@@ -248,6 +248,7 @@ public class DocumentService {
 
     public ResponseEntity<String> filter(Integer[] years, String[] providers, Integer[] archivers, String[] types, Integer[] list) {
         try {
+
             return new ResponseEntity<>(new Gson().toJson(this.documentRepository.filter(
                     List.of(years),
                     List.of(providers),
