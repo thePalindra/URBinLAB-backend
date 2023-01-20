@@ -36,13 +36,10 @@ public class CollectionService {
         }
     }
 
-    public ResponseEntity<String> createCollection(MultiValueMap<String, String> map,
+    public ResponseEntity<String> createCollection(String token,
                                                    String name,
                                                    String description) {
         try {
-
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
             Token temp = gson.fromJson(token, Token.class);
 
             Collection collection = Collection.builder()

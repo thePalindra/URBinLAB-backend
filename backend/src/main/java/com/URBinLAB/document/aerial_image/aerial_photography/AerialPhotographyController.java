@@ -25,7 +25,7 @@ public class AerialPhotographyController implements AerialPhotographyAPI {
     }
 
     @Override
-    public ResponseEntity<String> createAerialPhotography(MultiValueMap<String, String> map,
+    public ResponseEntity<String> createAerialPhotography(String map,
                                                           String name,
                                                           String description,
                                                           String provider,

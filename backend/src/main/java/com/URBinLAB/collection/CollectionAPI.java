@@ -15,7 +15,7 @@ public interface CollectionAPI {
     ResponseEntity<String> getCollections();
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    ResponseEntity<String> createCollection(@RequestHeader MultiValueMap<String, String> map,
+    ResponseEntity<String> createCollection(@RequestParam("token") String map,
                                             @RequestParam("name") String name,
                                             @RequestParam("description") String description);
 }

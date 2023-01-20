@@ -5,6 +5,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.websocket.server.PathParam;
 import java.util.Date;
@@ -12,7 +13,7 @@ import java.util.Date;
 public interface LiDARAPI {
 
     @RequestMapping(value = "/add_document", method = RequestMethod.POST)
-    ResponseEntity<String> createDocument(@RequestHeader MultiValueMap<String, String> map,
+    ResponseEntity<String> createDocument(@RequestParam("token") String map,
                                           @PathParam("name") String name,
                                           @PathParam("description") String description,
                                           @PathParam("provider") String provider,

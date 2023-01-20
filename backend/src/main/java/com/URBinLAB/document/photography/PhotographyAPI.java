@@ -13,7 +13,7 @@ import java.util.Date;
 public interface PhotographyAPI {
 
     @RequestMapping(value = "/add_document", method = RequestMethod.POST)
-    ResponseEntity<String> createDocument(@RequestHeader MultiValueMap<String, String> map,
+    ResponseEntity<String> createDocument(@RequestParam("token") String token,
                                           @PathParam("name") String name,
                                           @PathParam("description") String description,
                                           @PathParam("provider") String provider,

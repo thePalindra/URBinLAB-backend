@@ -55,11 +55,9 @@ public class ListsService {
         }
     }
 
-    public ResponseEntity<String> addToHistoric(MultiValueMap<String, String> map,
+    public ResponseEntity<String> addToHistoric(String token,
                                                 Long id) {
         try {
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
             Token temp = new Gson().fromJson(token, Token.class);
 
             Long listId = this.listsRepository.get(temp.getResearcher().getId(), "Histórico");
@@ -83,10 +81,8 @@ public class ListsService {
         }
     }
 
-    public ResponseEntity<String> getAll(MultiValueMap<String, String> map) {
+    public ResponseEntity<String> getAll(String token) {
         try {
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
             Token temp = new Gson().fromJson(token, Token.class);
 
             return new ResponseEntity<>(new Gson().toJson(this.listsRepository.getAll(temp.getResearcher().getId())), HttpStatus.OK);
@@ -95,11 +91,9 @@ public class ListsService {
         }
     }
 
-    public ResponseEntity<String>   getByName(MultiValueMap<String, String> map,
+    public ResponseEntity<String>   getByName(String token,
                                             String name) {
         try {
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
             Token temp = new Gson().fromJson(token, Token.class);
 
             return new ResponseEntity<>(new Gson().toJson(this.listsRepository.getByName(temp.getResearcher().getId(), name)), HttpStatus.OK);
@@ -108,11 +102,9 @@ public class ListsService {
         }
     }
 
-    public ResponseEntity<String> create(MultiValueMap<String, String> map,
+    public ResponseEntity<String> create(String token,
                                          String name) {
         try {
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
             Token temp = new Gson().fromJson(token, Token.class);
 
             Lists fav = Lists.builder()
@@ -129,10 +121,8 @@ public class ListsService {
         }
     }
 
-    public ResponseEntity<String> addToFavourite(MultiValueMap<String, String> map, Long id) {
+    public ResponseEntity<String> addToFavourite(String token, Long id) {
         try {
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
             Token temp = new Gson().fromJson(token, Token.class);
 
             Long listId = this.listsRepository.get(temp.getResearcher().getId(), "Favoritos");

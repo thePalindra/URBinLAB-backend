@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface TokenAPI {
 
     @RequestMapping(value = "/check", method = RequestMethod.POST)
-    ResponseEntity<String> checkToken(@RequestHeader MultiValueMap<String, String> map,
+    ResponseEntity<String> checkToken(@RequestParam("token") String token,
                                       @RequestParam("type") String type);
 
 

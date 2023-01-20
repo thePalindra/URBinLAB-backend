@@ -27,7 +27,7 @@ public class CollectionController implements CollectionAPI {
     }
 
     @Override
-    public ResponseEntity<String> createCollection(MultiValueMap<String, String> map,
+    public ResponseEntity<String> createCollection(String map,
                                                    String name,
                                                    String description) {
         return this.collectionService.createCollection(map, name, description);

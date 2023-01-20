@@ -38,7 +38,7 @@ public class ResearcherController implements ResearcherAPI {
     }
 
     @Override
-    public ResponseEntity<String> logout(MultiValueMap<String, String> map) {
+    public ResponseEntity<String> logout(String map) {
         return this.researcherService.logout(map);
     }
 

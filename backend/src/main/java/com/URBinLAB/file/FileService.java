@@ -24,7 +24,7 @@ import java.util.Optional;
 @Service
 public class FileService {
 
-    static final String VOLUME_PATH = "C:\\Users\\Palindra\\Desktop\\FCT-UNL\\5º Ano\\Tese\\2º Semestre\\Projeto\\backend\\URBinLAB-backend\\backend\\files\\";
+    static final String VOLUME_PATH = "/data/filesystem/";
 
     private FileRepository fileRepository;
     private DocumentRepository documentRepository;
@@ -57,14 +57,45 @@ public class FileService {
                     .size(file.getSize())
                     .build();
 
+            String finalPath = this.pathMaker(doc.get());
 
-            //System.out.println(request.getServletContext().getRealPath("/"));
-            //file.transferTo(new java.io.File(VOLUME_PATH + file.getOriginalFilename()));
+            System.out.println(request.getServletContext().getRealPath("/"));
+            file.transferTo(new java.io.File(finalPath + file.getOriginalFilename()));
             this.fileRepository.save(saved);
             return new ResponseEntity<>(new Gson().toJson(file), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    private String pathMaker(Document doc) {
+        String finalPath = VOLUME_PATH;
+        switch (doc.getType()) {
+            case "THEMATIC STATISTICS":
+            case "SURVEYS":
+            case "CENSUS":
+                finalPath += "STATISTICS/";
+                break;
+            case "THEMATIC MAPS":
+                finalPath += "CARTOGRAPHY/THEMATIC MAPS/";
+                break;
+            case "GEOGRAPHIC MAPS":
+            case "CHOROGRAPHIC MAPS":
+            case "TOPOGRAPHIC MAPS":
+            case "TOPOGRAPHIC PLANS":
+                finalPath += "CARTOGRAPHY/BASE MAPS/";
+                break;
+            case "AERIAL PHOTOS":
+            case "LiDAR":
+            case "ORTOS":
+            case "SATELLITE IMAGES":
+                finalPath += "AERIAL IMAGES/";
+                break;
+            default:
+                break;
+        }
+        finalPath += doc.getType() + "/";
+        return finalPath;
     }
 
     public ResponseEntity<String> getFiles(Long id) {

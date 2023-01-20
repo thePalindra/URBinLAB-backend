@@ -38,7 +38,7 @@ public class SatelliteImageService {
         this.tokenRepository = tokenRepository;
     }
 
-    public ResponseEntity<String> createDocument(MultiValueMap<String,String> map,
+    public ResponseEntity<String> createDocument(String token,
                                                  String name,
                                                  String description,
                                                  String provider,
@@ -47,14 +47,11 @@ public class SatelliteImageService {
                                                  String satellite,
                                                  String resolution) {
         try {
-
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
             Token temp = gson.fromJson(token, Token.class);
 
             Document document = Document.builder()
                     .archiver(temp.getResearcher())
-                    .type("SATELLITE IMAGE")
+                    .type("SATELLITE IMAGES")
                     .description(description)
                     .provider(provider)
                     .timeScope(timeScope)

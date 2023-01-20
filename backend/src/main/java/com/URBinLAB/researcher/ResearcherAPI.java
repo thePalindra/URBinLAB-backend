@@ -22,7 +22,7 @@ public interface ResearcherAPI {
                                  @PathParam("password") String password);
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    ResponseEntity<String> logout(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> logout(@RequestParam("token") String map);
 
     @RequestMapping(value = "/get_archivers", method = RequestMethod.POST)
     ResponseEntity<String> getArchivers();

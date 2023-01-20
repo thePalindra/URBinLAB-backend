@@ -19,14 +19,12 @@ public class TokenService {
         this.tokenRepository = tokenRepository;
     }
 
-    private boolean tokenChecker (MultiValueMap<String, String> map,
+    private boolean tokenChecker (String token,
                                   Feature feature) {
         try {
-            if (!map.containsKey("token"))
+            if (token==null || token.equals("null"))
                 return AccessControl.access(feature, "all");
 
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
             Token temp = new Gson().fromJson(token, Token.class);
 
             Token toCompare = this.tokenRepository.getById(temp.getId());
@@ -40,6 +38,7 @@ public class TokenService {
 
             return AccessControl.access(feature, temp.getRole());
         } catch (Exception e) {
+            System.out.println("Error");
             return false;
         }
     }
@@ -57,7 +56,7 @@ public class TokenService {
         }
     }
 
-    public ResponseEntity<String> checkToken(MultiValueMap<String, String> map, String type) {
+    public ResponseEntity<String> checkToken(String map, String type) {
         if (this.tokenChecker(map, this.typeChanger(type)))
             return new ResponseEntity<>(new Gson().toJson("Deleted successfully!"), HttpStatus.OK);
 

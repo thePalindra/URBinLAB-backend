@@ -10,10 +10,10 @@ import geojson
 import os
 
 
-DICTIONARY_PATH="C:\\Users\\Palindra\\Desktop\\FCT-UNL\\5º Ano\\Tese\\2º Semestre\\Projeto\\dictionary.txt"
+DICTIONARY_PATH="/data/dictionary.txt"
 
 
-def load_dic():
+def load_dictionary():
     with open(DICTIONARY_PATH, "r") as f:
         results = f.read().split("\n")
 
@@ -24,7 +24,7 @@ UPLOAD_FOLDER = "files/"
 RESULT_FOLDER = "result/"
 INDEX = "urbinlab"
 es = Elasticsearch('http://elastic-search:9200')
-dic = set([])
+dic = load_dictionary()
 
 
 class UploadFileForm(forms.Form):
@@ -177,7 +177,7 @@ def search_ES(request):
                 }
             ]
         }
-        resp = es.search(index=INDEX, query=query, size=100)
+        resp = es.search(index=INDEX, body=query)
         res = []
         print(resp)
         for i in resp["hits"]["hits"]:    

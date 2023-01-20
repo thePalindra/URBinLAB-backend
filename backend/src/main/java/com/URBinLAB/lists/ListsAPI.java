@@ -16,7 +16,7 @@ public interface ListsAPI {
     ResponseEntity<String> createOnSignup(@RequestParam("id") Long id);
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    ResponseEntity<String> create(@RequestHeader MultiValueMap<String, String> map,
+    ResponseEntity<String> create(@RequestParam("token") String map,
                                   @RequestParam("name") String name);
 
     @RequestMapping(value = "/add_to_list", method = RequestMethod.POST)
@@ -24,18 +24,18 @@ public interface ListsAPI {
                                   @RequestParam("doc") Long docId);
 
     @RequestMapping(value = "/add_to_historic", method = RequestMethod.POST)
-    ResponseEntity<String> addToHistoric(@RequestHeader MultiValueMap<String, String> map,
+    ResponseEntity<String> addToHistoric(@RequestParam("token") String map,
                                          @RequestParam("id") Long id);
 
     @RequestMapping(value = "/add_to_fav", method = RequestMethod.POST)
-    ResponseEntity<String> addToFavourite(@RequestHeader MultiValueMap<String, String> map,
+    ResponseEntity<String> addToFavourite(@RequestParam("token") String map,
                                           @RequestParam("doc") Long id);
 
     @RequestMapping(value = "/get_all", method = RequestMethod.POST)
-    ResponseEntity<String> getAll(@RequestHeader MultiValueMap<String, String> map);
+    ResponseEntity<String> getAll(@RequestParam("token") String map);
 
     @RequestMapping(value = "/get_by_name", method = RequestMethod.POST)
-    ResponseEntity<String> getByName(@RequestHeader MultiValueMap<String, String> map,
+    ResponseEntity<String> getByName(@RequestParam("token") String map,
                                      @RequestParam("name") String name);
 
     @RequestMapping(value = "/update_name", method = RequestMethod.POST)

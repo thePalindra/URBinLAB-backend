@@ -20,7 +20,7 @@ public class TokenController implements TokenAPI{
     }
 
     @Override
-    public ResponseEntity<String> checkToken(MultiValueMap<String, String> map, String type) {
+    public ResponseEntity<String> checkToken(String map, String type) {
         return this.tokenService.checkToken(map, type);
     }
 }

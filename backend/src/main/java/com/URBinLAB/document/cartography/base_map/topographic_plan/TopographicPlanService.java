@@ -43,7 +43,7 @@ public class TopographicPlanService {
         this.tokenRepository = tokenRepository;
     }
 
-    public ResponseEntity<String> createDocument(MultiValueMap<String, String> map,
+    public ResponseEntity<String> createDocument(String token,
                                                  String name,
                                                  String description,
                                                  String provider,
@@ -54,14 +54,11 @@ public class TopographicPlanService {
                                                  String resolution,
                                                  String type) {
         try {
-
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
             Token temp = gson.fromJson(token, Token.class);
 
             Document document = Document.builder()
                     .archiver(temp.getResearcher())
-                    .type("TOPOGRAPHIC PLAN")
+                    .type("TOPOGRAPHIC PLANS")
                     .description(description)
                     .provider(provider)
                     .timeScope(timeScope)

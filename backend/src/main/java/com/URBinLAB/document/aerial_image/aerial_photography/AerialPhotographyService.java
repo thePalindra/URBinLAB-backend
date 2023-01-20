@@ -37,8 +37,7 @@ public class AerialPhotographyService {
         this.tokenRepository = tokenRepository;
     }
 
-    public ResponseEntity<String> createAerialPhotography(MultiValueMap<String,
-                                                          String> map,
+    public ResponseEntity<String> createAerialPhotography(String token,
                                                           String name,
                                                           String description,
                                                           String provider,
@@ -47,14 +46,11 @@ public class AerialPhotographyService {
                                                           String scale,
                                                           String resolution) {
         try {
-
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
             Token temp = gson.fromJson(token, Token.class);
 
             Document document = Document.builder()
                     .archiver(temp.getResearcher())
-                    .type("AERIAL PHOTOGRAPHY")
+                    .type("AERIAL PHOTOS")
                     .description(description)
                     .provider(provider)
                     .timeScope(timeScope)

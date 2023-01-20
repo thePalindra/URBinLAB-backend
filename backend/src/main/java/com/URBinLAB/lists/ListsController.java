@@ -21,7 +21,7 @@ public class ListsController implements ListsAPI {
     }
 
     @Override
-    public ResponseEntity<String> create(MultiValueMap<String, String> map, String name) {
+    public ResponseEntity<String> create(String map, String name) {
         return this.listsService.create(map, name);
     }
 
@@ -31,23 +31,23 @@ public class ListsController implements ListsAPI {
     }
 
     @Override
-    public ResponseEntity<String> addToHistoric(MultiValueMap<String, String> map,
+    public ResponseEntity<String> addToHistoric(String map,
                                                 Long id) {
         return this.listsService.addToHistoric(map, id);
     }
 
     @Override
-    public ResponseEntity<String> addToFavourite(MultiValueMap<String, String> map, Long id) {
+    public ResponseEntity<String> addToFavourite(String map, Long id) {
         return this.listsService.addToFavourite(map, id);
     }
 
     @Override
-    public ResponseEntity<String> getAll(MultiValueMap<String, String> map) {
+    public ResponseEntity<String> getAll(String map) {
         return this.listsService.getAll(map);
     }
 
     @Override
-    public ResponseEntity<String> getByName(MultiValueMap<String, String> map, String name) {
+    public ResponseEntity<String> getByName(String map, String name) {
         return this.listsService.getByName(map, name);
     }
 

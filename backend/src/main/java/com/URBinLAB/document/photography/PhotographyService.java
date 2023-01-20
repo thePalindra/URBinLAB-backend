@@ -33,7 +33,7 @@ public class PhotographyService {
         this.photographyRepository = photographyRepository;
     }
 
-    public ResponseEntity<String> createDocument(MultiValueMap<String, String> map,
+    public ResponseEntity<String> createDocument(String token,
                                                  String name,
                                                  String description,
                                                  String provider,
@@ -42,14 +42,11 @@ public class PhotographyService {
                                                  String resolution,
                                                  Boolean color) {
         try {
-
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
             Token temp = gson.fromJson(token, Token.class);
 
             Document document = Document.builder()
                     .archiver(temp.getResearcher())
-                    .type("PHOTOGRAPHY")
+                    .type("PHOTOS")
                     .description(description)
                     .provider(provider)
                     .timeScope(timeScope)

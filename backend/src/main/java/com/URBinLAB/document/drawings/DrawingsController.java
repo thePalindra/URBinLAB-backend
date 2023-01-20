@@ -25,7 +25,7 @@ public class DrawingsController implements DrawingsAPI {
     }
 
     @Override
-    public ResponseEntity<String> createDocument(MultiValueMap<String, String> map,
+    public ResponseEntity<String> createDocument(String map,
                                                  String name,
                                                  String description,
                                                  String provider,

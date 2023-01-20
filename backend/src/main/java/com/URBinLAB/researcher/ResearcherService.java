@@ -80,14 +80,11 @@ public class ResearcherService {
         }
     }
 
-    public ResponseEntity<String> logout(MultiValueMap<String, String> map) {
+    public ResponseEntity<String> logout(String map) {
         try {
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
-            Token temp = gson.fromJson(token, Token.class);
+            Token temp = gson.fromJson(map, Token.class);
 
             this.tokenRepository.deleteById(temp.getId());
-
 
             return new ResponseEntity<>(this.gson.toJson("Logged out!"), HttpStatus.OK);
         } catch (Exception e) {

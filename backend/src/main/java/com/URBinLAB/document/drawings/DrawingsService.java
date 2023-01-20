@@ -33,7 +33,7 @@ public class DrawingsService {
         this.drawingsRepository = drawingsRepository;
     }
 
-    public ResponseEntity<String> createDocument(MultiValueMap<String, String> map,
+    public ResponseEntity<String> createDocument(String token,
                                                  String name,
                                                  String description,
                                                  String provider,
@@ -41,9 +41,6 @@ public class DrawingsService {
                                                  String link,
                                                  String context) {
         try {
-
-            String token = map.get("token").toString();
-            token = token.substring(1, token.length() - 1);
             Token temp = gson.fromJson(token, Token.class);
 
             Document document = Document.builder()
