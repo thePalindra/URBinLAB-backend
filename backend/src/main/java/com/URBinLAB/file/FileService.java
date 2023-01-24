@@ -18,6 +18,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 
@@ -28,16 +30,13 @@ public class FileService {
 
     private FileRepository fileRepository;
     private DocumentRepository documentRepository;
-    private HttpServletRequest request;
     private final Gson gson = new Gson();
 
     @Autowired
     public FileService(FileRepository fileRepository,
-                       DocumentRepository documentRepository,
-                       HttpServletRequest request) {
+                       DocumentRepository documentRepository) {
         this.fileRepository = fileRepository;
         this.documentRepository = documentRepository;
-        this.request = request;
     }
 
     public ResponseEntity<String> attachFile(MultipartFile file,
@@ -58,8 +57,10 @@ public class FileService {
                     .build();
 
             String finalPath = this.pathMaker(doc.get());
+            java.io.File directory = new java.io.File(finalPath);
+            if (! directory.exists())
+                directory.mkdirs();
 
-            System.out.println(request.getServletContext().getRealPath("/"));
             file.transferTo(new java.io.File(finalPath + file.getOriginalFilename()));
             this.fileRepository.save(saved);
             return new ResponseEntity<>(new Gson().toJson(file), HttpStatus.OK);
@@ -94,7 +95,7 @@ public class FileService {
             default:
                 break;
         }
-        finalPath += doc.getType() + "/";
+        finalPath += doc.getType() + "/" + String.valueOf(LocalDate.parse(doc.getTimeScope().toString()).getYear()) + "/" + doc.getName() + "/";
         return finalPath;
     }
 
