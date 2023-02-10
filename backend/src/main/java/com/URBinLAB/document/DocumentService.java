@@ -90,36 +90,51 @@ public class DocumentService {
         }
     }
 
-    public ResponseEntity<String> getDocumentBySpaceId(Long id,
-                                                       Integer page) {
+    public ResponseEntity<String> getDocumentBySpaceId(Long id) {
 
-        Pageable element = PageRequest.of(page, 10);
-
-        List<List<Object>> list = new ArrayList<>();
-        list.add(this.documentRepository.getDocumentBySpaceId(element,id));
-        list.add(this.spaceRepository.getAllTheDocuments(element, id));
-
-        return new ResponseEntity<>(new Gson().toJson(list), HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllTheDocuments(id)), HttpStatus.OK);
     }
 
-    public ResponseEntity<String> getDocumentBySpaceGeometry(String space,
-                                                             Integer page) {
+    public ResponseEntity<String> getDocumentBySpaceId(Long id, Integer[] list) {
+
+        return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllTheDocuments(id, List.of(list))), HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> getDocumentBySpaceGeometry(String space) {
 
         return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllTheDocumentsByGeometry(space)), HttpStatus.OK);
     }
 
-    public ResponseEntity<String> getDocumentBySpaceMarker(String space,
-                                                           Integer page) {
+    public ResponseEntity<String> getDocumentBySpaceMarker(String space) {
 
         return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllTheDocumentsByMarker(space)), HttpStatus.OK);
     }
 
     public ResponseEntity<String> getDocumentBySpaceCircle(Double lng,
                                                            Double lat,
-                                                           Double size,
-                                                           Integer page) {
+                                                           Double size) {
 
         return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllTheDocumentsByCircle(lng, lat, size)), HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> getDocumentBySpaceGeometry(String space,
+                                                             Integer[] list) {
+
+        return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllTheDocumentsByGeometry(space, List.of(list))), HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> getDocumentBySpaceMarker(String space,
+                                                           Integer[] list) {
+
+        return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllTheDocumentsByMarker(space, List.of(list))), HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> getDocumentBySpaceCircle(Double lng,
+                                                           Double lat,
+                                                           Double size,
+                                                           Integer[] list) {
+
+        return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllTheDocumentsByCircle(lng, lat, size, List.of(list))), HttpStatus.OK);
     }
 
     public ResponseEntity<String> getElementsFromQuery(String name,

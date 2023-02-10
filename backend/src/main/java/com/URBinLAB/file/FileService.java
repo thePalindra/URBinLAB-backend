@@ -11,6 +11,8 @@ import com.URBinLAB.utils.Feature;
 import com.google.gson.Gson;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,14 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,16 +54,18 @@ public class FileService {
             if (doc.isEmpty())
                 return new ResponseEntity<>(new Gson().toJson("No document found!"), HttpStatus.NOT_FOUND);
 
+            String finalPath = this.pathMaker(doc.get());
+
             File saved = File.builder()
                     .name(file.getOriginalFilename())
-                    .file(VOLUME_PATH + file.getOriginalFilename())
+                    .file(finalPath)
                     .document(doc.get())
                     .creationDate(new Date())
                     .format(file.getContentType())
                     .size(file.getSize())
                     .build();
 
-            String finalPath = this.pathMaker(doc.get());
+
             java.io.File directory = new java.io.File(finalPath);
             if (! directory.exists())
                 directory.mkdirs();
@@ -93,9 +102,10 @@ public class FileService {
                 finalPath += "AERIAL IMAGES/";
                 break;
             default:
+                finalPath += "GENERIC/";
                 break;
         }
-        finalPath += doc.getType() + "/" + String.valueOf(LocalDate.parse(doc.getTimeScope().toString()).getYear()) + "/" + doc.getName() + "/";
+        finalPath += doc.getType() + "/" + String.valueOf(LocalDate.parse(doc.getTimeScope().toString()).getYear()) + "/" + doc.getId().toString() + " - " + doc.getName() + "/";
         return finalPath;
     }
 
@@ -104,6 +114,20 @@ public class FileService {
             return new ResponseEntity<>(new Gson().toJson(this.fileRepository.getFiles(id)), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<Resource> getFilesToDownload(Long id) {
+        try{
+           Object path = this.fileRepository.getFilePath(id);
+
+            java.io.File file = new java.io.File((String) path);
+            InputStream fileStream = new FileInputStream(file);
+            Resource resource = new InputStreamResource(fileStream);
+
+            return new ResponseEntity<>(resource, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 

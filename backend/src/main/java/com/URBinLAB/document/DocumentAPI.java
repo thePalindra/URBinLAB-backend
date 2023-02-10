@@ -1,6 +1,8 @@
 package com.URBinLAB.document;
 
 
+import com.google.gson.Gson;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -28,18 +30,29 @@ public interface DocumentAPI {
     ResponseEntity<String> deleteDocument(@RequestParam("id") Long id);
 
     @RequestMapping(value = "/get_document_by_space_geometry", method = RequestMethod.POST)
-    ResponseEntity<String> getDocumentBySpaceGeometry(@PathParam("space") String space,
-                                                      @PathParam("page") Integer page);
+    ResponseEntity<String> getDocumentBySpaceGeometry(@PathParam("space") String space);
 
     @RequestMapping(value = "/get_document_by_space_marker", method = RequestMethod.POST)
-    ResponseEntity<String> getDocumentBySpaceMarker(@PathParam("space") String space,
-                                                    @PathParam("page") Integer page);
+    ResponseEntity<String> getDocumentBySpaceMarker(@PathParam("space") String space);
 
     @RequestMapping(value = "/get_document_by_space_circle", method = RequestMethod.POST)
     ResponseEntity<String> getDocumentBySpaceCircle(@PathParam("lng") Double lng,
                                                     @PathParam("lat") Double lat,
+                                                    @PathParam("size") Double size);
+
+    @RequestMapping(value = "/get_document_by_space_geometry_list", method = RequestMethod.POST)
+    ResponseEntity<String> getDocumentBySpaceGeometry(@PathParam("space") String space,
+                                                      @RequestParam("list") Integer[] list);
+
+    @RequestMapping(value = "/get_document_by_space_marker_list", method = RequestMethod.POST)
+    ResponseEntity<String> getDocumentBySpaceMarker(@PathParam("space") String space,
+                                                    @RequestParam("list") Integer[] list);
+
+    @RequestMapping(value = "/get_document_by_space_circle_list", method = RequestMethod.POST)
+    ResponseEntity<String> getDocumentBySpaceCircle(@PathParam("lng") Double lng,
+                                                    @PathParam("lat") Double lat,
                                                     @PathParam("size") Double size,
-                                                    @PathParam("page") Integer page);
+                                                    @RequestParam("list") Integer[] list);
 
     @RequestMapping(value = "/big_query", method = RequestMethod.POST)
     ResponseEntity<String> bigQuery(@RequestParam("name") String name,
@@ -128,4 +141,11 @@ public interface DocumentAPI {
     @RequestMapping(value = "/add_collection", method = RequestMethod.POST)
     ResponseEntity<String> addCollection(@RequestParam("document") Long id,
                                          @RequestParam("collection") Long collection);
+
+    @RequestMapping(value = "/get_by_space_id", method = RequestMethod.POST)
+    ResponseEntity<String> getDocumentBySpaceId(@RequestParam("space") Long id);
+
+    @RequestMapping(value = "/get_by_space_id_list", method = RequestMethod.POST)
+    ResponseEntity<String> getDocumentBySpaceId(@RequestParam("space") Long id,
+                                                @RequestParam("list") Integer[] list);
 }

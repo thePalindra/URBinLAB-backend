@@ -135,7 +135,7 @@ def search_ES(request):
     if request.method == "POST":
         search = request.POST["query"]
 
-        """clauses = [{
+        clauses = [{
             "span_multi": {
                 "match": {
                     "fuzzy": {
@@ -148,7 +148,7 @@ def search_ES(request):
             }
         } for i in query]
 
-        payload = {
+        query = {
             "bool": {
                 "must": [{
                     "span_near": {
@@ -158,9 +158,8 @@ def search_ES(request):
                     }
                 }]
             }
-        }"""
-
-        query = {
+        }
+        """query = {
             "query": {
                 "fuzzy": {
                     "text": {
@@ -176,7 +175,7 @@ def search_ES(request):
                     }
                 }
             ]
-        }
+        }"""
         resp = es.search(index=INDEX, body=query)
         res = []
         print(resp)

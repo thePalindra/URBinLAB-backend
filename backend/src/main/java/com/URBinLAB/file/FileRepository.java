@@ -18,4 +18,9 @@ public interface FileRepository extends JpaRepository<File, Long> {
             "FROM \"file\" f\n" +
             "WHERE f.document_id = :id", nativeQuery = true)
     List<Object> getFiles(@Param("id") Long id);
+
+    @Query(value = "SELECT f.file\n" +
+            "FROM \"file\" f\n" +
+            "WHERE f.file_id = :id", nativeQuery = true)
+    Object getFilePath(@Param("id") Long id);
 }

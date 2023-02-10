@@ -46,7 +46,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "AND s.name = :name " , nativeQuery = true)
     List<Object> searchByName(@Param("name") String name, @Param("level") String level, @Param("hierarchy") String hierarchy);
 
-    @Query(value = "SELECT s2.name, s2.space_id, d.name, d.document_id, d.type, d.time_scope\n" +
+    @Query(value = "SELECT DISTINCT d.document_id\n" +
             "FROM \"space\" s1\n" +
             "INNER JOIN \"space\" s2 \n" +
             "ON s2.space_id = s1.space_id\n" +
@@ -54,7 +54,18 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "ON s2.space_id = d.space_id\n" +
             "WHERE s1.space_id = :id \n" +
             "AND ST_Contains(Geometry(s1.space), Geometry(s2.space))", nativeQuery = true)
-    List<Object> getAllTheDocuments(Pageable pageable, @Param("id") Long id);
+    List<Object> getAllTheDocuments(@Param("id") Long id);
+
+    @Query(value = "SELECT DISTINCT d.document_id\n" +
+            "FROM \"space\" s1\n" +
+            "INNER JOIN \"space\" s2 \n" +
+            "ON s2.space_id = s1.space_id\n" +
+            "INNER JOIN \"document\" d \n" +
+            "ON s2.space_id = d.space_id\n" +
+            "WHERE s1.space_id = :id \n" +
+            "AND ST_Contains(Geometry(s1.space), Geometry(s2.space))\n" +
+            "AND d.document_id IN :list \n", nativeQuery = true)
+    List<Object> getAllTheDocuments(@Param("id") Long id, @Param("list") List<Integer> list);
 
     @Query(value = "SELECT DISTINCT d.document_id\n" +
             "FROM \"space\" s\n" +
@@ -62,6 +73,14 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "ON s.space_id = d.space_id\n" +
             "WHERE ST_Contains(ST_GeomFromText(:space, 4326), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsByGeometry(@Param("space") String space);
+
+    @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
+            "FROM \"space\" s\n" +
+            "INNER JOIN \"document\" d \n" +
+            "ON s.space_id = d.space_id\n" +
+            "WHERE ST_Contains(ST_GeomFromText(:space, 4326), Geometry(s.space)) \n" +
+            "AND d.document_id IN :list \n", nativeQuery = true)
+    List<Object> getAllTheDocumentsByGeometry(@Param("space") String space, @Param("list") List<Integer> list);
 
     @Query(value = "SELECT DISTINCT d.document_id, ST_Area(s.space) area\n" +
             "FROM \"space\" s\n" +
@@ -71,11 +90,27 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "ORDER BY area", nativeQuery = true)
     List<Object> getAllTheDocumentsByMarker(@Param("space") String space);
 
+    @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope), ST_Area(s.space) area\n" +
+            "FROM \"space\" s\n" +
+            "INNER JOIN \"document\" d \n" +
+            "ON s.space_id = d.space_id\n" +
+            "WHERE ST_Contains(Geometry(s.space), ST_GeomFromText(:space, 4326))\n" +
+            "AND d.document_id IN :list \n" +
+            "ORDER BY area", nativeQuery = true)
+    List<Object> getAllTheDocumentsByMarker(@Param("space") String space, @Param("list") List<Integer> list);
+
     @Query(value = "SELECT DISTINCT d.document_id\n" +
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d ON s.space_id = d.space_id\n" +
             "WHERE ST_Contains(Geometry(ST_Buffer(Geography(ST_MakePoint(?1, ?2)), ?3)), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsByCircle(Double lng, Double lat, Double size);
+
+    @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
+            "FROM \"space\" s\n" +
+            "INNER JOIN \"document\" d ON s.space_id = d.space_id\n" +
+            "WHERE ST_Contains(Geometry(ST_Buffer(Geography(ST_MakePoint(?1, ?2)), ?3)), Geometry(s.space))\n" +
+            "AND d.document_id IN ?4 \n", nativeQuery = true)
+    List<Object> getAllTheDocumentsByCircle(Double lng, Double lat, Double size, List<Integer> list);
 
     @Query(value = "SELECT DISTINCT s.hierarchy_type " +
             "FROM \"space\" s " +
@@ -131,4 +166,12 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "AND d.document_id IN :list", nativeQuery = true)
     List<Object> getDocumentListMarker(@Param("space") String space,
                                        @Param("list") List<Integer> list);
+
+    @Query(value = "SELECT DISTINCT d.document_id\n" +
+            "FROM \"space\" s\n" +
+            "INNER JOIN \"document\" d \n" +
+            "ON s.space_id = d.space_id\n" +
+            "WHERE s.space_id = :id\n" +
+            "AND ST_Contains(ST_GeomFromText(:space, 4326), Geometry(s.space))", nativeQuery = true)
+    List<Object> getAllTheDocumentsBySpaceId(@Param("id") Long id);
 }

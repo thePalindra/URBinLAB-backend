@@ -40,23 +40,35 @@ public class DocumentController implements DocumentAPI {
     }
 
     @Override
-    public ResponseEntity<String> getDocumentBySpaceGeometry(String space,
-                                                             Integer page) {
-        return this.documentService.getDocumentBySpaceGeometry(space, page);
+    public ResponseEntity<String> getDocumentBySpaceGeometry(String space) {
+        return this.documentService.getDocumentBySpaceGeometry(space);
     }
 
     @Override
-    public ResponseEntity<String> getDocumentBySpaceMarker(String space,
-                                                           Integer page) {
-        return this.documentService.getDocumentBySpaceMarker(space, page);
+    public ResponseEntity<String> getDocumentBySpaceMarker(String space) {
+        return this.documentService.getDocumentBySpaceMarker(space);
     }
 
     @Override
     public ResponseEntity<String> getDocumentBySpaceCircle(Double lng,
                                                            Double lat,
-                                                           Double size,
-                                                           Integer page) {
-        return this.documentService.getDocumentBySpaceCircle(lng, lat, size, page);
+                                                           Double size) {
+        return this.documentService.getDocumentBySpaceCircle(lng, lat, size);
+    }
+
+    @Override
+    public ResponseEntity<String> getDocumentBySpaceGeometry(String space, Integer[] list) {
+        return this.documentService.getDocumentBySpaceGeometry(space, list);
+    }
+
+    @Override
+    public ResponseEntity<String> getDocumentBySpaceMarker(String space, Integer[] list) {
+        return this.documentService.getDocumentBySpaceMarker(space, list);
+    }
+
+    @Override
+    public ResponseEntity<String> getDocumentBySpaceCircle(Double lng, Double lat, Double size, Integer[] list) {
+        return this.documentService.getDocumentBySpaceCircle(lng, lat, size, list);
     }
 
     @Override
@@ -192,5 +204,15 @@ public class DocumentController implements DocumentAPI {
     public ResponseEntity<String> addCollection(Long id,
                                                 Long collection) {
         return this.documentService.addCollection(id, collection);
+    }
+
+    @Override
+    public ResponseEntity<String> getDocumentBySpaceId(Long id) {
+        return this.documentService.getDocumentBySpaceId(id);
+    }
+
+    @Override
+    public ResponseEntity<String> getDocumentBySpaceId(Long id, Integer[] list) {
+        return this.documentService.getDocumentBySpaceId(id, list);
     }
 }
