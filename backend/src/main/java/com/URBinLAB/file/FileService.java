@@ -58,7 +58,7 @@ public class FileService {
 
             File saved = File.builder()
                     .name(file.getOriginalFilename())
-                    .file(finalPath)
+                    .file(finalPath + file.getOriginalFilename())
                     .document(doc.get())
                     .creationDate(new Date())
                     .format(file.getContentType())
@@ -102,7 +102,6 @@ public class FileService {
                 finalPath += "AERIAL IMAGES/";
                 break;
             default:
-                finalPath += "GENERIC/";
                 break;
         }
         finalPath += doc.getType() + "/" + String.valueOf(LocalDate.parse(doc.getTimeScope().toString()).getYear()) + "/" + doc.getId().toString() + " - " + doc.getName() + "/";

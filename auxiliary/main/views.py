@@ -110,6 +110,7 @@ def transform_vector(request):
 @csrf_exempt
 def put_ES(request):
     if request.method == "POST":
+        temp = set([])
         desc = ""
         for key in request.POST:
             value = str(request.POST[key])
@@ -117,11 +118,12 @@ def put_ES(request):
 
         for i in desc.lower().split(" "):
             dic.add(i)
-            """if len(dic)%10==0:
-                f = open(DICTIONARY_PATH, "w")
-                for j in dic:
-                    f.write(j)
-                    f.write("\n")"""
+            temp.add(i)
+
+        with open(DICTIONARY_PATH, "w") as f:
+            for j in temp:
+                f.write(j)
+                f.write("\n")
 
         print(dic)
         doc = {"text": desc.lower()}
@@ -133,8 +135,7 @@ def put_ES(request):
 @csrf_exempt
 def search_ES(request):
     if request.method == "POST":
-        search = request.POST["query"]
-
+        query = request.POST["query"].split(" ")
         clauses = [{
             "span_multi": {
                 "match": {
@@ -148,17 +149,20 @@ def search_ES(request):
             }
         } for i in query]
 
-        query = {
-            "bool": {
-                "must": [{
-                    "span_near": {
-                        "clauses": clauses, 
-                        "slop": 12, 
-                        "in_order": False
-                    }
-                }]
+        payload = {
+            "query": {
+                "bool": {
+                    "must": [{
+                        "span_near": {
+                            "clauses": clauses, 
+                            "slop": 12, 
+                            "in_order": False
+                        }
+                    }]
+                }
             }
         }
+
         """query = {
             "query": {
                 "fuzzy": {
@@ -176,7 +180,7 @@ def search_ES(request):
                 }
             ]
         }"""
-        resp = es.search(index=INDEX, body=query)
+        resp = es.search(index=INDEX, body=payload)
         res = []
         print(resp)
         for i in resp["hits"]["hits"]:    
@@ -210,6 +214,7 @@ def generate_mbox(request):
 
 @csrf_exempt
 def get_dictionary(request):
+    print(dic)
     return HttpResponse(json.dumps(list(dic)))
 
 
