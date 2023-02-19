@@ -148,7 +148,7 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
             "ORDER BY r.name", nativeQuery = true)
     List<Object> groupByArchiver(@Param("list") List<Integer> list);
 
-    @Query(value = "SELECT ST_AsText(s.space), ST_AsText(ST_Centroid(s.space)) as center, s.space_id, ST_Area(geom) * 0.3048 ^ 2\n" +
+    @Query(value = "SELECT ST_AsText(s.space), ST_AsText(ST_Centroid(s.space)) as center, s.space_id, ST_Area(s.space) * 0.3048 ^ 2\n" +
             "FROM \"document\" d\n" +
             "INNER JOIN \"space\" s \n" +
             "ON d.space_id = s.space_id\n" +
