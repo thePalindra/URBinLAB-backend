@@ -46,24 +46,24 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "AND s.name = :name " , nativeQuery = true)
     List<Object> searchByName(@Param("name") String name, @Param("level") String level, @Param("hierarchy") String hierarchy);
 
-    @Query(value = "SELECT DISTINCT d.document_id\n" +
-            "FROM \"space\" s1\n" +
-            "INNER JOIN \"space\" s2 \n" +
-            "ON s2.space_id = s1.space_id\n" +
-            "INNER JOIN \"document\" d \n" +
-            "ON s2.space_id = d.space_id\n" +
-            "WHERE s1.space_id = :id \n" +
-            "AND ST_Contains(Geometry(s1.space), Geometry(s2.space))", nativeQuery = true)
+    @Query(value = "SELECT res.doc_id\n" +
+            "FROM (SELECT d.document_id doc_id, s.space sp1, s.space_id spid\n" +
+            "FROM \"document\" d\n" +
+            "INNER JOIN \"space\" s\n" +
+            "ON s.space_id = d.space_id) res\n" +
+            "FULL OUTER JOIN \"space\" s\n" +
+            "ON ST_Contains(Geometry(s.space), Geometry(res.sp1))\n" +
+            "WHERE s.space_id = :id\n", nativeQuery = true)
     List<Object> getAllTheDocuments(@Param("id") Long id);
 
-    @Query(value = "SELECT DISTINCT d.document_id\n" +
-            "FROM \"space\" s1\n" +
-            "INNER JOIN \"space\" s2 \n" +
-            "ON s2.space_id = s1.space_id\n" +
-            "INNER JOIN \"document\" d \n" +
-            "ON s2.space_id = d.space_id\n" +
-            "WHERE s1.space_id = :id \n" +
-            "AND ST_Contains(Geometry(s1.space), Geometry(s2.space))\n" +
+    @Query(value = "SELECT res.doc_id\n" +
+            "FROM (SELECT d.document_id doc_id, s.space sp1, s.space_id spid\n" +
+            "FROM \"document\" d\n" +
+            "INNER JOIN \"space\" s\n" +
+            "ON s.space_id = d.space_id) res\n" +
+            "FULL OUTER JOIN \"space\" s\n" +
+            "ON ST_Contains(Geometry(s.space), Geometry(res.sp1))\n" +
+            "WHERE s.space_id = :id\n" +
             "AND d.document_id IN :list \n", nativeQuery = true)
     List<Object> getAllTheDocuments(@Param("id") Long id, @Param("list") List<Integer> list);
 
