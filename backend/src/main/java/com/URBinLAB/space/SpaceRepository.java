@@ -64,7 +64,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "FULL OUTER JOIN \"space\" s\n" +
             "ON ST_Contains(Geometry(s.space), Geometry(res.sp1))\n" +
             "WHERE s.space_id = :id\n" +
-            "AND d.document_id IN :list \n", nativeQuery = true)
+            "AND res.doc_id IN :list \n", nativeQuery = true)
     List<Object> getAllTheDocuments(@Param("id") Long id, @Param("list") List<Integer> list);
 
     @Query(value = "SELECT DISTINCT d.document_id\n" +
