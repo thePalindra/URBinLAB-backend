@@ -180,7 +180,7 @@ def search_ES(request):
                 }
             ]
         }"""
-        resp = es.search(index=INDEX, body=payload)
+        resp = es.search(index=INDEX, body=payload, size="10000")
         res = []
         print(resp)
         for i in resp["hits"]["hits"]:    
