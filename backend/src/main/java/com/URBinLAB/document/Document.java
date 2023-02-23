@@ -17,7 +17,7 @@ import java.util.Date;
 public class Document implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="document_id")
     private Long id;
 
