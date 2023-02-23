@@ -53,6 +53,8 @@ public class DocumentService {
             if (id == null)
                 id = 0l;
 
+            System.out.println(id.toString());
+
             Document document = Document.builder()
                     .id(id+1)
                     .archiver(temp.getResearcher())

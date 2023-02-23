@@ -125,6 +125,7 @@ def put_ES(request):
                 f.write(j)
                 f.write("\n")
 
+        print(temp)
         print(dic)
         doc = {"text": desc.lower()}
         resp = es.index(index=INDEX, id=request.POST["id"], document=doc)

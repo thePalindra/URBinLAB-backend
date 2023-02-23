@@ -56,7 +56,15 @@ public class GeographicMapService {
         try {
             Token temp = gson.fromJson(token, Token.class);
 
+            Long id = this.documentRepository.getMaxId();
+
+            if (id == null)
+                id = 0l;
+
+            System.out.println(id.toString());
+
             Document document = Document.builder()
+                    .id(id+1)
                     .archiver(temp.getResearcher())
                     .type("GEOGRAPHIC MAPS")
                     .description(description)
