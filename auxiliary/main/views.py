@@ -14,7 +14,7 @@ DICTIONARY_PATH="/data/dictionary.txt"
 
 
 def load_dictionary():
-    with open(DICTIONARY_PATH, "r") as f:
+    with open(DICTIONARY_PATH, "r", encoding='utf8') as f:
         results = f.read().split("\n")
 
         return set(results)
