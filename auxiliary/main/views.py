@@ -143,7 +143,7 @@ def search_ES(request):
                     "fuzzy": {
                         "text": {
                             "value": i, 
-                            "fuzziness": 1
+                            "fuzziness": 0
                         }
                     }
                 }

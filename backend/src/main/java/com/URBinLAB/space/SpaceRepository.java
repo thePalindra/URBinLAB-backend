@@ -52,7 +52,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "INNER JOIN \"space\" s\n" +
             "ON s.space_id = d.space_id) res\n" +
             "FULL OUTER JOIN \"space\" s\n" +
-            "ON ST_Contains(Geometry(s.space), Geometry(res.sp1))\n" +
+            "ON ST_Intersects(Geometry(s.space), Geometry(res.sp1))\n" +
             "WHERE s.space_id = :id\n", nativeQuery = true)
     List<Object> getAllTheDocuments(@Param("id") Long id);
 
@@ -62,7 +62,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "INNER JOIN \"space\" s\n" +
             "ON s.space_id = d.space_id) res\n" +
             "FULL OUTER JOIN \"space\" s\n" +
-            "ON ST_Contains(Geometry(s.space), Geometry(res.sp1))\n" +
+            "ON ST_Intersects(Geometry(s.space), Geometry(res.sp1))\n" +
             "WHERE s.space_id = :id\n" +
             "AND res.doc_id IN :list \n", nativeQuery = true)
     List<Object> getAllTheDocuments(@Param("id") Long id, @Param("list") List<Integer> list);
@@ -71,14 +71,14 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d \n" +
             "ON s.space_id = d.space_id\n" +
-            "WHERE ST_Contains(ST_GeomFromText(:space, 4326), Geometry(s.space))", nativeQuery = true)
+            "WHERE ST_Intersects(ST_GeomFromText(:space, 4326), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsByGeometry(@Param("space") String space);
 
     @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d \n" +
             "ON s.space_id = d.space_id\n" +
-            "WHERE ST_Contains(ST_GeomFromText(:space, 4326), Geometry(s.space)) \n" +
+            "WHERE ST_Intersects(ST_GeomFromText(:space, 4326), Geometry(s.space)) \n" +
             "AND d.document_id IN :list \n", nativeQuery = true)
     List<Object> getAllTheDocumentsByGeometry(@Param("space") String space, @Param("list") List<Integer> list);
 
@@ -86,7 +86,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d \n" +
             "ON s.space_id = d.space_id\n" +
-            "WHERE ST_Contains(Geometry(s.space), ST_GeomFromText(:space, 4326))\n" +
+            "WHERE ST_Intersects(Geometry(s.space), ST_GeomFromText(:space, 4326))\n" +
             "ORDER BY area", nativeQuery = true)
     List<Object> getAllTheDocumentsByMarker(@Param("space") String space);
 
@@ -94,7 +94,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d \n" +
             "ON s.space_id = d.space_id\n" +
-            "WHERE ST_Contains(Geometry(s.space), ST_GeomFromText(:space, 4326))\n" +
+            "WHERE ST_Intersects(Geometry(s.space), ST_GeomFromText(:space, 4326))\n" +
             "AND d.document_id IN :list \n" +
             "ORDER BY area", nativeQuery = true)
     List<Object> getAllTheDocumentsByMarker(@Param("space") String space, @Param("list") List<Integer> list);
@@ -102,13 +102,13 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
     @Query(value = "SELECT DISTINCT d.document_id\n" +
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d ON s.space_id = d.space_id\n" +
-            "WHERE ST_Contains(Geometry(ST_Buffer(Geography(ST_MakePoint(?1, ?2)), ?3)), Geometry(s.space))", nativeQuery = true)
+            "WHERE ST_Intersects(Geometry(ST_Buffer(Geography(ST_MakePoint(?1, ?2)), ?3)), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsByCircle(Double lng, Double lat, Double size);
 
     @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d ON s.space_id = d.space_id\n" +
-            "WHERE ST_Contains(Geometry(ST_Buffer(Geography(ST_MakePoint(?1, ?2)), ?3)), Geometry(s.space))\n" +
+            "WHERE ST_Intersects(Geometry(ST_Buffer(Geography(ST_MakePoint(?1, ?2)), ?3)), Geometry(s.space))\n" +
             "AND d.document_id IN ?4 \n", nativeQuery = true)
     List<Object> getAllTheDocumentsByCircle(Double lng, Double lat, Double size, List<Integer> list);
 
@@ -142,7 +142,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d \n" +
             "ON s.space_id = d.space_id\n" +
-            "WHERE ST_Contains(ST_GeomFromText(:space, 4326), Geometry(s.space))\n" +
+            "WHERE ST_Intersects(ST_GeomFromText(:space, 4326), Geometry(s.space))\n" +
             "AND d.document_id IN :list", nativeQuery = true)
     List<Object> getDocumentListGeometry(@Param("space") String space,
                                          @Param("list") List<Integer> list);
@@ -151,7 +151,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d \n" +
             "ON s.space_id = d.space_id\n" +
-            "WHERE ST_Contains(Geometry(ST_Buffer(Geography(ST_MakePoint(:lng, :lat)), :size)), Geometry(s.space))\n" +
+            "WHERE ST_Intersects(Geometry(ST_Buffer(Geography(ST_MakePoint(:lng, :lat)), :size)), Geometry(s.space))\n" +
             "AND d.document_id IN :list", nativeQuery = true)
     List<Object> getDocumentListCircle(@Param("lng") Double lng,
                                        @Param("lat") Double lat,
@@ -162,7 +162,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d \n" +
             "ON s.space_id = d.space_id\n" +
-            "WHERE ST_Contains(Geometry(s.space), ST_GeomFromText(:space, 4326))\n" +
+            "WHERE ST_Intersects(Geometry(s.space), ST_GeomFromText(:space, 4326))\n" +
             "AND d.document_id IN :list", nativeQuery = true)
     List<Object> getDocumentListMarker(@Param("space") String space,
                                        @Param("list") List<Integer> list);
@@ -172,6 +172,6 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "INNER JOIN \"document\" d \n" +
             "ON s.space_id = d.space_id\n" +
             "WHERE s.space_id = :id\n" +
-            "AND ST_Contains(ST_GeomFromText(:space, 4326), Geometry(s.space))", nativeQuery = true)
+            "AND (ST_Intersects(ST_GeomFromText(:space, 4326), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsBySpaceId(@Param("id") Long id);
 }
