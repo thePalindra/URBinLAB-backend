@@ -156,7 +156,7 @@ def search_ES(request):
                     "must": [{
                         "span_near": {
                             "clauses": clauses, 
-                            "slop": 12, 
+                            "slop": 2000, 
                             "in_order": False
                         }
                     }]
