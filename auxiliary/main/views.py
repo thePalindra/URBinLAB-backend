@@ -120,7 +120,7 @@ def put_ES(request):
             dic.add(i)
             temp.add(i)
 
-        with open(DICTIONARY_PATH, "w") as f:
+        with open(DICTIONARY_PATH, "a") as f:
             for j in temp:
                 f.write(j)
                 f.write("\n")
