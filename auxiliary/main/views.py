@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage 
 from elasticsearch import Elasticsearch
+import time
 import json
 import geojson
 import os
@@ -193,6 +194,7 @@ def search_ES(request):
 @csrf_exempt
 def generate_mbox(request):
     if request.method == "POST":
+        start_time = time.time()
         file = request.FILES["file"]
         filename = file.name
         fs = FileSystemStorage()
@@ -210,6 +212,10 @@ def generate_mbox(request):
             name = i.name
             os.remove(UPLOAD_FOLDER + name)
 
+        send_time = time.time()
+        sending_time = send_time - start_time
+
+        res["time"] = sending_time
     return HttpResponse(json.dumps(res))
 
 
