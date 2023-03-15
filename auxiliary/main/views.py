@@ -54,6 +54,7 @@ def help(request):
 @csrf_exempt
 def transform_raster(request):
     if request.method == 'POST':
+        start_time = time.time()
         file = request.FILES["file"]
         filename = file.name
         fs = FileSystemStorage()
@@ -82,6 +83,10 @@ def transform_raster(request):
             name = i.name
             os.remove(UPLOAD_FOLDER + name)
 
+        send_time = time.time()
+        sending_time = send_time - start_time
+
+        res["time"] = sending_time
     return HttpResponse(json.dumps(res))
 
 
