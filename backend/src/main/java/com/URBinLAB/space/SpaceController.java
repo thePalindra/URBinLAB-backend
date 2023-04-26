@@ -87,9 +87,4 @@ public class SpaceController implements SpaceAPI {
     public ResponseEntity<String> getAllSpaces() {
         return this.spaceService.getAllSpaces();
     }
-
-    @Override
-    public ResponseEntity<String> getAllIds() {
-        return this.spaceService.getAllSpaceIds();
-    }
 }

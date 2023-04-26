@@ -52,7 +52,4 @@ public interface SpaceAPI {
 
     @RequestMapping(value = "/get_spaces", method = RequestMethod.GET)
     ResponseEntity<String> getAllSpaces();
-
-    @RequestMapping(value = "/get_space_ids", method = RequestMethod.GET)
-    ResponseEntity<String> getAllIds();
 }
