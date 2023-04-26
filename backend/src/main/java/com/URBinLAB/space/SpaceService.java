@@ -1,6 +1,7 @@
 package com.URBinLAB.space;
 
 import com.URBinLAB.document.Document;
+import com.URBinLAB.researcher.Researcher;
 import com.URBinLAB.token.Token;
 import com.URBinLAB.document.DocumentRepository;
 import com.URBinLAB.token.TokenRepository;
@@ -185,6 +186,22 @@ public class SpaceService {
             List<Object> spaces = this.spaceRepository.getAllNamesFromLevel(hierarchy, level);
 
             return new ResponseEntity<>(new Gson().toJson(spaces), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> getAllSpaces() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllSpaces()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<String> getAllSpaceIds() {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllSpaceIds()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }

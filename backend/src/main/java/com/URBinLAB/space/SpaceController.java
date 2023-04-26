@@ -82,4 +82,14 @@ public class SpaceController implements SpaceAPI {
                                                        String level) {
         return this.spaceService.getAllNamesFromLevel(hierarchy, level);
     }
+
+    @Override
+    public ResponseEntity<String> getAllSpaces() {
+        return this.spaceService.getAllSpaces();
+    }
+
+    @Override
+    public ResponseEntity<String> getAllIds() {
+        return this.spaceService.getAllSpaceIds();
+    }
 }

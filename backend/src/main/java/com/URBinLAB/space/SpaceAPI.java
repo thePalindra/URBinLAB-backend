@@ -49,4 +49,10 @@ public interface SpaceAPI {
     @RequestMapping(value = "/get_names", method = RequestMethod.POST)
     ResponseEntity<String> getAllNamesFromLevel(@PathParam("hierarchy") String hierarchy,
                                                 @PathParam("level") String level);
+
+    @RequestMapping(value = "/get_spaces", method = RequestMethod.GET)
+    ResponseEntity<String> getAllSpaces();
+
+    @RequestMapping(value = "/get_space_ids", method = RequestMethod.GET)
+    ResponseEntity<String> getAllIds();
 }

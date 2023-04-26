@@ -174,4 +174,16 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "WHERE s.space_id = :id\n" +
             "AND (ST_Intersects(ST_GeomFromText(:space, 4326), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsBySpaceId(@Param("id") Long id);
+
+    @Query(value="SELECT \"hierarchy\", level_name, \"name\" \n" +
+            "FROM \"space\" \n" +
+            "WHERE hierarchy_type IS NOT null \n" +
+            "ORDER BY space_id", nativeQuery = true)
+    List<Object> getAllSpaces();
+
+    @Query(value="SELECT space_id \n" +
+            "FROM \"space\" \n" +
+            "WHERE hierarchy_type IS NOT null \n" +
+            "ORDER BY space_id", nativeQuery = true)
+    List<Object> getAllSpaceIds();
 }
