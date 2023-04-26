@@ -23,15 +23,16 @@ public class TokenService {
                                   Feature feature) {
         try {
             if (token==null || token.equals("null"))
-                return AccessControl.access(feature, "all");
+                return false;
 
             Token temp = new Gson().fromJson(token, Token.class);
 
             Token toCompare = this.tokenRepository.getById(temp.getId());
-            if (!temp.getToken().equals(toCompare.getToken()))
-                return false;
 
-            if (System.currentTimeMillis() > temp.getLogin().getTime() + AccessControl.TIME) {
+            if (!temp.getToken().equals(toCompare.getToken())
+                    || !toCompare.getResearcher().getActive()
+                    || toCompare.getResearcher().getDeleted()
+                    || System.currentTimeMillis() > toCompare.getLogin().getTime() + AccessControl.TIME) {
                 this.tokenRepository.delete(toCompare);
                 return false;
             }
@@ -48,9 +49,9 @@ public class TokenService {
             case "A":
                 return Feature.ALL;
             case "M":
-                return Feature.ONLY_MASTER;
+                return Feature.MASTER;
             case "R":
-                return Feature.RESEARCHER_OR_ABOVE;
+                return Feature.RESEARCHER;
             default:
                 return null;
         }
@@ -58,7 +59,7 @@ public class TokenService {
 
     public ResponseEntity<String> checkToken(String map, String type) {
         if (this.tokenChecker(map, this.typeChanger(type)))
-            return new ResponseEntity<>(new Gson().toJson("Deleted successfully!"), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson("Ok!"), HttpStatus.OK);
 
         return new ResponseEntity<>(new Gson().toJson("How did you get here?!"), HttpStatus.FORBIDDEN);
     }

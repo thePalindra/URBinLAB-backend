@@ -42,7 +42,9 @@ public class ResearcherService {
                     .name(name)
                     .email(email)
                     .password(password)
-                    .role("admin")
+                    .role("all")
+                    .active(false)
+                    .deleted(false)
                     .build();
             user.sha256Pass();
             user = this.researcherRepository.save(user);
@@ -103,6 +105,68 @@ public class ResearcherService {
     public ResponseEntity<String> getArchiverName(Long id) {
         try {
             return new ResponseEntity<>(this.gson.toJson(this.researcherRepository.getArchiverName(id)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity<String> getAllInactive() {
+        try {
+            return new ResponseEntity<>(this.gson.toJson(this.researcherRepository.getAllInactive()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity<String> getAllDeleted() {
+        try {
+            return new ResponseEntity<>(this.gson.toJson(this.researcherRepository.getAllDeleted()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity<String> activate(Long id,
+                                           String role) {
+        try {
+            Researcher saved = this.researcherRepository.getById(id);
+
+            saved.activate();
+            saved.alterRole(role);
+
+            this.researcherRepository.save(saved);
+            return new ResponseEntity<>(this.gson.toJson("ok"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity<String> delete(Long id) {
+        try {
+            Researcher saved = this.researcherRepository.getById(id);
+
+            saved.delete();
+
+            this.researcherRepository.save(saved);
+            return new ResponseEntity<>(this.gson.toJson("ok"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity<String> fullDelete(Long id) {
+        try {
+            this.researcherRepository.deleteById(id);
+
+            return new ResponseEntity<>(this.gson.toJson("ok"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity<String> getAllActive() {
+        try {
+            return new ResponseEntity<>(this.gson.toJson(this.researcherRepository.getAllActive()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(this.gson.toJson("Something went wrong!"), HttpStatus.INTERNAL_SERVER_ERROR);
         }

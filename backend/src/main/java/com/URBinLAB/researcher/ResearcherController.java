@@ -51,4 +51,34 @@ public class ResearcherController implements ResearcherAPI {
     public ResponseEntity<String> getArchiverName(Long id) {
         return this.researcherService.getArchiverName(id);
     }
+
+    @Override
+    public ResponseEntity<String> getAllInactive() {
+        return this.researcherService.getAllInactive();
+    }
+
+    @Override
+    public ResponseEntity<String> getAllDeleted() {
+        return this.researcherService.getAllDeleted();
+    }
+
+    @Override
+    public ResponseEntity<String> getAllActive() {
+        return this.researcherService.getAllActive();
+    }
+
+    @Override
+    public ResponseEntity<String> activate(Long id, String role) {
+        return this.researcherService.activate(id, role);
+    }
+
+    @Override
+    public ResponseEntity<String> delete(Long id) {
+        return this.researcherService.delete(id);
+    }
+
+    @Override
+    public ResponseEntity<String> fullDelete(Long id) {
+        return this.researcherService.fullDelete(id);
+    }
 }

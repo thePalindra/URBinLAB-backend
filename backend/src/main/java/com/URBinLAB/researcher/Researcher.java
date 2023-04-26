@@ -20,6 +20,8 @@ public class Researcher {
     private String email;
     private String password;
     private String role;
+    private Boolean active;
+    private Boolean deleted;
 
     public Researcher() {}
 
@@ -45,5 +47,27 @@ public class Researcher {
 
     public String getRole() {
         return this.role;
+    }
+
+    public Boolean getActive() {
+        return this.active;
+    }
+
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public void delete() {
+        this.deleted = true;
+        this.active = false;
+    }
+
+    public void activate() {
+        this.active = true;
+        this.deleted = false;
+    }
+
+    public void alterRole(String role) {
+        this.role = role;
     }
 }

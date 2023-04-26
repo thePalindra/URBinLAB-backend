@@ -11,6 +11,7 @@ public class AccessControl {
 
     public static void innit() {
         permissions.put("all", setAll());
+        permissions.put("researcher", setResearcher());
         permissions.put("admin", setAdmin());
     }
 
@@ -22,8 +23,17 @@ public class AccessControl {
         Map<Feature, Boolean> map = new HashMap<>();
 
         map.put(Feature.ALL, true);
-        map.put(Feature.ONLY_MASTER, false);
-        map.put(Feature.RESEARCHER_OR_ABOVE, false);
+        map.put(Feature.MASTER, false);
+        map.put(Feature.RESEARCHER, false);
+        return map;
+    }
+
+    private static Map<Feature, Boolean> setResearcher() {
+        Map<Feature, Boolean> map = new HashMap<>();
+
+        map.put(Feature.ALL, true);
+        map.put(Feature.MASTER, false);
+        map.put(Feature.RESEARCHER, true);
         return map;
     }
 
@@ -31,8 +41,8 @@ public class AccessControl {
         Map<Feature, Boolean> map = new HashMap<>();
 
         map.put(Feature.ALL, true);
-        map.put(Feature.ONLY_MASTER, true);
-        map.put(Feature.RESEARCHER_OR_ABOVE, true);
+        map.put(Feature.MASTER, true);
+        map.put(Feature.RESEARCHER, true);
         return map;
     }
 }
