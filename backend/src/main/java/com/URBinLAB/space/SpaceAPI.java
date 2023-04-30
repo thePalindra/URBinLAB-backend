@@ -5,6 +5,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.websocket.server.PathParam;
 
@@ -52,4 +53,7 @@ public interface SpaceAPI {
 
     @RequestMapping(value = "/get_spaces", method = RequestMethod.GET)
     ResponseEntity<String> getAllSpaces();
+
+    @RequestMapping(value = "/get_spaces", method = RequestMethod.POST)
+    ResponseEntity<String> getAllTheDocumentsBySpaceId(@RequestParam("id") Long id);
 }

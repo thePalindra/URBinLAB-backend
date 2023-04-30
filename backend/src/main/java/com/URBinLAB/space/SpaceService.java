@@ -198,4 +198,12 @@ public class SpaceService {
             return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public ResponseEntity<String> getAllTheDocumentsBySpaceId(Long id) {
+        try {
+            return new ResponseEntity<>(new Gson().toJson(this.spaceRepository.getAllTheDocumentsBySpaceId(id)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

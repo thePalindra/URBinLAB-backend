@@ -167,7 +167,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
     List<Object> getDocumentListMarker(@Param("space") String space,
                                        @Param("list") List<Integer> list);
 
-    @Query(value = "SELECT DISTINCT d.document_id\n" +
+    @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d \n" +
             "ON s.space_id = d.space_id\n" +

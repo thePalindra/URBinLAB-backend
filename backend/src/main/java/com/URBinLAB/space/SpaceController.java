@@ -1,11 +1,7 @@
 package com.URBinLAB.space;
 
-import com.URBinLAB.utils.Feature;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -86,5 +82,10 @@ public class SpaceController implements SpaceAPI {
     @Override
     public ResponseEntity<String> getAllSpaces() {
         return this.spaceService.getAllSpaces();
+    }
+
+    @Override
+    public ResponseEntity<String> getAllTheDocumentsBySpaceId(Long id) {
+        return this.spaceService.getAllTheDocumentsBySpaceId(id);
     }
 }
