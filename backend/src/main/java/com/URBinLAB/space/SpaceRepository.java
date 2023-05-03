@@ -56,11 +56,13 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "WHERE s.space_id = :id\n", nativeQuery = true)
     List<Object> getAllTheDocuments(@Param("id") Long id);
 
-    @Query(value = "SELECT res.doc_id, res.col_id, res.doc_type, res.doc_arc, res.doc_name, res.doc_year\n" +
-            "FROM (SELECT d.document_id doc_id, d.collection_id col_id, d.type doc_type, d.archiver_id doc_arc, d.name doc_name, EXTRACT(YEAR FROM d.time_scope) doc_year, s.space sp1, s.space_id spid\n" +
+    @Query(value = "SELECT res.doc_id, res.provider, res.descr, res.doc_type, res.named, res.doc_name, res.doc_year\n" +
+            "FROM (SELECT d.document_id doc_id, d.provider provider, us.name named, d.collection_id col_id, d.type doc_type, d.description descr, d.name doc_name, EXTRACT(YEAR FROM d.time_scope) doc_year, s.space sp1, s.space_id spid\n" +
             "FROM \"document\" d\n" +
             "INNER JOIN \"space\" s\n" +
-            "ON s.space_id = d.space_id) res\n" +
+            "ON s.space_id = d.space_id\n" +
+            "INNER JOIN \"researcher\" us\n" +
+            "ON us.researcher_id = d.archiver_id) res\n" +
             "FULL OUTER JOIN \"space\" s\n" +
             "ON ST_Intersects(Geometry(s.space), Geometry(res.sp1))\n" +
             "WHERE s.space_id = :id\n" +
@@ -74,10 +76,12 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "WHERE ST_Intersects(ST_GeomFromText(:space, 4326), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsByGeometry(@Param("space") String space);
 
-    @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
+    @Query(value = "SELECT d.document_id, d.provider, d.description, d.type, us.name, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d \n" +
             "ON s.space_id = d.space_id\n" +
+            "INNER JOIN \"researcher\" us\n" +
+            "ON us.researcher_id = d.archiver_id\n" +
             "WHERE ST_Intersects(ST_GeomFromText(:space, 4326), Geometry(s.space)) \n" +
             "AND d.document_id IN :list \n", nativeQuery = true)
     List<Object> getAllTheDocumentsByGeometry(@Param("space") String space, @Param("list") List<Integer> list);
