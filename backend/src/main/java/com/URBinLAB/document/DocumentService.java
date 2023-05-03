@@ -151,13 +151,10 @@ public class DocumentService {
     }
 
     public ResponseEntity<String> getFromList(Integer[] list) {
-        try {
             String array = Arrays.toString(list);
             array = array.replaceFirst("\\[", "{").replaceFirst("]", "}");
             return new ResponseEntity<>(new Gson().toJson(this.documentRepository.fromList(Arrays.asList(list), array)), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
-        }
+
     }
 
     public ResponseEntity<String> getAllProviders() {
