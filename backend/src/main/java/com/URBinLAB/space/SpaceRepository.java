@@ -180,4 +180,9 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "WHERE hierarchy_type IS NOT NULL\n" +
             "ORDER BY space_id", nativeQuery = true)
     List<Object> getAllSpaces();
+
+    @Query(value = "SELECT s.space_id, ST_AsText(s.space), s.name, ST_AsText(ST_Centroid(s.space)) as center, ST_Area(s.space) * 0.3048 ^ 2 " +
+            "FROM \"space\" s " +
+            "WHERE s.space_id = :id" , nativeQuery = true)
+    List<Object> getSpaceById(@Param("id") Long id);
 }

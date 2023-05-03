@@ -88,4 +88,9 @@ public class SpaceController implements SpaceAPI {
     public ResponseEntity<String> getAllTheDocumentsBySpaceId(Long id) {
         return this.spaceService.getAllTheDocumentsBySpaceId(id);
     }
+
+    @Override
+    public ResponseEntity<String> getSpaceById(Long id) {
+        return this.spaceService.getSpaceById(id);
+    }
 }

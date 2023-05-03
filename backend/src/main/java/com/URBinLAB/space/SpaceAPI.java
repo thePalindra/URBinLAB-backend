@@ -56,4 +56,7 @@ public interface SpaceAPI {
 
     @RequestMapping(value = "/get_by_id", method = RequestMethod.POST)
     ResponseEntity<String> getAllTheDocumentsBySpaceId(@RequestParam("id") Long id);
+
+    @RequestMapping(value = "/by_id", method = RequestMethod.POST)
+    ResponseEntity<String> getSpaceById(@RequestParam("id") Long id);
 }
