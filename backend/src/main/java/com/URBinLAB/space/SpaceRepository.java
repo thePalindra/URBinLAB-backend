@@ -98,6 +98,8 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d \n" +
             "ON s.space_id = d.space_id\n" +
+            "INNER JOIN \"researcher\" us\n" +
+            "ON us.researcher_id = d.archiver_id\n" +
             "WHERE ST_Intersects(Geometry(s.space), ST_GeomFromText(:space, 4326))\n" +
             "AND d.document_id IN :list \n" +
             "ORDER BY area", nativeQuery = true)
@@ -111,7 +113,10 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
 
     @Query(value = "SELECT d.document_id, d.provider, d.description, d.type, us.name namme, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
             "FROM \"space\" s\n" +
-            "INNER JOIN \"document\" d ON s.space_id = d.space_id\n" +
+            "INNER JOIN \"document\" d\n" +
+            "ON s.space_id = d.space_id\n" +
+            "INNER JOIN \"researcher\" us\n" +
+            "ON us.researcher_id = d.archiver_id\n" +
             "WHERE ST_Intersects(Geometry(ST_Buffer(Geography(ST_MakePoint(?1, ?2)), ?3)), Geometry(s.space))\n" +
             "AND d.document_id IN ?4 \n", nativeQuery = true)
     List<Object> getAllTheDocumentsByCircle(Double lng, Double lat, Double size, List<Integer> list);
