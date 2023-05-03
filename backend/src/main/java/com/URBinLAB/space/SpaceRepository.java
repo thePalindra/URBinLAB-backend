@@ -76,7 +76,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "WHERE ST_Intersects(ST_GeomFromText(:space, 4326), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsByGeometry(@Param("space") String space);
 
-    @Query(value = "SELECT d.document_id, d.provider, d.description, d.type, us.name, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
+    @Query(value = "SELECT d.document_id, d.provider, d.description, d.type, us.name namme, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d \n" +
             "ON s.space_id = d.space_id\n" +
@@ -94,7 +94,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "ORDER BY area", nativeQuery = true)
     List<Object> getAllTheDocumentsByMarker(@Param("space") String space);
 
-    @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope), ST_Area(s.space) area\n" +
+    @Query(value = "SELECT d.document_id, d.provider, d.description, d.type, us.name namme, d.name, EXTRACT(YEAR FROM d.time_scope), ST_Area(s.space) area\n" +
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d \n" +
             "ON s.space_id = d.space_id\n" +
@@ -109,7 +109,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "WHERE ST_Intersects(Geometry(ST_Buffer(Geography(ST_MakePoint(?1, ?2)), ?3)), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsByCircle(Double lng, Double lat, Double size);
 
-    @Query(value = "SELECT d.document_id, d.collection_id, d.type, d.archiver_id, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
+    @Query(value = "SELECT d.document_id, d.provider, d.description, d.type, us.name namme, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d ON s.space_id = d.space_id\n" +
             "WHERE ST_Intersects(Geometry(ST_Buffer(Geography(ST_MakePoint(?1, ?2)), ?3)), Geometry(s.space))\n" +
