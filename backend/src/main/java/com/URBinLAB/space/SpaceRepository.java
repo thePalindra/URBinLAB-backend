@@ -57,7 +57,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
     List<Object> getAllTheDocuments(@Param("id") Long id);
 
     @Query(value = "SELECT res.doc_id, res.provider, res.descr, res.doc_type, res.named, res.doc_name, res.doc_year, res.spaceid\n" +
-            "FROM (SELECT d.document_id doc_id, d.provider provider, us.name named, d.collection_id col_id, d.type doc_type, d.description descr, d.name doc_name, EXTRACT(YEAR FROM d.time_scope) doc_year, d.space_id, s.space sp1, s.space_id spid\n" +
+            "FROM (SELECT d.document_id doc_id, d.provider provider, us.name named, d.collection_id col_id, d.type doc_type, d.description descr, d.name doc_name, EXTRACT(YEAR FROM d.time_scope) doc_year, d.space_id spaceid, s.space sp1, s.space_id spid\n" +
             "FROM \"document\" d\n" +
             "INNER JOIN \"space\" s\n" +
             "ON s.space_id = d.space_id\n" +
