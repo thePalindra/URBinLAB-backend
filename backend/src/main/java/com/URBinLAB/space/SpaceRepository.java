@@ -56,8 +56,8 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "WHERE s.space_id = :id\n", nativeQuery = true)
     List<Object> getAllTheDocuments(@Param("id") Long id);
 
-    @Query(value = "SELECT res.doc_id, res.provider, res.descr, res.doc_type, res.named, res.doc_name, res.doc_year\n" +
-            "FROM (SELECT d.document_id doc_id, d.provider provider, us.name named, d.collection_id col_id, d.type doc_type, d.description descr, d.name doc_name, EXTRACT(YEAR FROM d.time_scope) doc_year, s.space sp1, s.space_id spid\n" +
+    @Query(value = "SELECT res.doc_id, res.provider, res.descr, res.doc_type, res.named, res.doc_name, res.doc_year, res.spaceid\n" +
+            "FROM (SELECT d.document_id doc_id, d.provider provider, us.name named, d.collection_id col_id, d.type doc_type, d.description descr, d.name doc_name, EXTRACT(YEAR FROM d.time_scope) doc_year, d.space_id, s.space sp1, s.space_id spid\n" +
             "FROM \"document\" d\n" +
             "INNER JOIN \"space\" s\n" +
             "ON s.space_id = d.space_id\n" +
@@ -76,7 +76,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "WHERE ST_Intersects(ST_GeomFromText(:space, 4326), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsByGeometry(@Param("space") String space);
 
-    @Query(value = "SELECT d.document_id, d.provider, d.description, d.type, us.name namme, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
+    @Query(value = "SELECT d.document_id, d.provider, d.description, d.type, us.name namme, d.name, EXTRACT(YEAR FROM d.time_scope), d.space_id\n" +
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d \n" +
             "ON s.space_id = d.space_id\n" +
@@ -94,7 +94,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "ORDER BY area", nativeQuery = true)
     List<Object> getAllTheDocumentsByMarker(@Param("space") String space);
 
-    @Query(value = "SELECT d.document_id, d.provider, d.description, d.type, us.name namme, d.name, EXTRACT(YEAR FROM d.time_scope), ST_Area(s.space) area\n" +
+    @Query(value = "SELECT d.document_id, d.provider, d.description, d.type, us.name namme, d.name, EXTRACT(YEAR FROM d.time_scope), d.space_id, ST_Area(s.space) area\n" +
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d \n" +
             "ON s.space_id = d.space_id\n" +
@@ -111,7 +111,7 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
             "WHERE ST_Intersects(Geometry(ST_Buffer(Geography(ST_MakePoint(?1, ?2)), ?3)), Geometry(s.space))", nativeQuery = true)
     List<Object> getAllTheDocumentsByCircle(Double lng, Double lat, Double size);
 
-    @Query(value = "SELECT d.document_id, d.provider, d.description, d.type, us.name namme, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
+    @Query(value = "SELECT d.document_id, d.provider, d.description, d.type, us.name namme, d.name, EXTRACT(YEAR FROM d.time_scope), d.space_id\n" +
             "FROM \"space\" s\n" +
             "INNER JOIN \"document\" d\n" +
             "ON s.space_id = d.space_id\n" +

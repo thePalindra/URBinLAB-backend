@@ -109,7 +109,7 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
                               @Param("types") List<String> types,
                               Pageable pageable);
 
-    @Query(value = "SELECT d.document_id, d.provider, d.description, d.type, us.name namme, d.name, EXTRACT(YEAR FROM d.time_scope)\n" +
+    @Query(value = "SELECT d.document_id, d.provider, d.description, d.type, us.name namme, d.name, EXTRACT(YEAR FROM d.time_scope), d.space_id\n" +
             "FROM \"document\" d\n" +
             "INNER JOIN \"researcher\" us\n" +
             "ON us.researcher_id = d.archiver_id\n" +
