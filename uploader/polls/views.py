@@ -50,7 +50,7 @@ def save(request):
             r = requests.post("http://main-backend:8080/file/add", data=payload, files=file)
 
     clean_done(request.POST["files"])
-    return HttpResponse("Ok")
+    return HttpResponse(json.dumps(str("Ok")))
 
 
 @csrf_exempt
@@ -109,7 +109,7 @@ def upload(request):
 
         clean_expired()
 
-    return HttpResponse(key)
+    return HttpResponse(json.dumps(str(key)))
 
 
 @csrf_exempt
@@ -124,7 +124,7 @@ def add(request):
 
         files[key]["files"].append(name)
 
-    return HttpResponse(key)
+    return HttpResponse(json.dumps(str(key)))
 
 
 @csrf_exempt
@@ -141,7 +141,7 @@ def delete(request):
         if len(files[key]["files"]) == 0:
             clean_done(key)
 
-    return HttpResponse(key)
+    return HttpResponse(json.dumps(str(key)))
 
 
 def file_upload(temp_files, transform):
