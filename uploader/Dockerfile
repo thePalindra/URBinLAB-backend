@@ -13,6 +13,7 @@ RUN python3 -m pip install numpy
 RUN python3 -m pip install Django
 RUN python3 -m pip install requests
 RUN python3 -m pip install uuid
+RUN python3 -m pip install django-cors-headers
 
 ENV PYTHONUNBUFFERED=1
 
