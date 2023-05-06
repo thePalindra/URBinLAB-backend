@@ -138,9 +138,6 @@ def delete(request):
 
         files[key]["files"].remove(name)
 
-        if len(files[key]["files"]) == 0:
-            clean_done(key)
-
     return HttpResponse(json.dumps(str(key)))
 
 
