@@ -21,7 +21,7 @@ public interface StatisticsAPI {
                                           @PathParam("link") String link,
                                           @PathParam("theme") String theme);
 
-    @RequestMapping(value = "/get_themes", method = RequestMethod.POST)
+    @RequestMapping(value = "/get_theme", method = RequestMethod.POST)
     ResponseEntity<String> getAllThemes();
 
     @RequestMapping(value = "/get_by_id", method = RequestMethod.POST)
