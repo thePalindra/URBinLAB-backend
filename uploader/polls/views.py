@@ -138,6 +138,9 @@ def delete(request):
 
         files[key]["files"].remove(name)
 
+        if len(files[key]["files"]) == 0:
+            clean_done(key)
+
     return HttpResponse(json.dumps(str(key)))
 
 
@@ -148,10 +151,14 @@ def file_upload(temp_files, transform):
 
 
 def clean_expired():
+    to_delete = []
     for k,v in files.items():
         if datetime.now() > v["expired"]:
-            del files[k]
-            shutil.rmtree(FILES_PATH + str(k))
+            to_delete.append(k)
+
+    for i in to_delete:
+        del files[i]
+        shutil.rmtree(FILES_PATH + str(i))
 
 
 def clean_done(key):
